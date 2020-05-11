@@ -1,0 +1,4 @@
+.npmignore
+.gitignore
+.vscode
+exemple.js

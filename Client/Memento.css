@@ -1,0 +1,259 @@
+/* Titre */
+#Titre{
+    margin: 1% 1% 1% 1%;
+    font-size: var(--CoreX-Titrefont-size);
+    color: var(--CoreX-color);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    font-style: italic;
+    text-align: center;
+    font-weight: bold;
+    padding: 1%;
+    word-wrap: break-word;
+}
+/* Sous Titre */
+.SousTitre{
+    margin: 1%;
+    font-size: 2vw;
+    color: var(--CoreX-color);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+}
+/* Texte */
+.Text{
+    margin: 1%;
+    font-size: var(--CoreX-font-size);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+}
+/* Button */
+.Button{
+    margin: 4vh 0vh 1vh 0vh;
+    padding: 1vh 2vh 1vh 2vh;
+    cursor: pointer;
+    border: 1px solid var(--CoreX-color);
+    border-radius: 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: var(--CoreX-font-size);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
+    color: rgb(44,1,21);
+    background: white;
+    outline: none;
+}
+.Button:hover{
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+}
+/* Texte dans un titre box */
+.TextBoxTitre{
+    font-size: calc(var(--CoreX-font-size)*1.1);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    color: black;
+}
+/* Texte dans une sous box */
+.TextBoxSub{
+    font-size: calc(var(--CoreX-font-size)/1.1);
+    color: rgb(184, 184, 184);
+    font-style: italic;
+}
+/* Post content */
+.DivContent{
+    padding: 1px;
+    margin: 20px auto 10px auto;
+    width: 96%;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Titre du Blog */
+.DivTitreBlogPost{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    text-shadow: 0 1px 0 #ccc, 
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9;
+}
+.DivTitreBlogPost:focus{
+    outline: 0px solid transparent;
+    border-color: var(--CoreX-color);
+}
+/* Image du blog lorsqu'il est editable */
+.ImgBlogEditable:hover{
+    border-color: var(--CoreX-color);
+}
+/* Image du blog */
+.ImgBlog{
+    border: 2px solid transparent;
+    border-radius: 5px;
+    max-height: 60vh;
+    padding: 1%;
+    max-width: 100%;
+    filter: drop-shadow(0 0 10px #333);
+}
+/* Liste des post dans un blog */
+.DivContentListOfPost{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Box d'un post dans la liste des post du blog */
+.BoxElementPost{
+    width: 100%;
+    padding: 1%;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 4px;
+}
+.BoxElementPost:hover{
+    background-color: #F8F8F8;
+}
+/* Carte d'un blog */
+.CarteBlog{
+    width: 40%;
+    height: 8vh;
+    display: flex;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 1%;
+    padding: 1%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+}
+.CarteBlog:hover{
+    border-color: var(--CoreX-color);
+}
+/* Image de la carte blog */
+.CarteBlogImg{
+    border: 1px solid black;
+    border-radius: 5px;
+    max-height: 8vh;
+    margin: 1%;
+    max-width: 90%;
+}
+/* Progress Bar */
+.ProgressBar{
+    width: 50%;
+    margin:2%;
+}
+/* Post Page */
+.DivPostPage{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+/* Post Titre1 */
+.PostTitre1{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 0% 1% 0% 1%;
+    padding:1%;
+    font-size: 2vw;
+    color: var(--CoreX-color);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+}
+.PostTitre1:focus{
+    outline: 0px solid transparent;
+    border-color: var(--CoreX-color);
+}
+/* Post Text */
+.PostText{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 0% 1% 0% 1%;
+    padding:1%;
+    font-size: var(--CoreX-font-size);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+}
+.PostText:focus{
+    outline: 0px solid transparent;
+    border-color: var(--CoreX-color);
+}
+/* Post Code*/
+.PostCode{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    margin: 0% 4% 1% 4%;
+    padding:1%;
+    font-size: var(--CoreX-font-size);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    color: balck;
+    background-color: #f7f7f9;
+}
+.PostCode:focus{
+    outline: 0px solid transparent;
+    border-color: var(--CoreX-color);
+}
+/* Image du post lorsqu'il est editable */
+.ImgPostEditable:hover{
+    border-color: var(--CoreX-color);
+}
+/* Image du post */
+.ImgPost{
+    border: 2px solid transparent;
+    border-radius: 5px;
+    max-height: 60vh;
+    padding: 1%;
+    margin:1%;
+    max-width: 100%;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    filter: drop-shadow(0 0 10px #333);
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait),
+only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait),
+screen and (max-width: 700px)
+{
+    #Titre{font-size: var(--CoreX-TitreIphone-font-size);}
+    .SousTitre{font-size: 5vw;}
+    .Text{font-size: var(--CoreX-Iphone-font-size);}
+    .Button{font-size: var(--CoreX-Iphone-font-size); border-radius: 40px;}
+    .TextBoxTitre{font-size: calc(var(--CoreX-Iphone-font-size)*1.1);}
+    .TextBoxSub{font-size: calc(var(--CoreX-Iphone-font-size)/1.1);}
+    .DivContentListOfPost{width: 99%;}
+    .CarteBlog{width: 90%;}
+    .ProgressBar{width: 90%;}
+    .PostTitre1{font-size: 5vw;}
+    .PostText{font-size: var(--CoreX-Iphone-font-size);}
+    .PostCode{font-size: var(--CoreX-Iphone-font-size);}
+}
+
+@media screen and (min-width: 1200px)
+{
+    #Titre{font-size: var(--CoreX-TitreMax-font-size);}
+    .SousTitre{font-size: 24px;}
+    .Text{font-size: var(--CoreX-Max-font-size);}
+    .Button{font-size: var(--CoreX-Max-font-size); border-radius: 40px;}
+    .DivContent{width: 1100px;}
+    .TextBoxTitre{font-size: calc(var(--CoreX-Max-font-size)*1.1);}
+    .TextBoxSub{font-size: calc(var(--CoreX-Max-font-size)/1.1);}
+    .DivContentListOfPost{width: 80%;}
+    .PostTitre1{font-size: 24px;}
+    .PostText{font-size: var(--CoreX-Max-font-size);}
+    .PostCode{font-size: var(--CoreX-Max-font-size);}
+}
+
+@media print{
+    body{
+        height: auto;   
+    }
+    .NoPrint{
+        display: none;
+    }
+    .DivPostPage{
+        border: 1px solid transparent;
+        box-shadow: none;
+    }
+    .ImgPost{
+        max-height: 25vh;
+    }
+    #Titre{font-size: 50px;}
+    .PostTitre1{font-size: 24px;}
+    .PostText{font-size: 18px;}
+    .PostCode{font-size: 18px;}
+    .TextBoxSub{font-size: 14px;}
+}

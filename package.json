@@ -1,0 +1,28 @@
+{
+  "name": "@gregvanko/memento",
+  "version": "1.0.0",
+  "description": "Memento via CoreX",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon —inspect exemple.js",
+    "save": "git add -A && git commit -a -m 'auto save' && npm version minor && npm publish && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregoryvanko/Memento.git"
+  },
+  "author": "gregvanko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gregoryvanko/Memento/issues"
+  },
+  "homepage": "https://github.com/gregoryvanko/Memento#readme",
+  "nodemonConfig": {
+    "ext": "css, js",
+    "delay": "1000"
+  },
+  "dependencies": {
+    "@gregvanko/corex": "^4.10.0"
+  }
+}
