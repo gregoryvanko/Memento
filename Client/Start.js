@@ -1,17 +1,12 @@
 class MementoClient{
     constructor(HtmlId){
-        this._HtmlId = HtmlId
-        this._DivApp = null
+        this._DivApp = document.getElementById(HtmlId)
     }
 
     /** fonction de demarage de l'application */
     Start(){
         // On vide la vue app
-        document.getElementById(this._HtmlId).innerHTML=""
-        // construction et ajout au body de la page HTML start
-        this._DivApp = CoreXBuild.Div("App","DivContent")
-        document.getElementById(this._HtmlId).appendChild(this._DivApp)
-        
+        this._DivApp.innerHTML=""
         // Titre de l'application
         let DivTitre = CoreXBuild.DivTexte(document.title,"Titre","","text-align: center;")
         this._DivApp.appendChild(DivTitre)

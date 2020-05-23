@@ -1,17 +1,9 @@
 class AdminBlog{
     constructor(HtmlId){
-        this._HtmlId = HtmlId
-        this._DivApp = null
+        this._DivApp = document.getElementById(HtmlId)
     }
     /** Start de l'application */
     Start(){
-        // Clear view
-        document.getElementById(this._HtmlId).innerHTML = ""
-        // Add CSS
-        document.getElementById(this._HtmlId).innerHTML = this.GetCss()
-        // construction et ajout au body de la page HTML start
-        this._DivApp = CoreXBuild.Div("App","DivContent")
-        document.getElementById(this._HtmlId).appendChild(this._DivApp)
         // Clear view
         this.ClearView()
         // Titre
@@ -45,6 +37,7 @@ class AdminBlog{
         GlobalAddActionInList("Refresh", this.Start.bind(this))
         // Clear view
         this._DivApp.innerHTML=""
+        this._DivApp.innerHTML = this.GetCss()
     }
 
     /** Construction de la liste des caractéristiques d'un blog */
@@ -225,13 +218,6 @@ class AdminBlog{
     GetCss(){
         return /*html*/`
         <style>
-            .DivContent{
-                padding: 1px;
-                margin: 20px auto 10px auto;
-                width: 96%;
-                margin-left: auto;
-                margin-right: auto;
-            }
             #Titre{
                 margin: 1% 1% 4% 1%;
                 font-size: var(--CoreX-Titrefont-size);
@@ -308,7 +294,6 @@ class AdminBlog{
             }
             @media screen and (min-width: 1200px)
             {
-                .DivContent{width: 1100px;}
                 #Titre{font-size: var(--CoreX-TitreMax-font-size);}
                 .Text{font-size: var(--CoreX-Max-font-size);}
                 .TextBoxTitre{font-size: calc(var(--CoreX-Max-font-size)*1.1);}
