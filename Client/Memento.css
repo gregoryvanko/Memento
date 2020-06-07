@@ -242,9 +242,9 @@ screen and (max-width: 700px)
     .ImgPost{
         max-height: 25vh;
     }
-    #Titre{font-size: 50px;}
-    .PostTitre1{font-size: 24px;}
-    .PostText{font-size: 18px;}
-    .PostCode{font-size: 18px;}
-    .TextBoxSub{font-size: 14px;}
+    #Titre{font-size: 40px;}
+    .PostTitre1{font-size: 20px;}
+    .PostText{font-size: 12px;}
+    .PostCode{font-size: 12px;}
+    .TextBoxSub{font-size: 11px;}
 }
