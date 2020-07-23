@@ -288,6 +288,7 @@ class Blog{
         if((element.dataset.type == "BlogTitre") && (element.innerHTML == "New Blog")){
             document.execCommand('selectAll',false,null)
         }
+        element.style.borderColor= "red"
     }
     /** Selection de l'image du blog */
     SelectImg(event){
@@ -302,6 +303,7 @@ class Blog{
     /** Focus out of element */
     ElementFocusOut(event){
         let element = event.target
+        element.style.borderColor= "transparent"
         let Txt = element.innerHTML
         if(Txt.endsWith("<br>")){
             Txt = Txt.substring(0, Txt.length - 4);
