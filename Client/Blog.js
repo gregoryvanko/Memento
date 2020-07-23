@@ -125,7 +125,7 @@ class Blog{
         GlobalAddActionInList("List of Blogs", this._Start) 
 
         if(EditMode){
-            GlobalAddActionInList("Stop Editing Blog",this.SetVueBlog.bind(this, false)) 
+            GlobalAddActionInList("Stop Editing Blog",this.ClickOnBlog.bind(this, this._CurrentBlogId))
         } else {
             GlobalAddActionInList("Edit Blog", this.SetVueBlog.bind(this, true))
         }
