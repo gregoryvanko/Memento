@@ -1,8 +1,9 @@
 class UploadImage{
-    constructor(ImageHTMLId, Api, ApiData){
+    constructor(ImageHTMLId, Api, ApiData, Callback){
         this._ImageHTMLId = ImageHTMLId
         this._Api = Api
         this._Data = ApiData
+        this._Callback = Callback
     }
     Start(){
         CoreXWindow.BuildWindow(this.BuildContent())
@@ -39,6 +40,7 @@ class UploadImage{
         return DivContent
     }
     SendData(){
+        let me = this
         document.getElementById('ListOfButton').style.visibility = "hidden"
         document.getElementById('progressBar').style.visibility = "visible"
         var fichierSelectionne = document.getElementById('FileSelecteur').files[0]
@@ -51,6 +53,7 @@ class UploadImage{
                 document.getElementById(this._ImageHTMLId).src = this._Data.Data
                 // Timeout de 100 milisec entre la fin de la progressbar et le close window
                 setTimeout(function() {
+                    me._Callback(me._Data.Data, me._ImageHTMLId)
                     CoreXWindow.DeleteWindow()
                 }, 100)
             },(erreur)=>{

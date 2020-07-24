@@ -125,7 +125,7 @@ class Blog{
         GlobalAddActionInList("List of Blogs", this._Start) 
 
         if(EditMode){
-            GlobalAddActionInList("Stop Editing Blog",this.ClickOnBlog.bind(this, this._CurrentBlogId))
+            GlobalAddActionInList("Stop Editing Blog",this.SetVueBlog.bind(this, false))
         } else {
             GlobalAddActionInList("Edit Blog", this.SetVueBlog.bind(this, true))
         }
@@ -297,8 +297,16 @@ class Blog{
         let Data = new Object()
         Data.Topic = "Image"
         Data.BlogId = this._CurrentBlogId
-        let uploadimage = new UploadImage(ImageId, "UpdateBlog", Data)
+        let uploadimage = new UploadImage(ImageId, "UpdateBlog", Data, this.CallBackImgUpdate.bind(this))
         uploadimage.Start()
+    }
+    /**
+     * Fonction exécutée en callback de la fonction qui change l'image d'un blog
+     * @param {Image Base64} Img La nouvelle image sous forme Base64
+     * @param {string} Id Id de l'élément image
+     */
+    CallBackImgUpdate(Img, Id){
+        this._BlogData.Image = Img
     }
     /** Focus out of element */
     ElementFocusOut(event){

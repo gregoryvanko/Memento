@@ -181,7 +181,7 @@ class Post{
                 let ImageId = element.id
                 let Data = new Object()
                 Data.Id = ImageId
-                let uploadimage = new UploadImage(ImageId, "UpdatePostPicture", Data)
+                let uploadimage = new UploadImage(ImageId, "UpdatePostPicture", Data, this.CallBackImgUpdate.bind(this))
                 uploadimage.Start()
             }
         } else {
@@ -232,6 +232,18 @@ class Post{
                 }
             }
         }
+    }
+    /**
+     * Fonction exécutée en callback de la fonction qui change une image. On enregistre la nouvelle image dans la variable this._PostData.Picture
+     * @param {Image Base64} Img La nouvelle image sous forme Base64
+     * @param {string} Id Id de l'élément image
+     */
+    CallBackImgUpdate(Img, Id){
+        this._PostData.Picture.forEach(picture => {
+            if (picture._id == Id) {
+                picture.Image = Img
+            }
+        })
     }
     /** Save Txt Data */
     SaveTxtElement(element){
@@ -336,7 +348,7 @@ class Post{
     CommandeButtonPostVue(EditMode){
         GlobalClearActionList()
         if(EditMode){
-            GlobalAddActionInList("Stop Editing Post", this.ShowPost.bind(this,this._PostData.Data._id, false))
+            GlobalAddActionInList("Stop Editing Post", this.SetVuePost.bind(this,false))
             GlobalAddActionInList("Add Titre1", this.AddTitre1.bind(this))
             GlobalAddActionInList("Add Text", this.AddText.bind(this))
             GlobalAddActionInList("Add Code", this.AddCode.bind(this))
@@ -351,7 +363,7 @@ class Post{
     /** Set Commande Button when editing Titre Post */
     CommandeButtonTitreSelected(){
         GlobalClearActionList()
-        GlobalAddActionInList("Stop Editing Post", this.ShowPost.bind(this,this._PostData.Data._id, false))
+        GlobalAddActionInList("Stop Editing Post", this.SetVuePost.bind(this,false))
         GlobalAddActionInList("Add Titre1", this.AddTitre1.bind(this))
         GlobalAddActionInList("Add Text", this.AddText.bind(this))
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
@@ -360,7 +372,7 @@ class Post{
     /** Set Commande Button when element is selected */
     CommandeButtonElementSelected(){
         GlobalClearActionList()
-        GlobalAddActionInList("Stop Editing Post", this.ShowPost.bind(this,this._PostData.Data._id, false))
+        GlobalAddActionInList("Stop Editing Post", this.SetVuePost.bind(this,false))
         GlobalAddActionInList("Add Titre1", this.AddTitre1.bind(this))
         GlobalAddActionInList("Add Text", this.AddText.bind(this))
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
@@ -370,7 +382,7 @@ class Post{
     /** Set Commande Button when no element is selected */
     CommandeButtonNoElementSelected(){
         GlobalClearActionList()
-        GlobalAddActionInList("Stop Editing Post", this.ShowPost.bind(this,this._PostData.Data._id, false))
+        GlobalAddActionInList("Stop Editing Post", this.SetVuePost.bind(this,false))
         GlobalAddActionInList("Add Titre1", this.AddTitre1.bind(this))
         GlobalAddActionInList("Add Text", this.AddText.bind(this))
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
