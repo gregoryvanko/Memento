@@ -53,6 +53,12 @@ class Post{
     SetVuePost(EditMode){
         // On supprime toutes les ActionButton et on ajout les nouvelles actions
         this.CommandeButtonPostVue(EditMode)
+        // On affiche constamment le button action si on est en edit mode
+        if (EditMode) {
+            GlobalDisplayAction("On")
+        } else {
+            GlobalDisplayAction("Toggle")
+        }
         // On vide l'app
         this._DivApp.innerHTML=""
         this._InitiContent =""
@@ -163,11 +169,15 @@ class Post{
     }
     /** Go To Blog */
     GoToBlog(){
+        // Modification de l'affichage du button action
+        GlobalDisplayAction("Toggle")
+        // Enregistrement d'un texte si on etait en mode edit
         if(this._ElementSelected != null){
             if(this._ElementSelected.dataset.type != "PostImg"){
                 this.SaveTxtElement(this._ElementSelected)
             }
         }
+        // Affichage du blog et de la liste des post 
         this._ClickOnBlog()
     }
 
