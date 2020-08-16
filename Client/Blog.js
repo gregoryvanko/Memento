@@ -230,7 +230,10 @@ class Blog{
             let DivErrorTexte = CoreXBuild.DivTexte("","ErrorTxt","Text","color:red; text-align: center;")
             this._DivApp.appendChild(DivErrorTexte)
             // On appel l'API
-            GlobalCallApiPromise("DeleteBlog", this._CurrentBlogId).then((reponse)=>{
+            let Data = new Object()
+            Data.BlogId = this._CurrentBlogId
+            Data.BlogTitre = this._BlogData.Titre
+            GlobalCallApiPromise("DeleteBlog", Data).then((reponse)=>{
                 this._Start()
             },(erreur)=>{
                 let InfoTxt = document.getElementById("InfoTxt")
@@ -297,6 +300,7 @@ class Blog{
         let Data = new Object()
         Data.Topic = "Image"
         Data.BlogId = this._CurrentBlogId
+        Data.BlogTitre = this._BlogData.Titre
         let uploadimage = new UploadImage(ImageId, "UpdateBlog", Data, this.CallBackImgUpdate.bind(this))
         uploadimage.Start()
     }
@@ -347,6 +351,7 @@ class Blog{
     UpdateTitre(NewTitre){
         let Data = new Object()
         Data.BlogId = this._CurrentBlogId
+        Data.BlogTitre = this._BlogData.Titre
         Data.Topic = "Titre"
         Data.Data = NewTitre
         // On appel l'API
@@ -360,6 +365,7 @@ class Blog{
     UpdatePublicBlog(Valeur){
         let Data = new Object()
         Data.BlogId = this._CurrentBlogId
+        Data.BlogTitre = this._BlogData.Titre
         Data.Topic = "Public"
         Data.Data = Valeur
         // On appel l'API

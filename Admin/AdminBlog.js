@@ -101,9 +101,9 @@ class AdminBlog{
         let me = this
         TooglePublic.addEventListener('change', (event) => {
             if (event.target.checked) {
-                me.UpdatePublicBlog(Id, true)
+                me.UpdatePublicBlog(Id, Titre, true)
             } else {
-                me.UpdatePublicBlog(Id, false)
+                me.UpdatePublicBlog(Id, Titre, false)
             }
         })
         DivPublicSection.appendChild(TooglePublic)
@@ -114,7 +114,7 @@ class AdminBlog{
         let txtDeletBlog = CoreXBuild.DivTexte("Delete the Blog and his content :", "", "Text", "margin:1%;")
         txtDeletBlog.classList.add("WidthInfoText")
         DivDeleteSection.appendChild(txtDeletBlog)
-        DivDeleteSection.appendChild(CoreXBuild.Button("Delete Blog",this.DeleteBlog.bind(this, Id),"Button"))
+        DivDeleteSection.appendChild(CoreXBuild.Button("Delete Blog",this.DeleteBlog.bind(this, Id, Titre),"Button"))
         this._DivApp.appendChild(DivDeleteSection)
         // Change Owner blog
         let DivChangeUserSection = CoreXBuild.DivFlexRowStart()
@@ -122,7 +122,7 @@ class AdminBlog{
         let txtChangeUser = CoreXBuild.DivTexte("Change Owner of the blog :", "", "Text", "margin:1%;")
         txtChangeUser.classList.add("WidthInfoText")
         DivChangeUserSection.appendChild(txtChangeUser)
-        DivChangeUserSection.appendChild(CoreXBuild.Button("Change Owner",this.OpenViewChangeOwnerBlog.bind(this, Id, Users),"Button"))
+        DivChangeUserSection.appendChild(CoreXBuild.Button("Change Owner",this.OpenViewChangeOwnerBlog.bind(this, Id, Titre, Users),"Button"))
         this._DivApp.appendChild(DivChangeUserSection)
         // Error Message
         this._DivApp.appendChild(CoreXBuild.DivTexte("", "ErrorModifBlog", "Text", "color:red; text-align: center;"))
@@ -134,12 +134,13 @@ class AdminBlog{
         this._DivApp.appendChild(DivButton)
     }
     /** Delete blog */
-    DeleteBlog(Id){
+    DeleteBlog(Id, Titre){
         if (confirm('Are you sure you want to Dete this Blog?')){
             // Creation DataForApi
             let DataForApi = new Object()
             DataForApi.Fct = "DeleteBlog"
-            DataForApi.Id= Id
+            DataForApi.Id = Id
+            DataForApi.Titre= Titre
             // On appel l'API
             GlobalCallApiPromise("AdminUpdateBlog", DataForApi, "", "").then((reponse)=>{
                 this.Start()
@@ -149,12 +150,13 @@ class AdminBlog{
         }
     }
     /** Update Public blog */
-    UpdatePublicBlog(Id, Public){
+    UpdatePublicBlog(Id, Titre, Public){
         // Creation DataForApi
         let DataForApi = new Object()
         DataForApi.Fct = "UpdatePublicBlog"
-        DataForApi.BlogId= Id
-        DataForApi.PublicValue= Public
+        DataForApi.BlogId = Id
+        DataForApi.PublicValue = Public
+        DataForApi.Titre = Titre
          // On appel l'API
          GlobalCallApiPromise("AdminUpdateBlog", DataForApi, "", "").then((reponse)=>{
         },(erreur)=>{
@@ -163,7 +165,7 @@ class AdminBlog{
         })
     }
     /** Open viex change Owner of the blog */
-    OpenViewChangeOwnerBlog(Id, Users){
+    OpenViewChangeOwnerBlog(Id, Titre, Users){
         // Creation de la window avec la liste des users
         let DivContent = CoreXBuild.Div("DivContentListUser")
         // Ajout d'un texte
@@ -182,7 +184,7 @@ class AdminBlog{
             Users.forEach(element => {
                 let DivUser = CoreXBuild.DivTexte(element.User,"","BoxElementUser", "text-align:center; width: 90%;")
                 BoxElementUser.appendChild(DivUser)
-                DivUser.addEventListener("click", this.ChangeOwnerBlog.bind(this, Id, element._id))
+                DivUser.addEventListener("click", this.ChangeOwnerBlog.bind(this, Id, Titre, element._id))
                 // Ajout d'une ligne
                 BoxElementUser.appendChild(CoreXBuild.Line("90%", "Opacity:0.5;"))
             })
@@ -191,13 +193,14 @@ class AdminBlog{
         CoreXWindow.BuildWindow(DivContent)
     }
     /** Change Owner of the blog */
-    ChangeOwnerBlog(Id, NewOwnerId){
+    ChangeOwnerBlog(Id, Titre, NewOwnerId){
         CoreXWindow.DeleteWindow()
         // Creation DataForApi
         let DataForApi = new Object()
         DataForApi.Fct = "ChangeOwnerBlog"
-        DataForApi.BlogId= Id
-        DataForApi.NewOwnerId= NewOwnerId
+        DataForApi.BlogId = Id
+        DataForApi.NewOwnerId = NewOwnerId
+        DataForApi.Titre = Titre
         // On appel l'API
         GlobalCallApiPromise("AdminUpdateBlog", DataForApi, "", "").then((reponse)=>{
             this.Start()

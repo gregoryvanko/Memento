@@ -157,7 +157,10 @@ class Post{
             let DivErrorTexte = CoreXBuild.DivTexte("","ErrorTxt","Text","color:red; text-align: center;")
             this._DivApp.appendChild(DivErrorTexte)
             // On appel l'API
-            GlobalCallApiPromise("DeletePost", this._PostData.Data._id).then((reponse)=>{
+            let Data = new Object()
+            Data.PostId = this._PostData.Data._id
+            Data.PostTitre =this._PostData.Data.Titre
+            GlobalCallApiPromise("DeletePost", Data).then((reponse)=>{
                 this.GoToBlog()
             },(erreur)=>{
                 let InfoTxt = document.getElementById("InfoTxt")
@@ -191,6 +194,7 @@ class Post{
                 let ImageId = element.id
                 let Data = new Object()
                 Data.Id = ImageId
+                Data.PostTitre =this._PostData.Data.Titre
                 let uploadimage = new UploadImage(ImageId, "UpdatePostPicture", Data, this.CallBackImgUpdate.bind(this))
                 uploadimage.Start()
             }
@@ -463,6 +467,7 @@ class Post{
     UpdateTitre(NewTitre){
         let Data = new Object()
         Data.PostId = this._PostData.Data._id
+        Data.PostTitre =this._PostData.Data.Titre
         Data.Topic = "Titre"
         Data.Data = NewTitre
         // On appel l'API
@@ -476,6 +481,7 @@ class Post{
     UpdateContent(){
         let Data = new Object()
         Data.PostId = this._PostData.Data._id
+        Data.PostTitre =this._PostData.Data.Titre
         Data.Topic = "Content"
         Data.Data = this.GetPostContent()
         //On appel l'API
@@ -559,6 +565,7 @@ class Post{
             let Data = new Object()
             Data.BlogId = this._BlogId
             Data.PostId = this._PostData.Data._id
+            Data.PostTitre = this._PostData.Data.Titre
             Data.Img = reponseSRC
             this.SendNewPicture(Data,DivImg)
         },(erreur)=>{
@@ -621,7 +628,10 @@ class Post{
                 if(this._PreviousElementSelected.dataset.type == "PostImg"){
                     PreviousElement = this._PreviousElementSelected.parentNode
                     let ImgId = this._PreviousElementSelected.dataset.imgid
-                    GlobalCallApiPromise("DeletePostPicture", ImgId, "", "").then((reponse)=>{
+                    let Data = new Object()
+                    Data.ImgId = ImgId
+                    Data.PostTitre = this._PostData.Data.Titre
+                    GlobalCallApiPromise("DeletePostPicture", Data, "", "").then((reponse)=>{
                         var index = null
                         this._PostData.Picture.forEach(picture => {
                             if (picture._id == ImgId) {
