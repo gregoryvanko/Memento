@@ -214,7 +214,7 @@ class Blog{
                 BoxElementPost.appendChild(CoreXBuild.DivTexte(element.Titre,"","TextBoxTitre"))
                 // Ajout du titre du Post
                 BoxElementPost.appendChild(CoreXBuild.DivTexte(CoreXBuild.GetDateString(element.CreationDate),"","TextBoxSub","text-align: right;"))
-                BoxElementPost.addEventListener("click", this.ClickOnPost.bind(this, element._id, EditMode))
+                BoxElementPost.addEventListener("click", this.ClickOnPost.bind(this, element._id, EditMode, this._BlogData.CanEdit))
                 // Ajout d'une ligne
                 DivListOfPost.appendChild(CoreXBuild.Line("100%", "Opacity:0.5;"))
             })
@@ -258,7 +258,7 @@ class Blog{
     }
     /** Ajouter un post au blog */
     AddPost(){
-        let MyPost = new Post(this._CurrentBlogId, this._DivApp, this.ClickOnBlog.bind(this, this._CurrentBlogId))
+        let MyPost = new Post(this._CurrentBlogId, this._DivApp, this.ClickOnBlog.bind(this, this._CurrentBlogId), true)
         MyPost.NewPost()
     }
 
@@ -293,8 +293,8 @@ class Blog{
         })
     }
     /** Click sur un post */
-    ClickOnPost(Id, EditMode){
-        let MyPost = new Post(this._CurrentBlogId, this._DivApp, this.ClickOnBlog.bind(this, this._CurrentBlogId))
+    ClickOnPost(Id, EditMode, CanEdit){
+        let MyPost = new Post(this._CurrentBlogId, this._DivApp, this.ClickOnBlog.bind(this, this._CurrentBlogId), CanEdit)
         MyPost.ShowPost(Id, EditMode)
     }
     /** Selection du titre du blog */

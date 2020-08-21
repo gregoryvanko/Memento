@@ -1,9 +1,10 @@
 class Post{
-    constructor(BlogId, DivApp, ClickOnBlog){
+    constructor(BlogId, DivApp, ClickOnBlog, CanEdit){
         this._BlogId = BlogId
         this._DivApp = DivApp
         this._DiVPost = CoreXBuild.Div("DivPost", "", "")
         this._ClickOnBlog = ClickOnBlog
+        this._CanEdit = CanEdit
         this._PostData = new Object()
         this._PostData.Data = null
         this._PostData.Picture = new Array()
@@ -53,12 +54,18 @@ class Post{
     SetVuePost(EditMode){
         // On supprime toutes les ActionButton et on ajout les nouvelles actions
         this.CommandeButtonPostVue(EditMode)
-        // On affiche constamment le button action si on est en edit mode
-        if (EditMode) {
-            GlobalDisplayAction("On")
+        // Si le user peut editer le blog alors on affiche le bouton action
+        if(this._CanEdit){
+            // On affiche constamment le button action si on est en edit mode
+            if (EditMode) {
+                GlobalDisplayAction("On")
+            } else {
+                GlobalDisplayAction("Toggle")
+            }
         } else {
-            GlobalDisplayAction("Toggle")
+            GlobalDisplayAction("Off")
         }
+
         // On vide l'app
         this._DivApp.innerHTML=""
         this._InitiContent =""
