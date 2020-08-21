@@ -8,7 +8,8 @@ class FonctionClient{
         let me = this
         const Querry = {$or:[{[this._MongoBlogUserId]:UserId},{[this._MongoBlogPublic]:true}]}
         const Projection = { projection:{}}
-        this._Mongo.FindPromise(Querry, Projection, this._MongoBlogCollection).then((reponse)=>{
+        const Sort = {[this._MongoBlogCreationDate]: -1}
+        this._Mongo.FindSortPromise(Querry, Projection, Sort, this._MongoBlogCollection).then((reponse)=>{
             if(reponse.length == 0){
                 Res.json({Error: false, ErrorMsg: "No Blog in BD", Data: null})
             } else {
