@@ -81,6 +81,7 @@ class FonctionClient{
                 NewPost._id = reponse.insertedId
                 // Ajout du post a la liste des post du blog
                 NewBlog.ListOfPost.push(NewPost)
+                NewBlog.CanEdit = true
                 Res.json({Error: false, ErrorMsg: "New Blog created", Data: NewBlog})
                 // Log du call de l'API
                 this._MyApp.LogAppliInfo("ApiUser AddNewBlog", User, UserId)
