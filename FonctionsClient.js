@@ -31,6 +31,11 @@ class FonctionClient{
                 Res.json({Error: false, ErrorMsg: "No Blog data for this Blog Id", Data: null})
             } else {
                 let ReponseData = reponse[0]
+                ReponseData.CanEdit = false
+                // Si le user est le owner du blog, il peut editer le blog
+                if(reponse[0].UserId == UserId){
+                    ReponseData.CanEdit = true
+                }
                 ReponseData.ListOfPost = []
                 const QuerryP = {[this._MongoPostBlogId]: Data}
                 const ProjectionP = { projection:{_id: 1, [this._MongoPostTitre]: 1, [this._MongoPostCreationDate]: 1}}

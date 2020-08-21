@@ -124,6 +124,13 @@ class Blog{
         GlobalClearActionList()
         GlobalAddActionInList("List of Blogs", this._Start) 
 
+        // Si le user peut editer le blog alors on affiche le bouton action
+        if(this._BlogData.CanEdit){
+            GlobalDisplayAction("Toggle")
+        } else {
+            GlobalDisplayAction("Off")
+        }
+
         if(EditMode){
             GlobalAddActionInList("Stop Editing Blog",this.SetVueBlog.bind(this, false))
         } else {
@@ -212,6 +219,12 @@ class Blog{
                 DivListOfPost.appendChild(CoreXBuild.Line("100%", "Opacity:0.5;"))
             })
         }
+        // Ajout d'un bouton Go to Blog
+        let DivButton = CoreXBuild.DivFlexColumn("ListOfBlogtButton")
+        let ButtonGoToBlog = CoreXBuild.Button("Go To All Blogs",this._Start.bind(this),"Button")
+        ButtonGoToBlog.classList.add("NoPrint")
+        DivButton.appendChild(ButtonGoToBlog)
+        this._DivApp.appendChild(DivButton)
         // on ajoute un espace vide en fin de page
         this._DivApp.appendChild(CoreXBuild.Div("","","height:10vh;"))
     }
