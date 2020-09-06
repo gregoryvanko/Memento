@@ -71,21 +71,21 @@ class MementoCoreX{
         // Chemin relatif de l'icone
         this._MyApp.IconRelPath = __dirname + "/apple-icon-192x192.png"
         // Ajout des API client
-        this._MyApp.AddApiFct("GetAllBlog", this._FonctionClient.ApiGetAllBlog.bind(this))
-        this._MyApp.AddApiFct("GetBlogData", this._FonctionClient.ApiGetBlogData.bind(this))
-        this._MyApp.AddApiFct("AddNewBlog", this._FonctionClient.ApiAddNewBlog.bind(this))
-        this._MyApp.AddApiFct("UpdateBlog", this._FonctionClient.ApiUpdateBlog.bind(this))
-        this._MyApp.AddApiFct("DeleteBlog", this._FonctionClient.ApiDeleteBlog.bind(this))
-        this._MyApp.AddApiFct("GetPostData", this._FonctionClient.ApiGetPostData.bind(this))
-        this._MyApp.AddApiFct("UpdatePost", this._FonctionClient.ApiUpdatePost.bind(this))
-        this._MyApp.AddApiFct("NewPost", this._FonctionClient.ApiNewPost.bind(this))
-        this._MyApp.AddApiFct("DeletePost", this._FonctionClient.ApiDeletePost.bind(this))
-        this._MyApp.AddApiFct("AddPostPicture", this._FonctionClient.ApiAddPostPicture.bind(this))
-        this._MyApp.AddApiFct("DeletePostPicture", this._FonctionClient.ApiDeletePostPicture.bind(this))
-        this._MyApp.AddApiFct("UpdatePostPicture", this._FonctionClient.ApiUpdatePostPicture.bind(this))
+        this._MyApp.AddApiFct("GetAllBlog", this._FonctionClient.ApiGetAllBlog.bind(this), false)
+        this._MyApp.AddApiFct("GetBlogData", this._FonctionClient.ApiGetBlogData.bind(this), false)
+        this._MyApp.AddApiFct("AddNewBlog", this._FonctionClient.ApiAddNewBlog.bind(this), false)
+        this._MyApp.AddApiFct("UpdateBlog", this._FonctionClient.ApiUpdateBlog.bind(this), false)
+        this._MyApp.AddApiFct("DeleteBlog", this._FonctionClient.ApiDeleteBlog.bind(this), false)
+        this._MyApp.AddApiFct("GetPostData", this._FonctionClient.ApiGetPostData.bind(this), false)
+        this._MyApp.AddApiFct("UpdatePost", this._FonctionClient.ApiUpdatePost.bind(this), false)
+        this._MyApp.AddApiFct("NewPost", this._FonctionClient.ApiNewPost.bind(this), false)
+        this._MyApp.AddApiFct("DeletePost", this._FonctionClient.ApiDeletePost.bind(this), false)
+        this._MyApp.AddApiFct("AddPostPicture", this._FonctionClient.ApiAddPostPicture.bind(this), false)
+        this._MyApp.AddApiFct("DeletePostPicture", this._FonctionClient.ApiDeletePostPicture.bind(this), false)
+        this._MyApp.AddApiFct("UpdatePostPicture", this._FonctionClient.ApiUpdatePostPicture.bind(this), false)
         // Ajout des API Admin
-        this._MyApp.AddApiAdminFct("AdminGetAllBlog", this._FonctionAdmin.ApiAdminGetAllBlog.bind(this))
-        this._MyApp.AddApiAdminFct("AdminUpdateBlog", this._FonctionAdmin.ApiAdminUpdateBlog.bind(this))
+        this._MyApp.AddApiFct("AdminGetAllBlog", this._FonctionAdmin.ApiAdminGetAllBlog.bind(this),true)
+        this._MyApp.AddApiFct("AdminUpdateBlog", this._FonctionAdmin.ApiAdminUpdateBlog.bind(this),true)
         // Lancement de l'application
         this._MyApp.Start()
     }
