@@ -4,7 +4,6 @@
   "description": "Memento via CoreX",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon —inspect exemple.js",
     "save": "git add -A && git commit -a -m 'auto save' && npm version minor && npm publish && git push",
     "Memento": "npm --prefix /var/www/NodeJs/Production/Memento update",
@@ -25,6 +24,6 @@
     "delay": "1000"
   },
   "dependencies": {
-    "@gregvanko/corex": "^4.34.0"
+    "@gregvanko/corex": "^4.35.0"
   }
 }

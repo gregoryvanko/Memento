@@ -1,7 +1,7 @@
 /* Titre */
 #Titre{
     margin: 1% 1% 1% 1%;
-    font-size: var(--CoreX-Titrefont-size);
+    font-size: var(--TitreNormale);
     color: var(--CoreX-color);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     font-style: italic;
@@ -20,7 +20,7 @@
 /* Texte */
 .Text{
     margin: 1%;
-    font-size: var(--CoreX-font-size);
+    font-size: var(--TexteNomrale);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
 }
 /* Button */
@@ -32,7 +32,7 @@
     border-radius: 20px;
     text-align: center;
     display: inline-block;
-    font-size: var(--CoreX-font-size);
+    font-size: var(--TexteNomrale);
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
     color: rgb(44,1,21);
     background: white;
@@ -43,13 +43,13 @@
 }
 /* Texte dans un titre box */
 .TextBoxTitre{
-    font-size: calc(var(--CoreX-font-size)*1.1);
+    font-size: calc(var(--TexteNomrale)*1.1);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     color: black;
 }
 /* Texte dans une sous box */
 .TextBoxSub{
-    font-size: calc(var(--CoreX-font-size)/1.1);
+    font-size: calc(var(--TexteNomrale)/1.1);
     color: rgb(184, 184, 184);
     font-style: italic;
 }
@@ -156,7 +156,7 @@
     border-radius: 5px;
     margin: 0% 1% 0% 1%;
     padding:1%;
-    font-size: var(--CoreX-font-size);
+    font-size: var(--TexteNomrale);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
 }
 .PostText:focus{
@@ -171,7 +171,7 @@
     border-radius: 10px;
     margin: 0% 4% 1% 4%;
     padding:1%;
-    font-size: var(--CoreX-font-size);
+    font-size: var(--TexteNomrale);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     color: balck;
     background-color: #f7f7f9;
@@ -200,32 +200,32 @@
 only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait),
 screen and (max-width: 700px)
 {
-    #Titre{font-size: var(--CoreX-TitreIphone-font-size);}
+    #Titre{font-size: var(-TitreIphone);}
     .SousTitre{font-size: 5vw;}
-    .Text{font-size: var(--CoreX-Iphone-font-size);}
-    .Button{font-size: var(--CoreX-Iphone-font-size); border-radius: 40px;}
-    .TextBoxTitre{font-size: calc(var(--CoreX-Iphone-font-size)*1.1);}
-    .TextBoxSub{font-size: calc(var(--CoreX-Iphone-font-size)/1.1);}
+    .Text{font-size: var(--TexteIphone);}
+    .Button{font-size: var(--TexteIphone); border-radius: 40px;}
+    .TextBoxTitre{font-size: calc(var(--TexteIphone)*1.1);}
+    .TextBoxSub{font-size: calc(var(--TexteIphone)/1.1);}
     .DivContentListOfPost{width: 99%;}
     .CarteBlog{width: 90%;}
     .ProgressBar{width: 90%;}
     .PostTitre1{font-size: 5vw;}
-    .PostText{font-size: var(--CoreX-Iphone-font-size);}
-    .PostCode{font-size: var(--CoreX-Iphone-font-size);}
+    .PostText{font-size: var(--TexteIphone);}
+    .PostCode{font-size: var(--TexteIphone);}
 }
 
 @media screen and (min-width: 1200px)
 {
-    #Titre{font-size: var(--CoreX-TitreMax-font-size);}
+    #Titre{font-size: var(--TitreMax);}
     .SousTitre{font-size: 24px;}
-    .Text{font-size: var(--CoreX-Max-font-size);}
-    .Button{font-size: var(--CoreX-Max-font-size); border-radius: 40px;}
-    .TextBoxTitre{font-size: calc(var(--CoreX-Max-font-size)*1.1);}
-    .TextBoxSub{font-size: calc(var(--CoreX-Max-font-size)/1.1);}
+    .Text{font-size: var(--TexteMax);}
+    .Button{font-size: var(--TexteMax); border-radius: 40px;}
+    .TextBoxTitre{font-size: calc(var(--TexteMax)*1.1);}
+    .TextBoxSub{font-size: calc(var(--TexteMax)/1.1);}
     .DivContentListOfPost{width: 80%;}
     .PostTitre1{font-size: 24px;}
-    .PostText{font-size: var(--CoreX-Max-font-size);}
-    .PostCode{font-size: var(--CoreX-Max-font-size);}
+    .PostText{font-size: var(--TexteMax);}
+    .PostCode{font-size: var(--TexteMax);}
 }
 
 @media print{

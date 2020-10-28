@@ -223,10 +223,10 @@ class AdminBlog{
         <style>
             #Titre{
                 margin: 1% 1% 4% 1%;
-                font-size: var(--CoreX-Titrefont-size);
+                font-size: var(--TitreNormale);
                 color: var(--CoreX-color);
             }
-            .Text{font-size: var(--CoreX-font-size);}
+            .Text{font-size: var(--TexteNomrale);}
             .WidthInfoText{width:25%;}
             /* Box d'un post dans la liste des post du blog */
             .BoxElementBlogTitre{
@@ -248,7 +248,7 @@ class AdminBlog{
                 background-color: #F8F8F8;
             }
             .BoxElementUser{
-                font-size: var(--CoreX-font-size);
+                font-size: var(--TexteNomrale);
                 cursor: pointer;
                 width: 100%;
                 padding: 1%;
@@ -261,7 +261,7 @@ class AdminBlog{
             }
             /* Texte dans un titre box */
             .TextBoxTitre{
-                font-size: calc(var(--CoreX-font-size)*1.1);
+                font-size: calc(var(--TexteNomrale)*1.1);
                 font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
                 color: black;
             }
@@ -274,7 +274,7 @@ class AdminBlog{
                 border-radius: 20px;
                 text-align: center;
                 display: inline-block;
-                font-size: var(--CoreX-font-size);
+                font-size: var(--TexteNomrale);
                 box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
                 color: rgb(44,1,21);
                 background: white;
@@ -288,20 +288,20 @@ class AdminBlog{
             only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait),
             screen and (max-width: 700px)
             {
-                #Titre{font-size: var(--CoreX-TitreIphone-font-size);}
-                .Text{font-size: var(--CoreX-Iphone-font-size);}
+                #Titre{font-size: var(-TitreIphone);}
+                .Text{font-size: var(--TexteIphone);}
                 .WidthInfoText{width:50%;}
-                .TextBoxTitre{font-size: calc(var(--CoreX-Iphone-font-size)*1.1);}
-                .BoxElementUser{font-size: var(--CoreX-Iphone-font-size);}
-                .Button{font-size: var(--CoreX-Iphone-font-size); border-radius: 40px;}
+                .TextBoxTitre{font-size: calc(var(--TexteIphone)*1.1);}
+                .BoxElementUser{font-size: var(--TexteIphone);}
+                .Button{font-size: var(--TexteIphone); border-radius: 40px;}
             }
             @media screen and (min-width: 1200px)
             {
-                #Titre{font-size: var(--CoreX-TitreMax-font-size);}
-                .Text{font-size: var(--CoreX-Max-font-size);}
-                .TextBoxTitre{font-size: calc(var(--CoreX-Max-font-size)*1.1);}
-                .BoxElementUser{font-size: var(--CoreX-Max-font-size);}
-                .Button{font-size: var(--CoreX-Max-font-size); border-radius: 40px;}
+                #Titre{font-size: var(--TitreMax);}
+                .Text{font-size: var(--TexteMax);}
+                .TextBoxTitre{font-size: calc(var(--TexteMax)*1.1);}
+                .BoxElementUser{font-size: var(--TexteMax);}
+                .Button{font-size: var(--TexteMax); border-radius: 40px;}
             }
         </style>`
     }
