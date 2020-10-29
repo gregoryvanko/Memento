@@ -288,7 +288,7 @@ class AdminBlog{
             only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait),
             screen and (max-width: 700px)
             {
-                #Titre{font-size: var(-TitreIphone);}
+                #Titre{font-size: var(--TitreIphone);}
                 .Text{font-size: var(--TexteIphone);}
                 .WidthInfoText{width:50%;}
                 .TextBoxTitre{font-size: calc(var(--TexteIphone)*1.1);}

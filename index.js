@@ -44,7 +44,7 @@ class MementoCoreX{
                 TexteIphone:"3vw",                  //--TexteIphone
                 TexteMax:"18px",                    //--TexteMax
                 TitreNormale:"4vw",                 //--TitreNormale
-                TitreIphone:"7vw",                  //-TitreIphone
+                TitreIphone:"7vw",                  //--TitreIphone
                 TitreMax:"50px"                     //--TitreMax
             },
             Color:{
