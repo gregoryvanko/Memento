@@ -143,6 +143,7 @@
     font-size: 2vw;
     color: var(--CoreX-color);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    word-wrap: break-word;
 }
 .PostTitre1:focus{
     outline: 0px solid transparent;
@@ -158,6 +159,7 @@
     padding:1%;
     font-size: var(--TexteNomrale);
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    word-wrap: break-word;
 }
 .PostText:focus{
     outline: 0px solid transparent;
@@ -175,6 +177,7 @@
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     color: balck;
     background-color: #f7f7f9;
+    word-wrap: break-word;
 }
 .PostCode:focus{
     outline: 0px solid transparent;
