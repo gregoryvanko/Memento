@@ -24,6 +24,6 @@
     "delay": "1000"
   },
   "dependencies": {
-    "@gregvanko/corex": "^4.47.0"
+    "@gregvanko/corex": "^4.48.0"
   }
 }
