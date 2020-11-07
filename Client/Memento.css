@@ -183,6 +183,35 @@
     outline: 0px solid transparent;
     border-color: var(--CoreX-color);
 }
+
+/* Post VideoLink */
+.PostVideoLink{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 0% 1% 0% 1%;
+    padding:1%;
+    font-size: var(--TexteNomrale);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    width: 70%;
+    padding-bottom: calc(0.55*70%);
+    /*padding-top: calc(0.7*55%);*/
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #F5F5F5;
+}
+.PostVideoLink:focus{
+    outline: 0px solid transparent;
+    border-color: var(--CoreX-color);
+}
+
+.Video{
+    border: 2px solid var(--CoreX-color);
+    max-width:70%;
+    margin:1%;
+}
+
 /* Image du post lorsqu'il est editable */
 .ImgPostEditable:hover{
     border-color: var(--CoreX-color);
@@ -215,6 +244,8 @@ screen and (max-width: 700px)
     .PostTitre1{font-size: 5vw;}
     .PostText{font-size: var(--TexteIphone);}
     .PostCode{font-size: var(--TexteIphone);}
+    .PostVideoLink{font-size: var(--TexteIphone);}
+    .Video{max-width: 90%;}
 }
 
 @media screen and (min-width: 1200px)
@@ -229,6 +260,7 @@ screen and (max-width: 700px)
     .PostTitre1{font-size: 24px;}
     .PostText{font-size: var(--TexteMax);}
     .PostCode{font-size: var(--TexteMax);}
+    .PostVideoLink{font-size: var(--TexteMax);}
 }
 
 @media print{
@@ -241,4 +273,5 @@ screen and (max-width: 700px)
     .PostText{font-size: 12px;}
     .PostCode{font-size: 12px;}
     .TextBoxSub{font-size: 11px;}
+    .Video{ max-width:70%;}
 }

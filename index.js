@@ -1,5 +1,5 @@
 class MementoCoreX{
-    constructor(Name = "Memento", Port = 4000, Debug = true){
+    constructor(Name = "Memento", Port = 4000, Debug = true, VideoFolder = "", VideoTagName="name"){
         // Creation de l'application CoreX
         let corex = require('@gregvanko/corex').corex
         this._OptionApplication = {
@@ -11,6 +11,8 @@ class MementoCoreX{
         this._MyApp = new corex(this._OptionApplication)
         // Variable interne
         this._Debug = Debug
+        this._VideoFolder = VideoFolder
+        this._VideoTagName = VideoTagName
         // Varaible interne MongoDB
         let MongoR = require('@gregvanko/corex').Mongo
         this._Mongo = new MongoR(this._OptionApplication.MongoUrl,this._OptionApplication.AppName)
@@ -70,6 +72,10 @@ class MementoCoreX{
         this._MyApp.AdminAppFolder = __dirname + "/Admin"
         // Chemin relatif de l'icone
         this._MyApp.IconRelPath = __dirname + "/apple-icon-192x192.png"
+        // Chemin relatif vers le dossier video
+        this._MyApp.VideoFolder = __dirname + this._VideoFolder
+        // Set Tag name du serveur video
+        this._MyApp.VideoTagName = this._VideoTagName
         // Ajout des API client
         this._MyApp.AddApiFct("GetAllBlog", this._FonctionClient.ApiGetAllBlog.bind(this), false)
         this._MyApp.AddApiFct("GetBlogData", this._FonctionClient.ApiGetBlogData.bind(this), false)

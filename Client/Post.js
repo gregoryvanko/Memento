@@ -99,6 +99,9 @@ class Post{
                         }
                     })
                     break
+                case "PostVideoLink":
+                    this._DiVPost.appendChild(this.BuildVideoLinkContent(element.Value, EditMode))
+                    break
                 default:
                     this._DiVPost.appendChild(this.BuildTextContent(element.Type, element.Value, EditMode))
                     break
@@ -251,6 +254,9 @@ class Post{
                 if((this._ElementSelected.dataset.type == "PostCode") && (this._ElementSelected.innerHTML == "New Code")){
                     document.execCommand('selectAll',false,null)
                 }
+                if((this._ElementSelected.dataset.type == "PostVideoLink") && (this._ElementSelected.innerHTML == "name.mp4")){
+                    document.execCommand('selectAll',false,null)
+                }
             }
         }
     }
@@ -293,6 +299,10 @@ class Post{
             }
             if (element.dataset.type == "PostCode"){
                 if (Txt == "") {element.innerHTML = "New Code"}
+                this.UpdateContent()
+            }
+            if (element.dataset.type == "PostVideoLink"){
+                if (Txt == "") {element.innerHTML = "name.mp4"}
                 this.UpdateContent()
             }
         }
@@ -374,6 +384,7 @@ class Post{
             GlobalAddActionInList("Add Text", this.AddText.bind(this))
             GlobalAddActionInList("Add Code", this.AddCode.bind(this))
             GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
+            GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
         } else {
             GlobalAddActionInList("Refresh", this.ShowPost.bind(this,this._PostData.Data._id, EditMode))
             GlobalAddActionInList("Go to Blog", this.GoToBlog.bind(this))
@@ -389,6 +400,7 @@ class Post{
         GlobalAddActionInList("Add Text", this.AddText.bind(this))
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
         GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
+        GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
     }
     /** Set Commande Button when element is selected */
     CommandeButtonElementSelected(){
@@ -398,6 +410,7 @@ class Post{
         GlobalAddActionInList("Add Text", this.AddText.bind(this))
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
         GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
+        GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
         GlobalAddActionInList("Delete Element", this.DeleteElement.bind(this))
     }
     /** Set Commande Button when no element is selected */
@@ -408,6 +421,7 @@ class Post{
         GlobalAddActionInList("Add Text", this.AddText.bind(this))
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
         GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
+        GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
     }
 
     /** CoreXBuild Text Content */
@@ -447,6 +461,24 @@ class Post{
             Img.addEventListener("mouseout", this.Mouseout.bind(this))
         }
         return Img
+    }
+
+    BuildVideoLinkContent(Value, EditMode){
+        let Content = null
+        if(EditMode){
+            Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", "PostVideoLink")
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+        } else {
+            Content = CoreXBuild.Video(`/video?name=${Value}`,"","Video","")
+        }
+        return Content
     }
 
     /** Get Post Content */
@@ -578,6 +610,23 @@ class Post{
         },(erreur)=>{
             alert("Error on loading file: " + erreur)
         })
+    }
+    /** Add video link to a video on the server */
+    AddVideoLink(){
+        let NewElement = this.BuildVideoLinkContent("name.mp4", true)
+        if(this._PreviousElementSelected != null){
+            let PreviousElement = null
+            if(this._PreviousElementSelected.dataset.type == "PostImg"){
+                PreviousElement = this._PreviousElementSelected.parentNode
+            } else {
+                PreviousElement = this._PreviousElementSelected
+            }
+            PreviousElement.parentNode.insertBefore(NewElement, PreviousElement.nextSibling)
+        } else {
+            this._DiVPost.appendChild(NewElement)
+        }
+        NewElement.focus()
+        NewElement.click()
     }
     /** Send New Picture */
     SendNewPicture(Data, DivImg){
