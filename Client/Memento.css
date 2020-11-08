@@ -206,8 +206,7 @@
 }
 
 .Video{
-    border: 2px solid var(--CoreX-color);
-    max-width:70%;
+    width:70%;
     margin:1%;
 }
 
@@ -244,7 +243,7 @@ screen and (max-width: 700px)
     .PostText{font-size: var(--TexteIphone);}
     .PostCode{font-size: var(--TexteIphone);}
     .PostVideoLink{font-size: var(--TexteIphone);}
-    .Video{max-width: 90%;}
+    .Video{width: 90%;}
 }
 
 @media screen and (min-width: 1200px)
@@ -272,5 +271,5 @@ screen and (max-width: 700px)
     .PostText{font-size: 12px;}
     .PostCode{font-size: 12px;}
     .TextBoxSub{font-size: 11px;}
-    .Video{ max-width:70%;}
+    .Video{ width:70%;}
 }

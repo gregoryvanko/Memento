@@ -476,7 +476,26 @@ class Post{
             Content.addEventListener("mouseout", this.Mouseout.bind(this))
             Content.addEventListener("paste", this.Paste.bind(this))
         } else {
-            Content = CoreXBuild.Video(`/video?name=${Value}`,"","Video","")
+            // pour eviter que la video se lance automatiquement sur safari, il faut un timout de 500ms
+            // en attenant on affiche un box de hauteur = 16:9 de la largeur disponible
+            var ua = navigator.userAgent.toLowerCase()
+            if (ua.indexOf('safari') != -1) { 
+                if (ua.indexOf('chrome') > -1) {
+                    // Chrome
+                    Content = CoreXBuild.DivFlexColumn("")
+                    Content.appendChild(CoreXBuild.Video(`/video?name=${Value}`,"","Video",""))
+                } else {
+                    // Safari
+                    Content = CoreXBuild.DivFlexColumn("VideoBox")
+                    Content.style.paddingBottom = "calc(0.55*70%)";
+                    setTimeout(function() {
+                        // Timout pour eviter un autostart de la video sur safari
+                        let VideoBox = document.getElementById("VideoBox")
+                        VideoBox.style.paddingBottom = 0;
+                        VideoBox.appendChild(CoreXBuild.Video(`/video?name=${Value}`,"","Video",""))
+                    }, 800)
+                }
+            }
         }
         return Content
     }
