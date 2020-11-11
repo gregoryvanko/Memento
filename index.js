@@ -73,7 +73,7 @@ class MementoCoreX{
         // Chemin relatif de l'icone
         this._MyApp.IconRelPath = __dirname + "/apple-icon-192x192.png"
         // Chemin relatif vers le dossier video
-        this._MyApp.VideoFolder = __dirname + this._VideoFolder
+        this._MyApp.VideoFolder = this._VideoFolder
         // Set Tag name du serveur video
         this._MyApp.VideoTagName = this._VideoTagName
         // Ajout des API client
