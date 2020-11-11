@@ -493,7 +493,7 @@ class Post{
                         let VideoBox = document.getElementById("VideoBox")
                         VideoBox.style.paddingBottom = 0;
                         VideoBox.appendChild(CoreXBuild.Video(`/video?name=${Value}`,"","Video",""))
-                    }, 800)
+                    }, 1000)
                 }
             }
         }
