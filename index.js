@@ -1,5 +1,5 @@
 class MementoCoreX{
-    constructor(Name = "Memento", Port = 4000, Debug = true, VideoFolder = "", VideoTagName="name"){
+    constructor(Name = "Memento", Port = 4000, Debug = true, VideoFolder = "", Icon=""){
         // Creation de l'application CoreX
         let corex = require('@gregvanko/corex').corex
         this._OptionApplication = {
@@ -12,7 +12,8 @@ class MementoCoreX{
         // Variable interne
         this._Debug = Debug
         this._VideoFolder = VideoFolder
-        this._VideoTagName = VideoTagName
+        this._VideoTagName = "name"
+        this._Icon = Icon
         // Varaible interne MongoDB
         let MongoR = require('@gregvanko/corex').Mongo
         this._Mongo = new MongoR(this._OptionApplication.MongoUrl,this._OptionApplication.AppName)
@@ -71,7 +72,12 @@ class MementoCoreX{
         // Chemin vers le dossier contenant les sources Js et CSS de l'app Admin
         this._MyApp.AdminAppFolder = __dirname + "/Admin"
         // Chemin relatif de l'icone
-        this._MyApp.IconRelPath = __dirname + "/apple-icon-192x192.png"
+        if (this._Icon == ""){
+            this._MyApp.IconRelPath = __dirname + "/apple-icon-192x192.png"
+        } else {
+            this._MyApp.IconRelPath = this._Icon
+        }
+        
         // Chemin relatif vers le dossier video
         this._MyApp.VideoFolder = this._VideoFolder
         // Set Tag name du serveur video

@@ -18,7 +18,7 @@ const Name = "Memento"
 const Port = 4000
 const Debug = false
 const VideoFolder= __dirname + "/Video"
-const VideoTagName = "name"
-let MyApp = new Memento(Name, Port, Debug, VideoFolder, VideoTagName)
+const Icon = __dirname + "/Memento.png"
+let MyApp = new Memento(Name, Port, Debug, VideoFolder, Icon)
 MyApp.Start()
 ```
