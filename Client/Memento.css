@@ -196,6 +196,8 @@
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     width: 70%;
     padding-bottom: calc(0.55*70%);
+    margin-top: 1%;
+    margin-bottom: 1%;
     margin-left: auto;
     margin-right: auto;
     background-color: #F5F5F5;
@@ -208,6 +210,35 @@
 .Video{
     width:70%;
     margin:1%;
+}
+
+/* Post GoogleMapLink */
+.PostGoogleMapLink{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 0% 1% 0% 1%;
+    padding:1%;
+    font-size: var(--TexteNomrale);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    width: 70%;
+    height: 70vh;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #F5F5F5;
+}
+.PostGoogleMapLink:focus{
+    outline: 0px solid transparent;
+    border-color: var(--CoreX-color);
+}
+
+.Iframe{
+    width:70%;
+    margin:1%;
+    height: 70vh;
 }
 
 /* Image du post lorsqu'il est editable */
@@ -244,6 +275,8 @@ screen and (max-width: 700px)
     .PostCode{font-size: var(--TexteIphone);}
     .PostVideoLink{font-size: var(--TexteIphone);}
     .Video{width: 90%;}
+    .PostGoogleMapLink{font-size: var(--TexteIphone); width: 90%; height: 50vh;}
+    .Iframe{width: 90%; height: 50vh;}
 }
 
 @media screen and (min-width: 1200px)
@@ -259,6 +292,7 @@ screen and (max-width: 700px)
     .PostText{font-size: var(--TexteMax);}
     .PostCode{font-size: var(--TexteMax);}
     .PostVideoLink{font-size: var(--TexteMax);}
+    .PostGoogleMapLink{font-size: var(--TexteMax);}
 }
 
 @media print{

@@ -89,7 +89,7 @@ class Post{
             TitrePost.addEventListener("mouseout", this.Mouseout.bind(this))
         }
         this._DiVPost.appendChild(TitrePost)
-        // Ajout du content
+        // Ajout du content BuildGoogleMapLinkContent
         this._PostData.Data.Content.forEach(element => {
             switch (element.Type) {
                 case "PostImg":
@@ -101,6 +101,9 @@ class Post{
                     break
                 case "PostVideoLink":
                     this._DiVPost.appendChild(this.BuildVideoLinkContent(element.Value, EditMode))
+                    break
+                case "PostGoogleMapLink":
+                    this._DiVPost.appendChild(this.BuildGoogleMapLinkContent(element.Value, EditMode))
                     break
                 default:
                     this._DiVPost.appendChild(this.BuildTextContent(element.Type, element.Value, EditMode))
@@ -257,6 +260,9 @@ class Post{
                 if((this._ElementSelected.dataset.type == "PostVideoLink") && (this._ElementSelected.innerHTML == "name.mp4")){
                     document.execCommand('selectAll',false,null)
                 }
+                if((this._ElementSelected.dataset.type == "PostGoogleMapLink") && (this._ElementSelected.innerHTML == "src link")){
+                    document.execCommand('selectAll',false,null)
+                }
             }
         }
     }
@@ -303,6 +309,10 @@ class Post{
             }
             if (element.dataset.type == "PostVideoLink"){
                 if (Txt == "") {element.innerHTML = "name.mp4"}
+                this.UpdateContent()
+            }
+            if (element.dataset.type == "PostGoogleMapLink"){
+                if (Txt == "") {element.innerHTML = "src link"}
                 this.UpdateContent()
             }
         }
@@ -385,6 +395,7 @@ class Post{
             GlobalAddActionInList("Add Code", this.AddCode.bind(this))
             GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
             GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
+            GlobalAddActionInList("Add GoogleMapLink", this.AddGoogleMapLink.bind(this))
         } else {
             GlobalAddActionInList("Refresh", this.ShowPost.bind(this,this._PostData.Data._id, EditMode))
             GlobalAddActionInList("Go to Blog", this.GoToBlog.bind(this))
@@ -401,6 +412,7 @@ class Post{
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
         GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
         GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
+        GlobalAddActionInList("Add GoogleMapLink", this.AddGoogleMapLink.bind(this))
     }
     /** Set Commande Button when element is selected */
     CommandeButtonElementSelected(){
@@ -411,6 +423,7 @@ class Post{
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
         GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
         GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
+        GlobalAddActionInList("Add GoogleMapLink", this.AddGoogleMapLink.bind(this))
         GlobalAddActionInList("Delete Element", this.DeleteElement.bind(this))
     }
     /** Set Commande Button when no element is selected */
@@ -422,6 +435,7 @@ class Post{
         GlobalAddActionInList("Add Code", this.AddCode.bind(this))
         GlobalAddActionInList("Add Picture", this.AddPicture.bind(this))
         GlobalAddActionInList("Add VideoLink", this.AddVideoLink.bind(this))
+        GlobalAddActionInList("Add GoogleMapLink", this.AddGoogleMapLink.bind(this))
     }
 
     /** CoreXBuild Text Content */
@@ -462,7 +476,7 @@ class Post{
         }
         return Img
     }
-
+    /** Build vido link content */
     BuildVideoLinkContent(Value, EditMode){
         let Content = null
         if(EditMode){
@@ -499,7 +513,37 @@ class Post{
         }
         return Content
     }
+    /** Build google map link content */
+    BuildGoogleMapLinkContent(Value, EditMode){
+        let Content = null
+        if(EditMode){
+            Content = CoreXBuild.DivTexte(Value,"","PostGoogleMapLink")
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", "PostGoogleMapLink")
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+        } else {
+            Content = CoreXBuild.DivFlexColumn("")
+            let div = document.createElement("div")
+            div.setAttribute("Class", "Iframe")
+            div.setAttribute("style", "overflow: hidden;")
 
+            let iframe = document.createElement("IFRAME")
+            iframe.setAttribute("src", Value)
+            iframe.setAttribute("width", "100%")
+            iframe.setAttribute("height", "110%")
+            iframe.setAttribute("frameborder", "0")
+            iframe.setAttribute("style", "border:0; margin-top: -60px;")
+            
+            div.appendChild(iframe)
+            Content.appendChild(div)
+        }
+        return Content
+    }
     /** Get Post Content */
     GetPostContent(){
         var ElementsContent = document.querySelectorAll("*[data-Content='Content']")
@@ -633,6 +677,23 @@ class Post{
     /** Add video link to a video on the server */
     AddVideoLink(){
         let NewElement = this.BuildVideoLinkContent("name.mp4", true)
+        if(this._PreviousElementSelected != null){
+            let PreviousElement = null
+            if(this._PreviousElementSelected.dataset.type == "PostImg"){
+                PreviousElement = this._PreviousElementSelected.parentNode
+            } else {
+                PreviousElement = this._PreviousElementSelected
+            }
+            PreviousElement.parentNode.insertBefore(NewElement, PreviousElement.nextSibling)
+        } else {
+            this._DiVPost.appendChild(NewElement)
+        }
+        NewElement.focus()
+        NewElement.click()
+    }
+    /** Add google maps link */
+    AddGoogleMapLink(){
+        let NewElement = this.BuildGoogleMapLinkContent("src link", true)
         if(this._PreviousElementSelected != null){
             let PreviousElement = null
             if(this._PreviousElementSelected.dataset.type == "PostImg"){
