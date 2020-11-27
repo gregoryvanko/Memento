@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon —inspect exemple.js",
-    "upnpm": "npm version minor && npm publish && git push",
-    "Memento": "npm --prefix /var/www/NodeJs/Production/Memento update && npm --prefix /var/www/NodeJs/Production/Memento version minor",
-    "Memorx": "npm --prefix /var/www/NodeJs/Production/Memorx update && npm --prefix /var/www/NodeJs/Production/Memorx version minor"
+    "up": "npm version minor && npm publish && git push"
   },
   "repository": {
     "type": "git",
@@ -24,6 +22,6 @@
     "delay": "1000"
   },
   "dependencies": {
-    "@gregvanko/corex": "^4.55.0"
+    "@gregvanko/corex": "^4.60.0"
   }
 }
