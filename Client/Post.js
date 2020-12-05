@@ -497,7 +497,7 @@ class Post{
                 if (ua.indexOf('chrome') > -1) {
                     // Chrome
                     Content = CoreXBuild.DivFlexColumn("")
-                    Content.appendChild(CoreXBuild.Video(`/video?name=${Value}`,"","Video",""))
+                    Content.appendChild(CoreXBuild.Video(`/video/${Value}?token=${GlobalGetToken()}`,"","Video",""))
                 } else {
                     // Safari
                     Content = CoreXBuild.DivFlexColumn("VideoBox")
