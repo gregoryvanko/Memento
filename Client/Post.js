@@ -506,7 +506,7 @@ class Post{
                         // Timout pour eviter un autostart de la video sur safari
                         let VideoBox = document.getElementById("VideoBox")
                         VideoBox.style.paddingBottom = 0;
-                        VideoBox.appendChild(CoreXBuild.Video(`/video?name=${Value}`,"","Video",""))
+                        VideoBox.appendChild(CoreXBuild.Video(`/video/${Value}?token=${GlobalGetToken()}`,"","Video",""))
                     }, 1000)
                 }
             }
