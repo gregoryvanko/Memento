@@ -178,7 +178,7 @@ class Post{
                 let InfoTxt = document.getElementById("InfoTxt")
                 InfoTxt.innerHTML=""
                 let ErrorTxt = document.getElementById("ErrorTxt")
-                ErrorTxt.innerHTML=erreur
+                ErrorTxt.innerText=erreur
             })
         }
     }
@@ -236,7 +236,7 @@ class Post{
                 this.CommandeButtonElementSelected()
             } else {
                 // Copie de la valeur initial de l'element
-                this._InitiContent = this._ElementSelected.innerHTML
+                this._InitiContent = this._ElementSelected.innerText
                 // Ajout des commandes lorsque l'on selecte un element
                 if(this._ElementSelected.dataset.type == "TitrePost"){
                     this.CommandeButtonTitreSelected()
@@ -244,22 +244,22 @@ class Post{
                     this.CommandeButtonElementSelected()
                 }
                 // Select all text if standard text
-                if((this._ElementSelected.dataset.type == "TitrePost") && (this._ElementSelected.innerHTML == "New Post")){
+                if((this._ElementSelected.dataset.type == "TitrePost") && (this._ElementSelected.innerText == "New Post")){
                     document.execCommand('selectAll',false,null)
                 }
-                if((this._ElementSelected.dataset.type == "PostTitre1") && (this._ElementSelected.innerHTML == "New Titre")){
+                if((this._ElementSelected.dataset.type == "PostTitre1") && (this._ElementSelected.innerText == "New Titre")){
                     document.execCommand('selectAll',false,null)
                 }
-                if((this._ElementSelected.dataset.type == "PostText") && (this._ElementSelected.innerHTML == "New Text")){
+                if((this._ElementSelected.dataset.type == "PostText") && (this._ElementSelected.innerText == "New Text")){
                     document.execCommand('selectAll',false,null)
                 }
-                if((this._ElementSelected.dataset.type == "PostCode") && (this._ElementSelected.innerHTML == "New Code")){
+                if((this._ElementSelected.dataset.type == "PostCode") && (this._ElementSelected.innerText == "New Code")){
                     document.execCommand('selectAll',false,null)
                 }
-                if((this._ElementSelected.dataset.type == "PostVideoLink") && (this._ElementSelected.innerHTML == "name.mp4")){
+                if((this._ElementSelected.dataset.type == "PostVideoLink") && (this._ElementSelected.innerText == "name.mp4")){
                     document.execCommand('selectAll',false,null)
                 }
-                if((this._ElementSelected.dataset.type == "PostMapLink") && (this._ElementSelected.innerHTML == "src link")){
+                if((this._ElementSelected.dataset.type == "PostMapLink") && (this._ElementSelected.innerText == "src link")){
                     document.execCommand('selectAll',false,null)
                 }
             }
@@ -280,38 +280,38 @@ class Post{
     /** Save Txt Data */
     SaveTxtElement(element){
         // suppression de la balise finale <br> si elle existe
-        let Txt = element.innerHTML
+        let Txt = element.innerText
         if(Txt.endsWith("<br>")){
             Txt = Txt.substring(0, Txt.length - 4)
-            element.innerHTML = Txt
+            element.innerText = Txt
         }
         // si le texte est different de sa valeur initiale
         if(Txt != this._InitiContent){
             if (element.dataset.type == "TitrePost"){
                 if (Txt == "") {
-                    element.innerHTML = "New Post"
+                    element.innerText = "New Post"
                     Txt = "New Post"
                 }
                 this.UpdateTitre(Txt)
             }
             if (element.dataset.type == "PostTitre1"){
-                if (Txt == "") {element.innerHTML = "New Titre"}
+                if (Txt == "") {element.innerText = "New Titre"}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostText"){
-                if (Txt == "") {element.innerHTML = "New Text"}
+                if (Txt == "") {element.innerText = "New Text"}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostCode"){
-                if (Txt == "") {element.innerHTML = "New Code"}
+                if (Txt == "") {element.innerText = "New Code"}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostVideoLink"){
-                if (Txt == "") {element.innerHTML = "name.mp4"}
+                if (Txt == "") {element.innerText = "name.mp4"}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostMapLink"){
-                if (Txt == "") {element.innerHTML = "src link"}
+                if (Txt == "") {element.innerText = "src link"}
                 this.UpdateContent()
             }
         }
@@ -557,7 +557,7 @@ class Post{
                     break;
                 default:
                     PostContent.Type = element.dataset.type
-                    PostContent.Value = element.innerHTML
+                    PostContent.Value = element.innerText
                     PostListOfContents.push(PostContent)
                     break;
             }
@@ -752,7 +752,7 @@ class Post{
         },(erreur)=>{
             document.getElementById('WindowTxt').style.display = "none"
             document.getElementById('progressBar').style.display = "none"
-            document.getElementById("ErrorSendImage").innerHTML= "error send picture: " + erreur
+            document.getElementById("ErrorSendImage").innerText= "error send picture: " + erreur
         })
     }
     /** Delete Element */

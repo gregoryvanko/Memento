@@ -44,9 +44,9 @@ class UploadImage{
         document.getElementById('ListOfButton').style.visibility = "hidden"
         document.getElementById('progressBar').style.visibility = "visible"
         var fichierSelectionne = document.getElementById('FileSelecteur').files[0]
-        document.getElementById('WindowTxt').innerHTML = "Picture conversion in progress..."
+        document.getElementById('WindowTxt').innerText = "Picture conversion in progress..."
         this.ToBase64(fichierSelectionne).then((reponse)=>{
-            document.getElementById('WindowTxt').innerHTML = "Upload picture in progress..."
+            document.getElementById('WindowTxt').innerText = "Upload picture in progress..."
             this._Data.Data = reponse
             //On appel l'API
             GlobalCallApiPromise(this._Api, this._Data,this.UploadProg.bind(this)).then((reponse)=>{
@@ -59,12 +59,12 @@ class UploadImage{
             },(erreur)=>{
                 document.getElementById('WindowTxt').style.display = "none"
                 document.getElementById('progressBar').style.display = "none"
-                document.getElementById('ErrorUploadImage').innerHTML = "Error Base64 convertion: " + erreur
+                document.getElementById('ErrorUploadImage').innerText = "Error Base64 convertion: " + erreur
             })
         },(erreur)=>{
             document.getElementById('WindowTxt').style.display = "none"
             document.getElementById('progressBar').style.display = "none"
-            document.getElementById('ErrorUploadImage').innerHTML = "Error Base64 convertion: " + erreur
+            document.getElementById('ErrorUploadImage').innerText = "Error Base64 convertion: " + erreur
         })
     }
     ToBase64(file){
@@ -132,7 +132,7 @@ class UploadImage{
         })
     }
     UploadProg(event){
-        document.getElementById('WindowTxt').innerHTML = "Upload picture in progress..."
+        document.getElementById('WindowTxt').innerText = "Upload picture in progress..."
         let progression = Math.round(((event.loaded / event.total) * 100))
         document.getElementById("progressBar").value = progression
     }
@@ -209,13 +209,13 @@ class GetImageSrc{
         Input.setAttribute("style","display: none;")
         Input.addEventListener("change", ()=>{
             var fichierSelectionne = document.getElementById('FileSelecteur').files[0]
-            document.getElementById('WindowTxt').innerHTML = "Picture conversion in progress..."
+            document.getElementById('WindowTxt').innerText = "Picture conversion in progress..."
             this.ToBase64(fichierSelectionne).then((reponse)=>{
                 CoreXWindow.DeleteWindow()
                 resolve(reponse)
             },(erreur)=>{
                 document.getElementById('WindowTxt').style.display = "none"
-                document.getElementById('ErrorUploadImage').innerHTML = "Error Base64 convertion: " + erreur
+                document.getElementById('ErrorUploadImage').innerText = "Error Base64 convertion: " + erreur
             })
         }, false)
         DivContent.appendChild(Input)

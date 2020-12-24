@@ -18,16 +18,16 @@ class AdminBlog{
         this._DivApp.appendChild(DivErrorTexte)
         // On appel l'API
         GlobalCallApiPromise("AdminGetAllBlog", "", "", "").then((reponseBlog)=>{
-            document.getElementById("DivWaiting").innerHTML = "Wainting for all users data..."
+            document.getElementById("DivWaiting").innerText = "Wainting for all users data..."
             GlobalGetUserDataPromise().then((reponse)=>{
                 this.BuildListOfAllBlog(reponseBlog, reponse)
             },(erreur)=>{
                 document.getElementById("DivWaiting").parentNode.removeChild(document.getElementById("DivWaiting"))
-                document.getElementById("ErrorStart").innerHTML=erreur
+                document.getElementById("ErrorStart").innerText=erreur
             })
         },(erreur)=>{
             document.getElementById("DivWaiting").parentNode.removeChild(document.getElementById("DivWaiting"))
-            document.getElementById("ErrorStart").innerHTML=erreur
+            document.getElementById("ErrorStart").innerText=erreur
         })
     }
     /** Clear view */
@@ -145,7 +145,7 @@ class AdminBlog{
             GlobalCallApiPromise("AdminUpdateBlog", DataForApi, "", "").then((reponse)=>{
                 this.Start()
             },(erreur)=>{
-                document.getElementById("ErrorModifBlog").innerHTML=erreur
+                document.getElementById("ErrorModifBlog").innerText=erreur
             })
         }
     }
@@ -161,7 +161,7 @@ class AdminBlog{
          GlobalCallApiPromise("AdminUpdateBlog", DataForApi, "", "").then((reponse)=>{
         },(erreur)=>{
             document.getElementById("TooglePublic").checked = !Public
-            document.getElementById("ErrorModifBlog").innerHTML=erreur
+            document.getElementById("ErrorModifBlog").innerText=erreur
         })
     }
     /** Open viex change Owner of the blog */
@@ -205,7 +205,7 @@ class AdminBlog{
         GlobalCallApiPromise("AdminUpdateBlog", DataForApi, "", "").then((reponse)=>{
             this.Start()
         },(erreur)=>{
-            document.getElementById("ErrorModifBlog").innerHTML=erreur
+            document.getElementById("ErrorModifBlog").innerText=erreur
         })
     }
 
