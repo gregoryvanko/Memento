@@ -377,11 +377,12 @@ class Post{
     Paste(event){
         event.preventDefault()
         var text = (event.originalEvent || event).clipboardData.getData('text/plain')
-        text = text.replace(/(\r\n|\n|\r)/gm,"<br>")
-        text = text.replace(/\s+/g," ")
-        text = text.replace("<br> ","<br>")
+        text = text.replaceAll("<br>", "\n")
+        //text = text.replace(/\s+/g," ")
+        //text = text.replace("\n ","")
         text = text.trim()
-        document.execCommand("insertHTML", false, text);
+        //document.execCommand("insertHTML", false, text);
+        document.execCommand("insertText", false, text);
     }
 
     /** Set Commande Button Post */
@@ -439,11 +440,12 @@ class Post{
 
     /** CoreXBuild Text Content */
     BuildTextContent(Type, Value, EditMode){
+        // Si le contenu est en format HTML on le converti en text
         Value = Value.replaceAll("<br>", "\n")
         var temporalDivElement = document.createElement("div");
         temporalDivElement.innerHTML = Value;
         Value =  temporalDivElement.textContent || temporalDivElement.innerText;
-        
+        // Construction du contenu
         let Content = CoreXBuild.DivTexte(Value,"",Type)
         if(EditMode){
             Content.setAttribute("contenteditable", "True")
