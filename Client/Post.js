@@ -439,6 +439,11 @@ class Post{
 
     /** CoreXBuild Text Content */
     BuildTextContent(Type, Value, EditMode){
+        Value = Value.replaceAll("<br>", "\n")
+        var temporalDivElement = document.createElement("div");
+        temporalDivElement.innerHTML = Value;
+        Value =  temporalDivElement.textContent || temporalDivElement.innerText;
+        
         let Content = CoreXBuild.DivTexte(Value,"",Type)
         if(EditMode){
             Content.setAttribute("contenteditable", "True")
