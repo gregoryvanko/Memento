@@ -143,7 +143,7 @@ class Blog{
         // On vide l'app
         this._DivApp.innerHTML=""
         // Ajout du titre
-        let Titre = CoreXBuild.DivTexte(this._BlogData.Titre, "Titre", "DivTitreBlogPost", "white-space: pre;")
+        let Titre = CoreXBuild.DivTexte(this._BlogData.Titre, "Titre", "DivTitreBlogPost", "white-space: normal;")
         Titre.setAttribute("data-type", "BlogTitre")
         if(EditMode){
             Titre.setAttribute("contenteditable", "True")

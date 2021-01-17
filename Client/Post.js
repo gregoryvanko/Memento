@@ -79,7 +79,7 @@ class Post{
         this._DivApp.appendChild(DivPagePost)
         DivPagePost.appendChild(this._DiVPost)
         // Ajout du titre
-        let TitrePost = CoreXBuild.DivTexte(this._PostData.Data.Titre, "Titre","DivTitreBlogPost", "white-space: pre;")
+        let TitrePost = CoreXBuild.DivTexte(this._PostData.Data.Titre, "Titre","DivTitreBlogPost", "white-space: normal;")
         if(EditMode){
             TitrePost.setAttribute("contenteditable", "True")
             TitrePost.setAttribute("data-type", "TitrePost")
