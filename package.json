@@ -1,6 +1,6 @@
 {
   "name": "@gregvanko/memento",
-  "version": "1.54.0",
+  "version": "1.55.0",
   "description": "Memento via CoreX",
   "main": "index.js",
   "scripts": {
