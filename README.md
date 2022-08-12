@@ -1,5 +1,5 @@
 # Memento
-A Node.js application for Blog creation, based on CoreX.
+A Node.js Blog application.
 
 ## Usage
 First, install the package using npm:
@@ -7,17 +7,22 @@ First, install the package using npm:
 npm install @gregvanko/memento --save
 ```
 
-# File App.js:
-Créer un fichier "App.js" qui contiendra le code de démarrage du module.
+## File App.js:
+Create a file "App.js" with this content:
 ```js
-/*------------------------------------*/
-/* Creation de l'application          */
-/*------------------------------------*/
-let Memento = require('@gregvanko/memento').MementoCoreX
-const Name = "Memento"
-const Port = 4000
-const Debug = false
-const Icon = __dirname + "/Memento.png"
-let MyApp = new Memento(Name, Port, Debug, Icon)
-MyApp.Start()
+const Option = {
+    Port:9002,
+    Name:"Memento",
+    Debug: false,
+    SplashScreenFilePath: __dirname + "/SplashScreen.html"
+}
+require('@gregvanko/memento').Start(Option)
 ```
+
+It is possible to start the application with default values (Port=9000, Name=Memento, Debug=false, SplashScreenFilePath= default splach screen):
+```js
+require('@gregvanko/memento').Start()
+```
+
+## Env variables
+PORT and MONGOURL are available as env variables

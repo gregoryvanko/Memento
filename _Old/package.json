@@ -1,11 +1,10 @@
 {
   "name": "@gregvanko/memento",
-  "version": "2.0.0",
-  "description": "Memento",
+  "version": "1.55.0",
+  "description": "Memento via CoreX",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect=0.0.0.0:9229 exemple.js",
-    "start:env": "PORT=9999 MONGOURL=mongodb://localhost:27017 nodemon -—inspect=0.0.0.0:9229 exemple.js",
+    "start": "nodemon —inspect exemple.js",
     "up": "npm version minor && npm publish && git push",
     "vanko": "ssh root@vanko.be -p 9922"
   },
@@ -21,9 +20,9 @@
   "homepage": "https://github.com/gregoryvanko/Memento#readme",
   "nodemonConfig": {
     "ext": "css, js",
-    "delay": "0"
+    "delay": "1000"
   },
   "dependencies": {
-    "@gregvanko/nanox": "^1.44.0"
+    "@gregvanko/corex": "^4.74.0"
   }
 }
