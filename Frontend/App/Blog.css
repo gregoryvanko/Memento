@@ -12,10 +12,42 @@
 .CarteBlog:hover{
     border-color: var(--NanoX-appcolor);
 }
-
 .CarteBlogImg{
     border: 1px solid black;
     border-radius: 5px;
     max-height: 5rem;
     max-width: 95%;
+}
+/* Titre du Blog */
+.DivTitreBlogPost{
+    margin: 1rem;
+    font-size: 3rem;
+    color: var(--NanoX-appcolor);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    font-style: italic;
+    text-align: center;
+    font-weight: bold;
+    padding: 1rem;
+    word-wrap: break-word;
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    text-shadow: 0 1px 0 #ccc, 
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9;
+}
+.DivTitreBlogPost:focus{
+    outline: 0px solid transparent;
+    border-color: var(--NanoX-appcolor);
+}
+/* Image du blog */
+.ImgBlog{
+    border: 2px solid transparent;
+    border-radius: 5px;
+    max-height: 60vh;
+    padding: 1rem;
+    max-width: 100%;
+    filter: drop-shadow(0 0 10px #333);
 }

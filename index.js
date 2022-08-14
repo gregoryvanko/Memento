@@ -33,8 +33,10 @@ async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreen
     // Initiation de NanoX
     require("@gregvanko/nanox").NanoXInitiation(OptionNanoX)
 
-    // Add route Post
+    // Add route Blog
     NanoXAddRoute("/blog", require("./Backend/Route/RouteBlog"))
+    // Add route Post
+    NanoXAddRoute("/post", require("./Backend/Route/RoutePost"))
 
     // Start NanoX
     await require("@gregvanko/nanox").NanoXStart()

@@ -17,7 +17,7 @@ async function GetBlogInfo (Parametres, res, user = null){
             }
             res.status(200).send(Reponse)
         }
-    }).limit(1).skip(Parametres).sort({CreationDate: -1})
+    }).limit(1).skip(Parametres).sort({CreationDate: 1})
 }
 
 module.exports.GetBlogInfo = GetBlogInfo
