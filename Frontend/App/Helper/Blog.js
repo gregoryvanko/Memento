@@ -6,7 +6,6 @@ class HelperBlog {
         this._BlogNumberToLoad = 0
         this._IsStopLoadingListBlog = false
         this._IsAnyBlogLoaded = false
-        this._CurrentBlogId = null
 
         this._ListBlogConteneur = NanoXBuild.DivFlexColumn("BlogConteneur", null, "width: 100%;")
         this._WaitingBlogText = NanoXBuild.DivText("Loading blogs...", "waitingblog", "TextSmall", "margin-bottom: 2rem;")
@@ -16,7 +15,6 @@ class HelperBlog {
         this._BlogNumberToLoad = 0
         this._IsStopLoadingListBlog = false
         this._IsAnyBlogLoaded = false
-        this._CurrentBlogId = null
         this._ListBlogConteneur.innerHTML=""
     }
 
@@ -79,10 +77,9 @@ class HelperBlog {
 
     ClickOnBlog(Id, Titre, Image){
         this._IsStopLoadingListBlog = true
-        this._CurrentBlogId = Id
         this.SetLightview()
         this.AddButton()
-        this.HelperPost = new HelperPost(this._CurrentBlogId)
+        this.HelperPost = new HelperPost(Id, Titre, Image, this.ClickOnBlog.bind(this))
         this.RenderBlogData(false, Titre, Image)
         // Log serveur load Blog
         NanoXApiPostLog("View Blog : " + Titre)

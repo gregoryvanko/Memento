@@ -30,3 +30,11 @@ body{
     font-size: 0.8rem;
     word-wrap: break-word;
 }
+.TextBoxTitre{
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    color: black;
+}
+.TextNote{
+    color: rgb(184, 184, 184);
+    font-style: italic;
+}
