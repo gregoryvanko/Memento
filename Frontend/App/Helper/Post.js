@@ -127,7 +127,6 @@ class HelperPost{
         // Ajout du titre
         let TitrePost = NanoXBuild.DivText(this._PostData.Data.Titre, "Titre","DivTitreBlogPost", "white-space: normal;")
         DivPost.appendChild(TitrePost)
-        debugger
         this._PostData.Data.Content.forEach(element => {
             switch (element.Type) {
                 case "PostImg":
@@ -138,16 +137,23 @@ class HelperPost{
                     })
                     break
                 case "PostVideoLink":
-                    this._DiVPost.appendChild(this.BuildVideoLinkContent(element.Value, EditMode))
+                    DivPost.appendChild(this.BuildVideoLinkContent(element.Value))
                     break
                 case "PostMapLink":
-                    this._DiVPost.appendChild(this.BuildMapLinkContent(element.Value, EditMode))
+                    DivPost.appendChild(this.BuildMapLinkContent(element.Value))
                     break
                 default:
-                    this._DiVPost.appendChild(this.BuildTextContent(element.Type, element.Value, EditMode))
+                    DivPost.appendChild(this.BuildTextContent(element.Type, element.Value))
                     break
             }
         })
+        // Ajout de la date de creation du blog
+        let TxtDate = NanoXBuild.DivText("Creation date: " + NanoXBuild.GetDateString(this._PostData.Data.CreationDate),"", "TextSmall TextBoxSub","text-align: right; padding:1rem;")
+        DivPost.appendChild(TxtDate)
+        // on ajoute un espace vide en fin de page
+        let EmptySpace = NanoXBuild.Div("","","height:5rem;")
+        EmptySpace.classList.add("NoPrint")
+        this._DivApp.appendChild(EmptySpace)
     }
 
     /** image content and div*/
@@ -159,7 +165,6 @@ class HelperPost{
         DivImg.appendChild(this.BuildImg(Id,Value,EditMode))
         return DivImg
     }
-
     BuildImg(Id, Value, EditMode = false){
         let Img = NanoXBuild.Image64(Value, Id, "ImgPost")
         Img.setAttribute("data-Content", "Content")
@@ -172,5 +177,93 @@ class HelperPost{
             Img.addEventListener("mouseout", this.Mouseout.bind(this))
         }
         return Img
+    }
+    /** Build vido link content */
+    BuildVideoLinkContent(Value, EditMode = false){
+        let Content = null
+        if(EditMode){
+            Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", "PostVideoLink")
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+        } else {
+            // pour eviter que la video se lance automatiquement sur safari, il faut un timout de 500ms
+            // en attenant on affiche un box de hauteur = 16:9 de la largeur disponible
+            var ua = navigator.userAgent.toLowerCase()
+            if (ua.indexOf('safari') != -1) { 
+                if (ua.indexOf('chrome') > -1) {
+                    // Chrome
+                    Content = NanoXBuild.DivFlexColumn("")
+                    Content.appendChild(NanoXBuild.Video(`/video/${Value}?token=${NanoXGetToken()}`,"","Video",""))
+                } else {
+                    // Safari
+                    Content = NanoXBuild.DivFlexColumn("VideoBox")
+                    Content.style.paddingBottom = "calc(0.55*70%)";
+                    setTimeout(function() {
+                        // Timout pour eviter un autostart de la video sur safari
+                        let VideoBox = document.getElementById("VideoBox")
+                        VideoBox.style.paddingBottom = 0;
+                        VideoBox.appendChild(NanoXBuild.Video(`/video/${Value}?token=${NanoXGetToken()}`,"","Video",""))
+                    }, 1000)
+                }
+            }
+        }
+        return Content
+    }
+    /** Build map link content */
+    BuildMapLinkContent(Value, EditMode = false){
+        let Content = null
+        if(EditMode){
+            Content = CoreXBuild.DivTexte(Value,"","PostMapLink")
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", "PostMapLink")
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+        } else {
+            Content = NanoXBuild.DivFlexColumn("")
+            let div = document.createElement("div")
+            div.setAttribute("Class", "Iframe")
+            div.setAttribute("style", "overflow: hidden;")
+
+            let iframe = document.createElement("IFRAME")
+            iframe.setAttribute("src", Value)
+            iframe.setAttribute("width", "100%")
+            iframe.setAttribute("height", "100%")
+            iframe.setAttribute("frameborder", "0")
+            iframe.setAttribute("style", "border:0;")
+            
+            div.appendChild(iframe)
+            Content.appendChild(div)
+        }
+        return Content
+    }
+    BuildTextContent(Type, Value, EditMode = false){
+        // Si le contenu est en format HTML on le converti en text
+        Value = Value.replaceAll("<br>", "\n")
+        var temporalDivElement = document.createElement("div");
+        temporalDivElement.innerHTML = Value;
+        Value =  temporalDivElement.textContent || temporalDivElement.innerText;
+        // Construction du contenu
+        let Content = NanoXBuild.DivText(Value,"",Type)
+        if(EditMode){
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", Type)
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+        }
+        return Content
     }
 }

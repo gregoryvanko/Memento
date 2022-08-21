@@ -72,6 +72,58 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+/* Post Titre1 */
+.PostTitre1{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 0% 1rem 0% 1rem;
+    padding:0.5rem;
+    font-size: 2rem;
+    color: var(--NanoX-appcolor);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    word-wrap: break-word;
+}
+.PostTitre1:focus{
+    outline: 0px solid transparent;
+    border-color: var(--NanoX-appcolor);
+}
+/* Post Text */
+.PostText{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 0% 1rem 0% 1rem;
+    padding:0.5rem;
+    font-size: 1.2rem;
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    word-wrap: break-word;
+}
+.PostText:focus{
+    outline: 0px solid transparent;
+    border-color: var(--NanoX-appcolor);
+}
+/* Post Code*/
+.PostCode{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    margin: 0% 1.5rem 1rem 1.5rem;
+    padding:0.5rem;
+    font-size: 1.2rem;
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    color: balck;
+    background-color: #f7f7f9;
+    word-wrap: break-word;
+}
+.PostCode:focus{
+    outline: 0px solid transparent;
+    border-color: var(--NanoX-appcolor);
+}
+
 /* Image du post lorsqu'il est editable */
 .ImgPostEditable:hover{
     border-color: var(--NanoX-appcolor);
@@ -86,4 +138,29 @@
     max-width: 100%;
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     filter: drop-shadow(0 0 10px #333);
+}
+
+.Video{
+    width:90%;
+    margin:1rem;
+}
+
+.Iframe{
+    width:90%;
+    margin:1rem;
+    height: 30rem;
+}
+
+
+@media print{
+    body{height: auto;   }
+    .NoPrint{display: none;}
+    .DivPostPage{border: 1px solid transparent; box-shadow: none;}
+    .ImgPost{max-height: 40vh;}
+    .Titre{font-size: 40px;}
+    .PostTitre1{font-size: 20px;}
+    .PostText{font-size: 12px;}
+    .PostCode{font-size: 12px;}
+    .TextBoxSub{font-size: 11px;}
+    .Video{ width:70%;}
 }

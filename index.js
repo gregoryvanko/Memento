@@ -13,6 +13,7 @@ async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreen
         Debug: Debug,
         IconPath:  __dirname + "/Frontend/Icon/apple-icon-192x192.png",
         ApiServer: true,
+        AllowVideo: true,
         AllowSignUp: false,
         AppPath: "",
         NanoXAppOption : {
