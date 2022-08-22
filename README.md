@@ -14,12 +14,13 @@ const Option = {
     Port:9002,
     Name:"Memento",
     Debug: false,
-    SplashScreenFilePath: __dirname + "/SplashScreen.html"
+    SplashScreenFilePath: __dirname + "/SplashScreen.html",
+    IconFilePath : __dirname + "/IconBrown.png"
 }
 require('@gregvanko/memento').Start(Option)
 ```
 
-It is possible to start the application with default values (Port=9000, Name=Memento, Debug=false, SplashScreenFilePath= default splach screen):
+It is possible to start the application with default values (Port=9000, Name=Memento, Debug=false, SplashScreenFilePath= default splach screen, IconFilePath= default icon):
 ```js
 require('@gregvanko/memento').Start()
 ```

@@ -1,7 +1,8 @@
 let NanoXAddRoute = require("@gregvanko/nanox").NanoXAddRoute
 
-async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreenFilePath = null} = {}){
+async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreenFilePath = null, IconFilePath = null} = {}){
     if (SplashScreenFilePath == null){SplashScreenFilePath = __dirname + "/Frontend/SplashScreen/SplashScreen.html"}
+    if (IconFilePath == null){IconFilePath = __dirname + "/Frontend/Icon/apple-icon-192x192.png"}
 
     // NonoX Option
     const OptionNanoX = {
@@ -11,7 +12,7 @@ async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreen
         AppSecret: "MementoSecret",
         MongoUrl: "mongodb://localhost:27017",
         Debug: Debug,
-        IconPath:  __dirname + "/Frontend/Icon/apple-icon-192x192.png",
+        IconPath:  IconFilePath,
         ApiServer: true,
         AllowVideo: true,
         AllowSignUp: false,
