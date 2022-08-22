@@ -108,7 +108,7 @@ class HelperPost{
             let me = this
             setTimeout(function() {
                 me.RenderPostData()
-            }, 100)
+            }, 500)
         },(erreur)=>{
             this._DivApp.innerHTML=erreur
         })
