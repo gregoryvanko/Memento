@@ -4,7 +4,7 @@ const Option = {
     Debug: true,
     SplashScreenFilePath: __dirname + "/Frontend/SplashScreen/SplashScreen.html",
     IconFilePath : __dirname + "/IconBrown.png",
-    MongoDbUrl: "mongodb://localhost:27017"
+    MongoDbUrl: "mongodb://mongodev:27017"
 }
 
 require('./index').Start(Option)
