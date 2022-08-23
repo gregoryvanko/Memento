@@ -1,6 +1,5 @@
 let NanoXAddRoute = require("@gregvanko/nanox").NanoXAddRoute
 
-
 async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreenFilePath = null, IconFilePath = null} = {}){
     if (SplashScreenFilePath == null){SplashScreenFilePath = __dirname + "/Frontend/SplashScreen/SplashScreen.html"}
     if (IconFilePath == null){IconFilePath = __dirname + "/Frontend/Icon/apple-icon-192x192.png"}
