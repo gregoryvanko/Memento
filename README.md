@@ -15,12 +15,13 @@ const Option = {
     Name:"Memento",
     Debug: false,
     SplashScreenFilePath: __dirname + "/SplashScreen.html",
-    IconFilePath : __dirname + "/IconBrown.png"
+    IconFilePath : __dirname + "/IconBrown.png",
+    MongoDbUrl: "mongodb://localhost:27017"
 }
 require('@gregvanko/memento').Start(Option)
 ```
 
-It is possible to start the application with default values (Port=9000, Name=Memento, Debug=false, SplashScreenFilePath= default splach screen, IconFilePath= default icon):
+It is possible to start the application with default values (Port=9000, Name=Memento, Debug=false, SplashScreenFilePath= default splach screen, IconFilePath= default icon, MongoDbUrl= mongodb://localhost:27017):
 ```js
 require('@gregvanko/memento').Start()
 ```

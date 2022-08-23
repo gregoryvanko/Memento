@@ -3,7 +3,8 @@ const Option = {
     Name:"MementoDev",
     Debug: true,
     SplashScreenFilePath: __dirname + "/Frontend/SplashScreen/SplashScreen.html",
-    IconFilePath : __dirname + "/IconBrown.png"
+    IconFilePath : __dirname + "/IconBrown.png",
+    MongoDbUrl: "mongodb://localhost:27017"
 }
 
 require('./index').Start(Option)
