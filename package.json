@@ -24,6 +24,6 @@
     "delay": "0"
   },
   "dependencies": {
-    "@gregvanko/nanox": "^1.44.0"
+    "@gregvanko/nanox": "1.x"
   }
 }
