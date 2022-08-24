@@ -44,6 +44,7 @@ async function AddNewBlog(User, res){
         if (err) {
             res.status(500).send(err)
         } else {
+            NewBlog._id = result.id
             NewBlogData.CanEdit = true
             res.json(NewBlogData)
             LogInfo("New Blog created",User)

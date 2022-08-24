@@ -110,9 +110,14 @@ class HelperBlog {
         NanoXAddMenuButtonLeft("IdBackButton", "Back", IconCommon.Back(), this._LoadStartView )
     }
 
-    RenderBlogData(EditMode=false, BlogTitre= "New Blog", BlogImage = null){
+    RenderBlogData(EditMode=false, BlogTitre= "New Blog", BlogImage = null, Public = false){
         // Clear view
         this._DivApp.innerHTML=""
+        // Add Button stop edit mode
+        if (EditMode){
+            // ToDo
+            //NanoXAddMenuButtonRight("IdAddBlogButton", "New Blog", IconCommon.AddBlog(), this.ClickOnAddBlog.bind(this))
+        }
         // Titre
         let Titre = NanoXBuild.DivText(BlogTitre, "Titre", "DivTitreBlogPost", "white-space: normal;")
         Titre.setAttribute("data-type", "BlogTitre")
@@ -123,7 +128,7 @@ class HelperBlog {
         let ImgBlog = NanoXBuild.Image64(BlogImage,"ImgBlog", "ImgBlog")
         DivImgBlog.appendChild(ImgBlog)
         // Posts
-        this.HelperPost.SetListOfPostContener(this._DivApp)
+        if (EditMode == false){this.HelperPost.SetListOfPostContener(this._DivApp)}
     }
 
     AllowAddBlog(){
@@ -135,7 +140,10 @@ class HelperBlog {
     ClickOnAddBlog(){
         // Get new blog data
         NanoXApiGet("/blog/AddNewBlog/").then((reponse)=>{
-            // ToDo
+            this.SetLightview()
+            this.AddButton()
+            this.HelperPost = new HelperPost(reponse._id, reponse.Titre, reponse.Image, this.ClickOnBlog.bind(this))
+            this.RenderBlogData(true, reponse.Titre, reponse.Image, reponse.Public)
         },(erreur)=>{
             this._DivApp.innerHTML=erreur
         })
