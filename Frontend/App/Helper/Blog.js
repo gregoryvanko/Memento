@@ -23,9 +23,18 @@ class HelperBlog {
         ParentDiv.appendChild(this._ListBlogConteneur)
         // Waiting Blog text
         ParentDiv.appendChild(this._WaitingBlogText)
+        // Get blog create permission
+        NanoXApiGet("/blog/allowaddblog/").then((reponse)=>{
+            if (reponse == true){
+                this.AllowAddBlog()
+            }
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
     }
 
     GetBlog(){
+        // Get blog data
         NanoXApiGet("/blog/bloginfo/" + this._BlogNumberToLoad).then((reponse)=>{
             if (! this._IsStopLoadingListBlog){
                 this.RenderBlogCarteInfo(reponse)
@@ -115,5 +124,20 @@ class HelperBlog {
         DivImgBlog.appendChild(ImgBlog)
         // Posts
         this.HelperPost.SetListOfPostContener(this._DivApp)
+    }
+
+    AllowAddBlog(){
+        if (! this._IsStopLoadingListBlog){
+            NanoXAddMenuButtonRight("IdAddBlogButton", "New Blog", IconCommon.AddBlog(), this.ClickOnAddBlog.bind(this))
+        }
+    }
+
+    ClickOnAddBlog(){
+        // Get new blog data
+        NanoXApiGet("/blog/AddNewBlog/").then((reponse)=>{
+            // ToDo
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
     }
 }
