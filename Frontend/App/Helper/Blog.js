@@ -99,6 +99,8 @@ class HelperBlog {
         NanoXClearMenuButtonLeft()
         // clear menu button right
         NanoXClearMenuButtonRight()
+        // clear menu button setttings
+        NanoXClearMenuButtonSettings()
         // Menu bar Translucide
         NanoXSetMenuBarTranslucide(true)
         // Show name in menu bar
@@ -113,6 +115,7 @@ class HelperBlog {
     RenderBlogData(EditMode=false, BlogTitre= "New Blog", BlogImage = null, Public = false){
         // Clear view
         this._DivApp.innerHTML=""
+        this.SetLightview()
         // Add Button stop edit mode
         if (EditMode){
             // ToDo
@@ -133,7 +136,7 @@ class HelperBlog {
 
     AllowAddBlog(){
         if (! this._IsStopLoadingListBlog){
-            NanoXAddMenuButtonRight("IdAddBlogButton", "New Blog", IconCommon.AddBlog(), this.ClickOnAddBlog.bind(this))
+            NanoXAddMenuButtonSettings("IdAddBlogButton", "New Blog", IconCommon.AddBlog(), this.ClickOnAddBlog.bind(this))
         }
     }
 

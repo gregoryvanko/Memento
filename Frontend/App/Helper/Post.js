@@ -77,6 +77,8 @@ class HelperPost{
         NanoXClearMenuButtonLeft()
         // clear menu button right
         NanoXClearMenuButtonRight()
+        // clear menu button setttings
+        NanoXClearMenuButtonSettings()
         // Menu bar Translucide
         NanoXSetMenuBarTranslucide(true)
         // Show name in menu bar

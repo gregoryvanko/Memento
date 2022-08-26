@@ -40,6 +40,8 @@ class MementoBlog {
         NanoXClearMenuButtonLeft()
         // clear menu button right
         NanoXClearMenuButtonRight()
+        // clear menu button setttings
+        NanoXClearMenuButtonSettings()
         // Show name in menu bar
         NanoXShowNameInMenuBar(true)
     }
