@@ -1,8 +1,10 @@
 const LogError = require("@gregvanko/nanox").NanoXLogError
 const LogInfo = require("@gregvanko/nanox").NanoXLogInfo
 const ModelBlog = require("../MongooseModel/Model_Blog")
+const ModelPost = require("../MongooseModel/Model_Post")
+const ModelPostPicture = require("../MongooseModel/Model_PostPicture")
 
-async function GetBlogInfo (Parametres, res, user = null){
+async function GetBlogInfo (BlogNumber, res, user = null){
     let Reponse = []
 
     const query = {$or:[{Public: true} , {UserId:  user._id.toString()}]}
@@ -18,10 +20,10 @@ async function GetBlogInfo (Parametres, res, user = null){
             }
             res.status(200).send(Reponse)
         }
-    }).limit(1).skip(Parametres).sort({CreationDate: 1})
+    }).limit(1).skip(BlogNumber).sort({CreationDate: 1})
 }
 
-async function IsUserAllowToAddBlog(User, res){
+async function IsUserAllowToAddBlog(res, User){
     if (User.Admin){
         res.status(200).send(true)
     } else {
@@ -29,7 +31,26 @@ async function IsUserAllowToAddBlog(User, res){
     }
 }
 
-async function AddNewBlog(User, res){
+async function IsUserAllowToEditBlog(BlogId, res, User){
+    let Reponse = null
+    const projection = {UserId:1} 
+
+    ModelBlog.findById(BlogId, projection, (err, result) => {
+        if (err) {
+            res.status(500).send(err)
+            LogError(`IsUserAllowToEditBlog db eroor: ${err}`, User)
+        } else {
+            if (result.UserId == User._id){
+                Reponse = true
+            } else {
+                Reponse = false
+            }
+            res.status(200).send(Reponse)
+        }
+    })
+}
+
+async function AddNewBlog(res, User){
     let MementoImages = require('../Images.js').MementoImages
 
     let NewBlogData = new Object()
@@ -52,6 +73,36 @@ async function AddNewBlog(User, res){
     })
 }
 
+async function DeleteBlog(BlogId, res, User){
+    ModelBlog.findByIdAndDelete(BlogId, (err1, result)=>{
+        if (err1) {
+            res.status(500).send(err1)
+            LogError(`DeleteBlog:Blog db eroor: ${err1}`, User)
+        } else {
+            // Delete des post
+            ModelPost.deleteMany({BlogId: BlogId}, (err2, result)=> {
+                if (err2) {
+                    res.status(500).send(err2)
+                    LogError(`DeleteBlog:Post db eroor: ${err}`, User)
+                } else {
+                    // Delete des picture
+                    ModelPostPicture.deleteMany({BlogId: BlogId}, (err3, result)=>{
+                        if (err3) {
+                            res.status(500).send(err3)
+                            LogError(`DeleteBlog:Picture db eroor: ${err}`, User)
+                        } else {
+                            res.status(200).send("ok")
+                            LogInfo("Blog deleted",User)
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
+
 module.exports.GetBlogInfo = GetBlogInfo
 module.exports.IsUserAllowToAddBlog = IsUserAllowToAddBlog
+module.exports.IsUserAllowToEditBlog = IsUserAllowToEditBlog
 module.exports.AddNewBlog = AddNewBlog
+module.exports.DeleteBlog = DeleteBlog

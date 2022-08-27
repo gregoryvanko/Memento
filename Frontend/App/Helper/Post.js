@@ -268,4 +268,8 @@ class HelperPost{
         }
         return Content
     }
+
+    AddPost(){
+        console.log("Add post: " + this._BlogId) // ToDo
+    }
 }

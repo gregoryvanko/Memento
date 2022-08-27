@@ -3,7 +3,9 @@ const AuthBasic = require("@gregvanko/nanox").NanoXAuthBasic
 
 const GetBlogInfo = require("./HelperBlog").GetBlogInfo
 const IsUserAllowToAddBlog = require("./HelperBlog").IsUserAllowToAddBlog
+const IsUserAllowToEditBlog = require("./HelperBlog").IsUserAllowToEditBlog
 const AddNewBlog = require("./HelperBlog").AddNewBlog
+const DeleteBlog = require("./HelperBlog").DeleteBlog
 
 /**
  * Get Blog information by
@@ -16,14 +18,28 @@ router.get("/bloginfo/:BlogNumber", AuthBasic, (req, res) => {
  * is user allowed to add new blog
  */
 router.get("/allowaddblog", AuthBasic, (req, res) => {
-    IsUserAllowToAddBlog(req.user, res)
+    IsUserAllowToAddBlog(res, req.user)
+})
+
+/**
+ * is user allowed to edit blog
+ */
+ router.get("/alloweditblog/:BlogId", AuthBasic, (req, res) => {
+    IsUserAllowToEditBlog(req.params.BlogId, res, req.user)
 })
 
 /**
  * Add new blog
  */
  router.get("/AddNewBlog", AuthBasic, (req, res) => {
-    AddNewBlog(req.user, res)
+    AddNewBlog(res, req.user)
+})
+
+/**
+ * Delete Blog
+ */
+router.delete("/:BlogId", AuthBasic, (req, res) => {
+    DeleteBlog(req.params.BlogId, res, req.user)
 })
 
 module.exports = router
