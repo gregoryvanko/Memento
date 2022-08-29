@@ -20,6 +20,8 @@
 }
 /* Titre du Blog */
 .DivTitreBlogPost{
+    width: 99%;
+    max-width: 1000px;
     margin: 0.5rem;
     font-size: 3rem;
     color: var(--NanoX-appcolor);
@@ -32,7 +34,7 @@
     -webkit-user-select: text;
     user-select: text;
     border: 2px solid transparent;
-    border-radius: 5px;
+    border-radius: 10px;
     text-shadow: 0 1px 0 #ccc, 
                0 2px 0 #c9c9c9,
                0 3px 0 #bbb,
@@ -45,7 +47,7 @@
 /* Image du blog */
 .ImgBlog{
     border: 2px solid transparent;
-    border-radius: 5px;
+    border-radius: 10px;
     max-height: 60vh;
     padding: 1rem;
     max-width: 100%;

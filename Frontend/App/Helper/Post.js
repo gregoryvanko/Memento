@@ -1,8 +1,9 @@
 class HelperPost{
-    constructor(BlogId = null, BlogTitre = null, BlogImage = null, LoadBlogView = null){
+    constructor(BlogId = null, BlogTitre=null, BlogImage=null, BlogPublic=null, LoadBlogView = null){
         this._BlogId = BlogId
         this._BlogTitre = BlogTitre
         this._BlogImage = BlogImage
+        this._BlogPublic = BlogPublic
         this._LoadBlogView = LoadBlogView
         this._PostId = null
         this._PostData = new Object()
@@ -91,7 +92,7 @@ class HelperPost{
     }
 
     ReloadBlogView(){
-        this._LoadBlogView(this._BlogId, this._BlogTitre, this._BlogImage)
+        this._LoadBlogView(this._BlogId, this._BlogTitre, this._BlogImage, this._BlogPublic)
     }
 
     GetPostData(){

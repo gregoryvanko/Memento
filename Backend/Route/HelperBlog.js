@@ -4,16 +4,16 @@ const ModelBlog = require("../MongooseModel/Model_Blog")
 const ModelPost = require("../MongooseModel/Model_Post")
 const ModelPostPicture = require("../MongooseModel/Model_PostPicture")
 
-async function GetBlogInfo (BlogNumber, res, user = null){
+async function GetBlogInfo (BlogNumber, res, User = null){
     let Reponse = []
 
-    const query = {$or:[{Public: true} , {UserId:  user._id.toString()}]}
-    const projection = {Titre:1, Image:1} 
+    const query = {$or:[{Public: true} , {UserId:  User._id.toString()}]}
+    const projection = {} 
 
     ModelBlog.find(query, projection, (err, result) => {
         if (err) {
             res.status(500).send(err)
-            LogError(`GetBlogInfo db eroor: ${err}`, user)
+            LogError(`GetBlogInfo db eroor: ${err}`, User)
         } else {
             if (result.length != 0){
                 Reponse = result
@@ -64,6 +64,7 @@ async function AddNewBlog(res, User){
     NewBlog.save((err, result) => {
         if (err) {
             res.status(500).send(err)
+            LogError(`AddNewBlog db eroor: ${err}`, User)
         } else {
             NewBlog._id = result.id
             NewBlogData.CanEdit = true
@@ -101,8 +102,52 @@ async function DeleteBlog(BlogId, res, User){
     })
 }
 
+async function ModifyBlog(Data, res, User){
+    let readytosave = false
+    // Preparation des data pour la DB
+    let DataToDb = new Object()
+    if (Data.Topic == "Titre"){
+        readytosave = true
+        DataToDb.Titre= Data.Data
+    }
+    if (Data.Topic == "Image"){
+        readytosave = true
+        DataToDb.Image= Data.Data
+    }
+    if (Data.Topic == "Public"){
+        readytosave = true
+        DataToDb.Public= Data.Data
+    }
+    // update du blog
+    if (readytosave) {
+        let me = this
+        ModelBlog.findByIdAndUpdate(Data.BlogId, DataToDb, (err, reponse) => {
+            if (err) {
+                res.status(500).send(err)
+                LogError(`ModifyBlog db eroor: ${err}`, User)
+            } else {
+                if (reponse.matchedCount == 0){
+                    res.status(500).send(`ModifyBlog BlogId not found : ${Data.BlogId}`)
+                    LogError(`ModifyBlog BlogId not found : ${Data.BlogId}`, User)
+                } else {
+                    res.status(200).send(Data.Data)
+                    LogInfo(`Blog updated : ${Data.Topic} is changed`,User)
+                }
+            }
+        })
+    }
+    else {
+        res.status(500).send(`ModifyBlog Topic not defined : ${Data.Topic}`)
+        LogError(`ModifyBlog Topic not defined : ${Data.Topic}`, User)
+    }
+
+
+    
+}
+
 module.exports.GetBlogInfo = GetBlogInfo
 module.exports.IsUserAllowToAddBlog = IsUserAllowToAddBlog
 module.exports.IsUserAllowToEditBlog = IsUserAllowToEditBlog
 module.exports.AddNewBlog = AddNewBlog
 module.exports.DeleteBlog = DeleteBlog
+module.exports.ModifyBlog = ModifyBlog

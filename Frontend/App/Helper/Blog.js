@@ -10,6 +10,9 @@ class HelperBlog {
 
         this._ListBlogConteneur = NanoXBuild.DivFlexColumn("BlogConteneur", null, "width: 100%;")
         this._WaitingBlogText = NanoXBuild.DivText("Loading blogs...", "waitingblog", "TextSmall", "margin-bottom: 2rem;")
+
+        this._InitiContent =""
+        this._IsBlogModified = false
     }
 
     Initiation(){
@@ -18,6 +21,8 @@ class HelperBlog {
         this._IsAnyBlogLoaded = false
         this._ListBlogConteneur.innerHTML=""
         this._BlogData = {_id:null, Titre:null, Image:null, Public:true, CanEdit:false, ListOfPost:[] }
+        this._InitiContent =""
+        this._IsBlogModified = false
     }
 
     SetBlogContener(ParentDiv){
@@ -58,7 +63,7 @@ class HelperBlog {
             // Contour de la carte du blog
             let CarteBlog = NanoXBuild.Div("", "CarteBlog")
             CarteBlog.setAttribute("data-id", Data._id)
-            CarteBlog.addEventListener("click", this.ClickOnBlog.bind(this, Data._id, Data.Titre, Data.Image))
+            CarteBlog.addEventListener("click", this.ClickOnBlog.bind(this, Data._id, Data.Titre, Data.Image, Data.Public))
             this._ListBlogConteneur.appendChild(CarteBlog)
             // Content de la carte du blog
             let BlogContent = NanoXBuild.DivFlexRowStart("")
@@ -86,10 +91,11 @@ class HelperBlog {
         }
     }
 
-    ClickOnBlog(Id, Titre, Image){
+    ClickOnBlog(Id, Titre, Image, Public){
         this._BlogData._id = Id
         this._BlogData.Titre = Titre
         this._BlogData.Image = Image
+        this._BlogData.Public = Public
 
         this._IsStopLoadingListBlog = true
         this.SetLightview()
@@ -123,11 +129,12 @@ class HelperBlog {
         this.SetLightview()
         this.AddBackButton()
         // creation de la classe HelperPost
-        this._HelperPost = new HelperPost(this._BlogData._id, this._BlogData.Titre, this._BlogData.Image, this.ClickOnBlog.bind(this))
+        this._HelperPost = new HelperPost(this._BlogData._id, this._BlogData.Titre, this._BlogData.Image, this._BlogData.Public, this.ClickOnBlog.bind(this))
         // Add Button stop edit mode
         if (EditMode){
             // Add Stop editing button
             NanoXAddMenuButtonSettings("IdStopEditBlogButton", "Stop Editing", IconCommon.StopEditBlog(), this.RenderBlogData.bind(this, false))
+            NanoXApiPostLog("Edit Blog : " + this._BlogData.Titre)
         } else {
             // Get blog edit permission
             NanoXApiGet("/blog/alloweditblog/" + this._BlogData._id).then((reponse)=>{
@@ -146,11 +153,27 @@ class HelperBlog {
         let Titre = NanoXBuild.DivText(this._BlogData.Titre, "Titre", "DivTitreBlogPost", "white-space: normal;")
         Titre.setAttribute("data-type", "BlogTitre")
         this._DivApp.appendChild(Titre)
+        if(EditMode){
+            Titre.setAttribute("contenteditable", "True")
+            Titre.addEventListener("click", this.SelectText.bind(this))
+            Titre.addEventListener("keydown", this.Keydown.bind(this))
+            Titre.addEventListener("focusout", this.ElementFocusOut.bind(this))
+            Titre.addEventListener("mouseover", this.Mouseover.bind(this))
+            Titre.addEventListener("mouseout", this.Mouseout.bind(this))
+        }
+
         // Image
         let DivImgBlog = NanoXBuild.DivFlexColumn()
         this._DivApp.appendChild(DivImgBlog)
         let ImgBlog = NanoXBuild.Image64(this._BlogData.Image,"ImgBlog", "ImgBlog")
         DivImgBlog.appendChild(ImgBlog)
+        if(EditMode){
+            ImgBlog.classList.add("ImgBlogEditable")
+            ImgBlog.addEventListener("click", this.SelectImg.bind(this))
+            ImgBlog.addEventListener("mouseover", this.Mouseover.bind(this))
+            ImgBlog.addEventListener("mouseout", this.Mouseout.bind(this))
+        }
+
         // liste of post Posts
         if (EditMode == false){this._HelperPost.SetListOfPostContener(this._DivApp)}
 
@@ -183,7 +206,7 @@ class HelperBlog {
         NanoXApiGet("/blog/AddNewBlog/").then((reponse)=>{
             this.SetLightview()
             this.AddBackButton()
-            this._HelperPost = new HelperPost(reponse._id, reponse.Titre, reponse.Image, this.ClickOnBlog.bind(this))
+            this._HelperPost = new HelperPost(reponse._id, reponse.Titre, reponse.Image, reponse.Public, this.ClickOnBlog.bind(this))
             this._BlogData = reponse
             this.RenderBlogData(true)
         },(erreur)=>{
@@ -206,9 +229,107 @@ class HelperBlog {
         this._HelperPost.AddPost()
     }
 
-    UpdatePublicBlog(event){
-        const Checked = event.target.checked
-        console.log("UpdatePublicBlog " + Checked) // ToDo
+    /** Update du titre du blog */
+    UpdateTitre(NewTitre){
+        let Data = new Object()
+        Data.BlogId = this._BlogData._id
+        Data.Topic = "Titre"
+        Data.Data = NewTitre
+        NanoXApiPost("/blog/UpdateBlog/", Data).then((reponse)=>{
+            this._BlogData.Titre = reponse
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
     }
 
+    UpdatePublicBlog(event){
+        const Checked = event.target.checked
+        let Data = new Object()
+        Data.BlogId = this._BlogData._id
+        Data.Topic = "Public"
+        Data.Data = Checked
+        NanoXApiPost("/blog/UpdateBlog/", Data).then((reponse)=>{
+            this._BlogData.Public = reponse
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
+    }
+
+    /** Selection du titre du blog */
+    SelectText(event) {
+        let element = event.target
+        this._InitiContent = element.innerHTML
+        if((element.dataset.type == "BlogTitre") && (element.innerHTML == "New Blog")){
+            document.execCommand('selectAll',false,null)
+        }
+        element.style.borderColor= "red"
+        this._IsBlogModified = true
+    }
+
+    /** Selection de l'image du blog */
+    SelectImg(event){
+        let element = event.target
+        let ImageId = element.id
+        let Data = new Object()
+        Data.Topic = "Image"
+        Data.BlogId = this._BlogData._id
+        element.style.borderColor= "red"
+        this._IsBlogModified = true
+        let uploadimage = new UploadImage(ImageId, "/blog/UpdateBlog/", Data, this.CallBackImgUpdate.bind(this))
+        uploadimage.Start()
+    }
+
+    /**
+     * Fonction exécutée en callback de la fonction qui change l'image d'un blog
+     * @param {Image Base64} Img La nouvelle image sous forme Base64
+     * @param {string} Id Id de l'élément image
+     */
+    CallBackImgUpdate(Img, Id){
+        if (Img != null){
+            document.getElementById(Id).src = Img
+            this._BlogData.Image = Img
+        }
+        this._IsBlogModified = false
+        document.getElementById(Id).style.borderColor = "transparent"
+    }
+
+    /** Focus out of element */
+    ElementFocusOut(event){
+        let element = event.target
+        element.style.borderColor= "transparent"
+        let Txt = element.innerHTML
+        if(Txt.endsWith("<br>")){
+            Txt = Txt.substring(0, Txt.length - 4);
+            element.innerHTML = Txt
+        }
+        if(Txt != this._InitiContent){
+            if (Txt == "") {element.innerHTML = "New Blog"}
+            this.UpdateTitre(Txt)
+        }
+        window.getSelection().removeAllRanges()
+        this._IsBlogModified = false
+    }
+    /** Keydown */
+    Keydown(event){
+        let element = event.target
+        if (event.keyCode == 13){
+            event.preventDefault()
+            element.blur()
+            return false
+        }
+    }
+    /** Mouseover */
+    Mouseover(event){
+        if (! this._IsBlogModified){
+            let element = event.target
+            element.style.borderColor= "var(--NanoX-appcolor)"
+        }
+    }
+    /** Mouseout */
+    Mouseout(event){
+        if (! this._IsBlogModified){
+            let element = event.target
+            element.style.borderColor= "transparent"
+        }
+    }
 }

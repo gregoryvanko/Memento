@@ -6,6 +6,7 @@ const IsUserAllowToAddBlog = require("./HelperBlog").IsUserAllowToAddBlog
 const IsUserAllowToEditBlog = require("./HelperBlog").IsUserAllowToEditBlog
 const AddNewBlog = require("./HelperBlog").AddNewBlog
 const DeleteBlog = require("./HelperBlog").DeleteBlog
+const ModifyBlog = require("./HelperBlog").ModifyBlog
 
 /**
  * Get Blog information by
@@ -40,6 +41,13 @@ router.get("/allowaddblog", AuthBasic, (req, res) => {
  */
 router.delete("/:BlogId", AuthBasic, (req, res) => {
     DeleteBlog(req.params.BlogId, res, req.user)
+})
+
+/**
+ * Modify Post Data
+ */
+router.post("/UpdateBlog", AuthBasic, (req, res) => {
+    ModifyBlog(req.body, res, req.user)
 })
 
 module.exports = router
