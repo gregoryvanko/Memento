@@ -5,6 +5,7 @@ class HelperPost{
         this._BlogImage = BlogImage
         this._BlogPublic = BlogPublic
         this._LoadBlogView = LoadBlogView
+
         this._PostId = null
         this._PostData = new Object()
         this._PostData.Data = null
@@ -67,7 +68,7 @@ class HelperPost{
     ClickOnPostToOpen(PostId, PostTitre){
         this._PostId = PostId
         this.SetLightview()
-        this.AddButton()
+        this.AddBackButton()
         this.GetPostData()
         // Log serveur load Blog
         NanoXApiPostLog("View Post : " + PostTitre)
@@ -86,7 +87,7 @@ class HelperPost{
         NanoXShowNameInMenuBar(false)
     }
 
-    AddButton(){
+    AddBackButton(){
         // Add button back to liste of blog
         NanoXAddMenuButtonLeft("IdBackButton", "Back", IconCommon.Back(), this.ReloadBlogView.bind(this) )
     }
@@ -111,7 +112,7 @@ class HelperPost{
             let me = this
             setTimeout(function() {
                 me.RenderPostData()
-            }, 500)
+            }, 100)
         },(erreur)=>{
             this._DivApp.innerHTML=erreur
         })
@@ -121,7 +122,7 @@ class HelperPost{
         document.getElementById("ProgressRingLoadPost").setAttribute('progress', Pourcent);
     }
 
-    RenderPostData(){
+    RenderPostData(EditMode = false){
         // Clear view
         this._DivApp.innerHTML=""
         let DivPost = NanoXBuild.Div("", "DivPost", "")
@@ -135,18 +136,18 @@ class HelperPost{
                 case "PostImg":
                     this._PostData.Picture.forEach(picture => {
                         if (picture._id == element.Value) {
-                            DivPost.appendChild(this.BuildImgContent(element.Value,picture.Image))
+                            DivPost.appendChild(this.BuildImgContent(element.Value,picture.Image, EditMode))
                         }
                     })
                     break
                 case "PostVideoLink":
-                    DivPost.appendChild(this.BuildVideoLinkContent(element.Value))
+                    DivPost.appendChild(this.BuildVideoLinkContent(element.Value,EditMode))
                     break
                 case "PostMapLink":
-                    DivPost.appendChild(this.BuildMapLinkContent(element.Value))
+                    DivPost.appendChild(this.BuildMapLinkContent(element.Value, EditMode))
                     break
                 default:
-                    DivPost.appendChild(this.BuildTextContent(element.Type, element.Value))
+                    DivPost.appendChild(this.BuildTextContent(element.Type, element.Value, EditMode))
                     break
             }
         })
@@ -271,6 +272,15 @@ class HelperPost{
     }
 
     AddPost(){
-        console.log("Add post: " + this._BlogId) // ToDo
+        // Get new blog data
+        NanoXApiGet("/post/AddNewpost/" + this._BlogId).then((reponse)=>{
+            debugger
+            this.SetLightview()
+            this.AddBackButton()
+            this._PostData = reponse
+            this.RenderPostData(true)
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
     }
 }
