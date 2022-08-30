@@ -18,6 +18,8 @@ class HelperPost{
     }
 
 
+    
+
     SetListOfPostContener(ParentDiv){
         // Post Contener
         ParentDiv.appendChild(this._DivListOfPost)
