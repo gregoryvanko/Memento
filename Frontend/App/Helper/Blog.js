@@ -125,6 +125,11 @@ class HelperBlog {
         NanoXAddMenuButtonLeft("IdBackButton", "Back", IconCommon.Back(), this._LoadStartView )
     }
 
+    StopEdit(){
+        this.RenderBlogData(false)
+        NanoXApiPostLog("Stop Edit Blog : " + this._BlogData.Titre)
+    }
+
     RenderBlogData(EditMode=false){
         // Clear view
         this._DivApp.innerHTML=""
@@ -135,7 +140,7 @@ class HelperBlog {
         // Add Button stop edit mode
         if (EditMode){
             // Add Stop editing button
-            NanoXAddMenuButtonSettings("IdStopEditBlogButton", "Stop Editing", IconCommon.StopEditBlog(), this.RenderBlogData.bind(this, false))
+            NanoXAddMenuButtonSettings("IdStopEditBlogButton", "Stop Editing", IconCommon.StopEditBlog(), this.StopEdit.bind(this))
             NanoXApiPostLog("Edit Blog : " + this._BlogData.Titre)
             this._HelperPost.CanEdit = true
         } else {

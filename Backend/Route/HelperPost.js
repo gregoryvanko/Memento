@@ -69,6 +69,43 @@ async function AddNewPost(BlogId, res, User){
     })
 }
 
+
+async function ModifyPost(Data, res, User){
+    let readytosave = false
+    // Preparation des data pour la DB
+    let DataToDb = new Object()
+    if (Data.Topic == "Titre"){
+        readytosave = true
+        DataToDb.Titre= Data.Data
+    }
+    if (Data.Topic == "Content"){
+        readytosave = true
+        DataToDb.Content= Data.Data
+    }
+    // update du blog
+    if (readytosave) {
+        ModelPost.findByIdAndUpdate(Data.PostId, DataToDb, (err, reponse) => {
+            if (err) {
+                res.status(500).send(err)
+                LogError(`ModifyPost db eroor: ${err}`, User)
+            } else {
+                if (reponse.matchedCount == 0){
+                    res.status(500).send(`ModifyPost PostId not found : ${Data.PostId}`)
+                    LogError(`ModifyPost PostId not found : ${Data.PostId}`, User)
+                } else {
+                    res.status(200).send(Data.Data)
+                    LogInfo(`Post updated : ${Data.Topic} is changed`,User)
+                }
+            }
+        })
+    }
+    else {
+        res.status(500).send(`ModifyPost Topic not defined : ${Data.Topic}`)
+        LogError(`ModifyPost Topic not defined : ${Data.Topic}`, User)
+    }
+}
+
 module.exports.GetAllPostOfBlog = GetAllPostOfBlog
 module.exports.GetPostData = GetPostData
 module.exports.AddNewPost = AddNewPost
+module.exports.ModifyPost = ModifyPost

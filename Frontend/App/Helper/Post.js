@@ -14,6 +14,9 @@ class HelperPost{
 
         this._WaitingPostText = NanoXBuild.DivText("Loading Posts...", "WaitingPostText", "TextSmall", "margin-bottom: 2rem;")
         this._DivListOfPost = NanoXBuild.DivFlexColumn("DivListOfPost", "", "width: 99%; max-width: 60rem;")
+
+        this._IsPostModified = false
+        this._InitiContent = null
         
     }
     set CanEdit (value){this._CanEdit = value}
@@ -68,12 +71,6 @@ class HelperPost{
 
     ClickOnPostToOpen(PostId, PostTitre){
         this._PostId = PostId
-        this.SetLightview()
-        this.AddBackButton()
-        if (this._CanEdit){
-            // Add Edit post Button
-            NanoXAddMenuButtonSettings("IdEditPostButton", "Edit Post", IconCommon.EditBlog(), this.RenderPostData.bind(this, true))
-        }
         this.GetPostData()
         // Log serveur load Blog
         NanoXApiPostLog("View Post : " + PostTitre)
@@ -97,6 +94,22 @@ class HelperPost{
         NanoXAddMenuButtonLeft("IdBackButton", "Back", IconCommon.Back(), this.ReloadBlogView.bind(this) )
     }
 
+    AddEditButton(){
+        if (this._CanEdit){
+            // Add Edit post Button
+            NanoXAddMenuButtonSettings("IdEditPostButton", "Edit Post", IconCommon.EditBlog(), this.RenderPostData.bind(this, true))
+        }
+    }
+
+    AddStopEditButton(){
+        NanoXAddMenuButtonSettings("IdStopEditPostButton", "Stop Editing", IconCommon.StopEditBlog(), this.StopEdit.bind(this))
+    }
+
+    StopEdit(){
+        this.RenderPostData(false)
+        NanoXApiPostLog("Stop Edit Post : " + this._PostData.Data.Titre)
+    }
+
     ReloadBlogView(){
         this._LoadBlogView(this._BlogId, this._BlogTitre, this._BlogImage, this._BlogPublic)
     }
@@ -104,6 +117,10 @@ class HelperPost{
     GetPostData(){
         // Clear view
         this._DivApp.innerHTML=""
+        // Set Button
+        this.SetLightview()
+        this.AddBackButton()
+        this.AddEditButton()
         // on construit la Div qui va revecoir le waiting text
         let DivWaiting = NanoXBuild.DivFlexColumn("DivWaiting")
         this._DivApp.appendChild(DivWaiting)
@@ -130,11 +147,30 @@ class HelperPost{
     RenderPostData(EditMode = false){
         // Clear view
         this._DivApp.innerHTML=""
+        // Button
+        this.SetLightview()
+        this.AddBackButton()
+        if (EditMode){
+            this.AddStopEditButton()
+            NanoXApiPostLog("Edit Post : " + this._PostData.Data.Titre)
+        } else {
+            this.AddEditButton()
+        }
+        // Content
         let DivPost = NanoXBuild.Div("", "DivPost", "")
-        // Page du post
         this._DivApp.appendChild(DivPost)
         // Ajout du titre
         let TitrePost = NanoXBuild.DivText(this._PostData.Data.Titre, "Titre","DivTitreBlogPost", "white-space: normal;")
+        if(EditMode){
+            TitrePost.setAttribute("contenteditable", "True")
+            TitrePost.setAttribute("data-type", "TitrePost")
+            TitrePost.addEventListener("click", this.SelectElement.bind(this))
+            TitrePost.addEventListener("keydown", this.Keydown.bind(this))
+            TitrePost.addEventListener("mouseover", this.Mouseover.bind(this))
+            TitrePost.addEventListener("mouseout", this.Mouseout.bind(this))
+            TitrePost.addEventListener("paste", this.Paste.bind(this))
+            TitrePost.addEventListener("focusout", this.ElementFocusOut.bind(this))
+        }
         DivPost.appendChild(TitrePost)
         this._PostData.Data.Content.forEach(element => {
             switch (element.Type) {
@@ -180,7 +216,7 @@ class HelperPost{
         Img.setAttribute("data-type", "PostImg")
         Img.setAttribute("data-imgid", Id)
         if(EditMode){
-            // Img.classList.add("ImgPostEditable")
+            Img.classList.add("ImgPostEditable")
             // Img.addEventListener("click", this.SelectElement.bind(this))
             // Img.addEventListener("mouseover", this.Mouseover.bind(this))
             // Img.addEventListener("mouseout", this.Mouseout.bind(this))
@@ -191,10 +227,10 @@ class HelperPost{
     BuildVideoLinkContent(Value, EditMode = false){
         let Content = null
         if(EditMode){
-            // Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
-            // Content.setAttribute("contenteditable", "True")
-            // Content.setAttribute("data-Content", "Content")
-            // Content.setAttribute("data-type", "PostVideoLink")
+            Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", "PostVideoLink")
             // Content.addEventListener("click", this.SelectElement.bind(this))
             // Content.addEventListener("keydown", this.Keydown.bind(this))
             // Content.addEventListener("mouseover", this.Mouseover.bind(this))
@@ -228,10 +264,10 @@ class HelperPost{
     BuildMapLinkContent(Value, EditMode = false){
         let Content = null
         if(EditMode){
-            // Content = CoreXBuild.DivTexte(Value,"","PostMapLink")
-            // Content.setAttribute("contenteditable", "True")
-            // Content.setAttribute("data-Content", "Content")
-            // Content.setAttribute("data-type", "PostMapLink")
+            Content = CoreXBuild.DivTexte(Value,"","PostMapLink")
+            Content.setAttribute("contenteditable", "True")
+            Content.setAttribute("data-Content", "Content")
+            Content.setAttribute("data-type", "PostMapLink")
             // Content.addEventListener("click", this.SelectElement.bind(this))
             // Content.addEventListener("keydown", this.Keydown.bind(this))
             // Content.addEventListener("mouseover", this.Mouseover.bind(this))
@@ -272,6 +308,7 @@ class HelperPost{
             Content.addEventListener("mouseover", this.Mouseover.bind(this))
             Content.addEventListener("mouseout", this.Mouseout.bind(this))
             Content.addEventListener("paste", this.Paste.bind(this))
+            Content.addEventListener("focusout", this.ElementFocusOut.bind(this))
         }
         return Content
     }
@@ -287,5 +324,170 @@ class HelperPost{
         },(erreur)=>{
             this._DivApp.innerHTML=erreur
         })
+    }
+
+    /** Selection du titre du blog */
+    SelectElement(event) {
+        let element = event.target
+        this._InitiContent = element.innerHTML
+        element.style.borderColor= "red"
+        this._IsPostModified = true
+        if((element.dataset.type == "TitrePost") && (element.innerText == "New Post")){
+            document.execCommand('selectAll',false,null)
+        }
+        if((element.dataset.type == "PostTitre1") && (element.innerText == "New Titre")){
+            document.execCommand('selectAll',false,null)
+        }
+        if((element.dataset.type == "PostText") && (element.innerText == "New Text")){
+            document.execCommand('selectAll',false,null)
+        }
+        if((element.dataset.type == "PostCode") && (element.innerText == "New Code")){
+            document.execCommand('selectAll',false,null)
+        }
+        if((element.dataset.type == "PostVideoLink") && (element.innerText == "name.mp4")){
+            document.execCommand('selectAll',false,null)
+        }
+        if((element.dataset.type == "PostMapLink") && (element.innerText == "src link")){
+            document.execCommand('selectAll',false,null)
+        }
+    }
+
+    /** Keydown */
+    Keydown(event){
+        let element = event.target
+        if (event.keyCode == 13){
+            if (event.shiftKey){
+                event.preventDefault()
+                element.blur()
+                return false
+            } else {
+                event.preventDefault()
+                if((element.dataset.type == "PostText") || (element.dataset.type == "PostCode")){
+                    var selection = window.getSelection(),
+                    range = selection.getRangeAt(0),
+                    br = document.createElement("br"),
+                    textNode = document.createTextNode("\u00a0");
+                    range.deleteContents();//required or not?
+                    range.insertNode(br);
+                    range.collapse(false);
+                    range.insertNode(textNode);
+                    range.selectNodeContents(textNode);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                } else {
+                    element.blur()
+                    return false
+                }
+            }
+        }
+    }
+
+    /** Mouseover */
+    Mouseover(event){
+        if (! this._IsPostModified){
+            let element = event.target
+            element.style.borderColor= "var(--NanoX-appcolor)"
+        }
+    }
+
+    /** Mouseout */
+    Mouseout(event){
+        if (! this._IsPostModified){
+            let element = event.target
+            element.style.borderColor= "transparent"
+        }
+    }
+
+    /** Focus out of element */
+    ElementFocusOut(event){
+        let element = event.target
+        element.style.borderColor= "transparent"
+        let Txt = element.innerHTML
+        if(Txt.endsWith("<br>")){
+            Txt = Txt.substring(0, Txt.length - 4);
+            element.innerHTML = Txt
+        }
+        if(Txt != this._InitiContent){
+            if (element.dataset.type == "TitrePost"){
+                if (Txt == "") {element.innerText = "New Post"}
+                this.UpdateTitre(element.innerText)
+            }
+            if (element.dataset.type == "PostTitre1"){
+                if (Txt == "") {element.innerText = "New Titre"}
+                this.UpdateContent()
+            }
+            if (element.dataset.type == "PostText"){
+                if (Txt == "") {element.innerText = "New Text"}
+                this.UpdateContent()
+            }
+            if (element.dataset.type == "PostCode"){
+                if (Txt == "") {element.innerText = "New Code"}
+                this.UpdateContent()
+            }
+            if (element.dataset.type == "PostVideoLink"){
+                if (Txt == "") {element.innerText = "name.mp4"}
+                this.UpdateContent()
+            }
+            if (element.dataset.type == "PostMapLink"){
+                if (Txt == "") {element.innerText = "src link"}
+                this.UpdateContent()
+            }
+        }
+        window.getSelection().removeAllRanges()
+        this._IsPostModified = false
+    }
+
+    /** Event on paste */
+    Paste(event){
+        event.preventDefault()
+        var text = (event.originalEvent || event).clipboardData.getData('text/plain')
+        text = text.replaceAll("<br>", "\n")
+        //text = text.replace(/\s+/g," ")
+        //text = text.replace("\n ","")
+        text = text.trim()
+        //document.execCommand("insertHTML", false, text);
+        document.execCommand("insertText", false, text);
+    }
+
+    UpdateTitre(NewTitre){
+        let Data = {PostId:this._PostData.Data._id, PostTitre:this._PostData.Data.Titre, Topic:"Titre", Data:NewTitre}
+        // On appel l'API
+        NanoXApiPost("/post/UpdatePost/", Data).then((reponse)=>{
+            this._PostData.Data.Titre = NewTitre
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
+    }
+
+    UpdateContent(){
+        let Data = {PostId:this._PostData.Data._id, PostTitre:this._PostData.Data.Titre, Topic:"Content", Data:this.GetPostContent()}
+        //On appel l'API
+        NanoXApiPost("/post/UpdatePost/", Data).then((reponse)=>{
+            this._PostData.Data.Content = Data.Data
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
+    }
+
+    /** Get Post Content */
+    GetPostContent(){
+        var ElementsContent = document.querySelectorAll("*[data-Content='Content']")
+        let PostListOfContents=[]
+        ElementsContent.forEach(element => {
+            let PostContent = new Object()
+            switch (element.dataset.type) {
+                case "PostImg":
+                    PostContent.Type = element.dataset.type
+                    PostContent.Value = element.dataset.imgid
+                    PostListOfContents.push(PostContent)
+                    break;
+                default:
+                    PostContent.Type = element.dataset.type
+                    PostContent.Value = element.innerText
+                    PostListOfContents.push(PostContent)
+                    break;
+            }
+        })
+        return PostListOfContents
     }
 }

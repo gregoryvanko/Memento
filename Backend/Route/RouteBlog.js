@@ -44,7 +44,7 @@ router.delete("/:BlogId", AuthBasic, (req, res) => {
 })
 
 /**
- * Modify Post Data
+ * Modify Blog Data
  */
 router.post("/UpdateBlog", AuthBasic, (req, res) => {
     ModifyBlog(req.body, res, req.user)

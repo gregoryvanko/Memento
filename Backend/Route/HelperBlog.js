@@ -120,7 +120,6 @@ async function ModifyBlog(Data, res, User){
     }
     // update du blog
     if (readytosave) {
-        let me = this
         ModelBlog.findByIdAndUpdate(Data.BlogId, DataToDb, (err, reponse) => {
             if (err) {
                 res.status(500).send(err)

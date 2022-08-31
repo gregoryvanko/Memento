@@ -4,6 +4,7 @@ const AuthBasic = require("@gregvanko/nanox").NanoXAuthBasic
 const GetAllPostOfBlog = require("./HelperPost").GetAllPostOfBlog
 const GetPostData = require("./HelperPost").GetPostData
 const AddNewPost = require("./HelperPost").AddNewPost
+const ModifyPost = require("./HelperPost").ModifyPost
 
 router.get("/allpostofBlog/:BlogId", AuthBasic, (req, res) => {
     GetAllPostOfBlog(req.params.BlogId, res, req.user)
@@ -15,6 +16,11 @@ router.get("/AddNewpost/:BlogId", AuthBasic, (req, res) => {
 
 router.get("/:PostId", AuthBasic, (req, res) => {
     GetPostData(req.params.PostId, res, req.user)
+})
+
+
+ router.post("/UpdatePost", AuthBasic, (req, res) => {
+    ModifyPost(req.body, res, req.user)
 })
 
 module.exports = router
