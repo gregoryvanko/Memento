@@ -153,6 +153,7 @@ class HelperPost{
         if (EditMode){
             this.AddStopEditButton()
             NanoXApiPostLog("Edit Post : " + this._PostData.Data.Titre)
+            // ToDo add palette
         } else {
             this.AddEditButton()
         }
