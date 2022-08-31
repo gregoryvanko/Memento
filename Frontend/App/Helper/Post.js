@@ -1,15 +1,14 @@
 class HelperPost{
-    constructor(BlogId = null, BlogTitre=null, BlogImage=null, BlogPublic=null, LoadBlogView = null){
+    constructor(BlogId = null, BlogTitre=null, BlogImage=null, BlogPublic=null, LoadBlogView = null, CanEdit = false){
         this._BlogId = BlogId
         this._BlogTitre = BlogTitre
         this._BlogImage = BlogImage
         this._BlogPublic = BlogPublic
         this._LoadBlogView = LoadBlogView
+        this._CanEdit = CanEdit
 
         this._PostId = null
-        this._PostData = new Object()
-        this._PostData.Data = null
-        this._PostData.Picture = new Array()
+        this._PostData = {Data: null, Picture:[]}
 
         this._DivApp = NanoXGetDivApp()
 
@@ -17,6 +16,7 @@ class HelperPost{
         this._DivListOfPost = NanoXBuild.DivFlexColumn("DivListOfPost", "", "width: 99%; max-width: 60rem;")
         
     }
+    set CanEdit (value){this._CanEdit = value}
 
 
     SetListOfPostContener(ParentDiv){
@@ -70,6 +70,10 @@ class HelperPost{
         this._PostId = PostId
         this.SetLightview()
         this.AddBackButton()
+        if (this._CanEdit){
+            // Add Edit post Button
+            NanoXAddMenuButtonSettings("IdEditPostButton", "Edit Post", IconCommon.EditBlog(), this.RenderPostData.bind(this, true))
+        }
         this.GetPostData()
         // Log serveur load Blog
         NanoXApiPostLog("View Post : " + PostTitre)
@@ -113,7 +117,7 @@ class HelperPost{
             let me = this
             setTimeout(function() {
                 me.RenderPostData()
-            }, 100)
+            }, 200)
         },(erreur)=>{
             this._DivApp.innerHTML=erreur
         })
@@ -176,10 +180,10 @@ class HelperPost{
         Img.setAttribute("data-type", "PostImg")
         Img.setAttribute("data-imgid", Id)
         if(EditMode){
-            Img.classList.add("ImgPostEditable")
-            Img.addEventListener("click", this.SelectElement.bind(this))
-            Img.addEventListener("mouseover", this.Mouseover.bind(this))
-            Img.addEventListener("mouseout", this.Mouseout.bind(this))
+            // Img.classList.add("ImgPostEditable")
+            // Img.addEventListener("click", this.SelectElement.bind(this))
+            // Img.addEventListener("mouseover", this.Mouseover.bind(this))
+            // Img.addEventListener("mouseout", this.Mouseout.bind(this))
         }
         return Img
     }
@@ -187,15 +191,15 @@ class HelperPost{
     BuildVideoLinkContent(Value, EditMode = false){
         let Content = null
         if(EditMode){
-            Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
-            Content.setAttribute("contenteditable", "True")
-            Content.setAttribute("data-Content", "Content")
-            Content.setAttribute("data-type", "PostVideoLink")
-            Content.addEventListener("click", this.SelectElement.bind(this))
-            Content.addEventListener("keydown", this.Keydown.bind(this))
-            Content.addEventListener("mouseover", this.Mouseover.bind(this))
-            Content.addEventListener("mouseout", this.Mouseout.bind(this))
-            Content.addEventListener("paste", this.Paste.bind(this))
+            // Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
+            // Content.setAttribute("contenteditable", "True")
+            // Content.setAttribute("data-Content", "Content")
+            // Content.setAttribute("data-type", "PostVideoLink")
+            // Content.addEventListener("click", this.SelectElement.bind(this))
+            // Content.addEventListener("keydown", this.Keydown.bind(this))
+            // Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            // Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            // Content.addEventListener("paste", this.Paste.bind(this))
         } else {
             // pour eviter que la video se lance automatiquement sur safari, il faut un timout de 500ms
             // en attenant on affiche un box de hauteur = 16:9 de la largeur disponible
@@ -224,15 +228,15 @@ class HelperPost{
     BuildMapLinkContent(Value, EditMode = false){
         let Content = null
         if(EditMode){
-            Content = CoreXBuild.DivTexte(Value,"","PostMapLink")
-            Content.setAttribute("contenteditable", "True")
-            Content.setAttribute("data-Content", "Content")
-            Content.setAttribute("data-type", "PostMapLink")
-            Content.addEventListener("click", this.SelectElement.bind(this))
-            Content.addEventListener("keydown", this.Keydown.bind(this))
-            Content.addEventListener("mouseover", this.Mouseover.bind(this))
-            Content.addEventListener("mouseout", this.Mouseout.bind(this))
-            Content.addEventListener("paste", this.Paste.bind(this))
+            // Content = CoreXBuild.DivTexte(Value,"","PostMapLink")
+            // Content.setAttribute("contenteditable", "True")
+            // Content.setAttribute("data-Content", "Content")
+            // Content.setAttribute("data-type", "PostMapLink")
+            // Content.addEventListener("click", this.SelectElement.bind(this))
+            // Content.addEventListener("keydown", this.Keydown.bind(this))
+            // Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            // Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            // Content.addEventListener("paste", this.Paste.bind(this))
         } else {
             Content = NanoXBuild.DivFlexColumn("")
             let div = document.createElement("div")

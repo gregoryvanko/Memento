@@ -13,6 +13,7 @@ class HelperBlog {
 
         this._InitiContent =""
         this._IsBlogModified = false
+        this._HelperPost  = null
     }
 
     Initiation(){
@@ -23,6 +24,7 @@ class HelperBlog {
         this._BlogData = {_id:null, Titre:null, Image:null, Public:true, CanEdit:false, ListOfPost:[] }
         this._InitiContent =""
         this._IsBlogModified = false
+        this._HelperPost  = null
     }
 
     SetBlogContener(ParentDiv){
@@ -135,6 +137,7 @@ class HelperBlog {
             // Add Stop editing button
             NanoXAddMenuButtonSettings("IdStopEditBlogButton", "Stop Editing", IconCommon.StopEditBlog(), this.RenderBlogData.bind(this, false))
             NanoXApiPostLog("Edit Blog : " + this._BlogData.Titre)
+            this._HelperPost.CanEdit = true
         } else {
             // Get blog edit permission
             NanoXApiGet("/blog/alloweditblog/" + this._BlogData._id).then((reponse)=>{
@@ -143,6 +146,10 @@ class HelperBlog {
                     NanoXAddMenuButtonSettings("IdAddPostButton", "Add Post", IconCommon.AddBlog(), this.ClickOnAddPost.bind(this))
                     // Add Edit Blog Button
                     NanoXAddMenuButtonSettings("IdEditBlogButton", "Edit Blog", IconCommon.EditBlog(), this.RenderBlogData.bind(this, true))
+                    // Sst hleper post
+                    this._HelperPost.CanEdit = true
+                } else {
+                    this._HelperPost.CanEdit = false
                 }
             },(erreur)=>{
                 this._DivApp.innerHTML=erreur
@@ -206,7 +213,6 @@ class HelperBlog {
         NanoXApiGet("/blog/AddNewBlog/").then((reponse)=>{
             this.SetLightview()
             this.AddBackButton()
-            this._HelperPost = new HelperPost(reponse._id, reponse.Titre, reponse.Image, reponse.Public, this.ClickOnBlog.bind(this))
             this._BlogData = reponse
             this.RenderBlogData(true)
         },(erreur)=>{

@@ -7,7 +7,7 @@ class UploadImage{
     }
     Start(){
         const ListOfPopupButton =[
-            {Titre: "Close", Action: this.ClosePopup.bind(this, null, null), Id: null},
+            {Titre: "Close", Action: this.ClosePopup.bind(this, null, this._ImageHTMLId), Id: null},
             {Titre: "Select image", Action: this.OpenFileSelector.bind(this), Id: null}
     ]
 
@@ -54,7 +54,7 @@ class UploadImage{
                 // Timeout de 100 milisec entre la fin de la progressbar et le close window
                 setTimeout(function() {
                     me.ClosePopup(me._Data.Data, me._ImageHTMLId)
-                }, 100)
+                }, 200)
             },(erreur)=>{
                 document.getElementById('WindowTxt').style.display = "none"
                 document.getElementById('ProgressRingLoadImg').style.display = "none"

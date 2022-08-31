@@ -3,7 +3,7 @@ const LogInfo = require("@gregvanko/nanox").NanoXLogInfo
 const ModelPost = require("../MongooseModel/Model_Post")
 const ModelPostPicture = require("../MongooseModel/Model_PostPicture")
 
-async function GetAllPostOfBlog (Parametres, res, user = null){
+async function GetAllPostOfBlog (Parametres, res, User = null){
     let Reponse = []
 
     const query = {BlogId : Parametres}
@@ -12,7 +12,7 @@ async function GetAllPostOfBlog (Parametres, res, user = null){
     ModelPost.find(query, projection, (err, result) => {
         if (err) {
             res.status(500).send(err)
-            LogError(`GetAllPostOfBlog db eroor: ${err}`, user)
+            LogError(`GetAllPostOfBlog db eroor: ${err}`, User)
         } else {
             if (result.length != 0){
                 Reponse = result
@@ -22,14 +22,14 @@ async function GetAllPostOfBlog (Parametres, res, user = null){
     }).sort({CreationDate: -1})
 }
 
-async function GetPostData (Parametres, res, user = null){
+async function GetPostData (Parametres, res, User = null){
     const query = {_id : Parametres}
     const projection = {} 
 
     ModelPost.find(query, projection, (err, result) => {
         if (err) {
             res.status(500).send(err)
-            LogError(`GetPostData db eroor: ${err}`, user)
+            LogError(`GetPostData db eroor: ${err}`, User)
         } else {
             if(result.length == 0){
                 res.status(500).send("No Post data for this Post Id")
@@ -43,7 +43,7 @@ async function GetPostData (Parametres, res, user = null){
                 ModelPostPicture.find(QuerryPicture, ProjectionPicture, (err, resultpicture) => {
                     if (err) {
                         res.status(500).send(err)
-                        LogError(`GetPostData db eroor: ${err}`, user)
+                        LogError(`GetPostData db eroor: ${err}`, User)
                     } else {
                         ReponseData.Picture = resultpicture
                         res.status(200).send(ReponseData)
@@ -62,7 +62,6 @@ async function AddNewPost(BlogId, res, User){
             LogError(`AddNewPost db eroor: ${err}`, User)
         } else {
             NewPost._id = result.id
-            NewPost.CanEdit = true
             let ReponseData = {Data: NewPost, Picture : null}
             res.json(ReponseData)
             LogInfo("New Post created",User)
