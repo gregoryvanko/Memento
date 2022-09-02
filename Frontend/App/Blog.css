@@ -7,7 +7,8 @@
     border-radius: 15px;
     margin: 1rem;
     padding: 0.5rem;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
 }
 .CarteBlog:hover{
     border-color: var(--NanoX-appcolor);
@@ -60,6 +61,7 @@
     box-sizing: border-box;
     border-radius: 15px;
     margin: 0.1rem;
+    cursor: pointer;
 }
 .BoxElementPost:hover{
     background-color: #F8F8F8;
@@ -152,6 +154,43 @@
     margin:1rem;
     height: 30rem;
 }
+
+.EditMenuBar{
+    position: fixed;
+    border: 1px solid var(--NanoX-appcolor);
+    border-radius: 15px;
+    padding: 0.2rem;
+}
+
+.EditMenuBarNormal{
+    right: 0.5rem;
+    top: 50vh;
+    transform: translateY(-50%);
+}
+
+.EditMenuBarMobile{
+    bottom: 1rem;
+}
+
+.ButtonEditMenuBar{
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0.2rem;
+    background-color: white;
+    margin: 0.2rem;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    outline: none;
+}
+@media(hover: hover){
+    .ButtonEditMenuBar:hover{
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
+    }
+}
+
 
 
 @media print{
