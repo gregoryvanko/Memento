@@ -543,7 +543,6 @@ class HelperPost{
     BuidlButtonEditMenuBar(title = null, svg = null, OnClick = null, id=null ){
         let element = document.createElement("button")
         element.setAttribute("Class", "ButtonEditMenuBar")
-        element.setAttribute("data-EditMenuButton", "EditMenuButton")
         element.title= title
         element.innerHTML = svg
         element.onclick = OnClick
