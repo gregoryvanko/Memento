@@ -17,6 +17,12 @@ class HelperPost{
 
         this._IsPostModified = false
         this._InitiContent = null
+
+        this._IdButtonDeleElement = "IdButtonDeleElement"
+        this._PreviousElementSelected = null
+
+        this._DiVPostContent = null
+        this._DefTitre1 = "New Titre"
         
     }
     set CanEdit (value){this._CanEdit = value}
@@ -168,8 +174,10 @@ class HelperPost{
             this.AddEditButton()
         }
         // Content
-        let DivPost = NanoXBuild.Div("", "DivPost", "")
-        this._DivApp.appendChild(DivPost)
+        let DiVPost = NanoXBuild.Div("", "DivPost", "")
+        this._DivApp.appendChild(DiVPost)
+        this._DiVPostContent = NanoXBuild.Div()
+        DiVPost.appendChild(this._DiVPostContent )
         // Ajout du titre
         let TitrePost = NanoXBuild.DivText(this._PostData.Data.Titre, "Titre","DivTitreBlogPost", "white-space: normal;")
         if(EditMode){
@@ -182,30 +190,30 @@ class HelperPost{
             TitrePost.addEventListener("paste", this.Paste.bind(this))
             TitrePost.addEventListener("focusout", this.ElementFocusOut.bind(this))
         }
-        DivPost.appendChild(TitrePost)
+        this._DiVPostContent.appendChild(TitrePost)
         this._PostData.Data.Content.forEach(element => {
             switch (element.Type) {
                 case "PostImg":
                     this._PostData.Picture.forEach(picture => {
                         if (picture._id == element.Value) {
-                            DivPost.appendChild(this.BuildImgContent(element.Value,picture.Image, EditMode))
+                            this._DiVPostContent.appendChild(this.BuildImgContent(element.Value,picture.Image, EditMode))
                         }
                     })
                     break
                 case "PostVideoLink":
-                    DivPost.appendChild(this.BuildVideoLinkContent(element.Value,EditMode))
+                    this._DiVPostContent.appendChild(this.BuildVideoLinkContent(element.Value,EditMode))
                     break
                 case "PostMapLink":
-                    DivPost.appendChild(this.BuildMapLinkContent(element.Value, EditMode))
+                    this._DiVPostContent.appendChild(this.BuildMapLinkContent(element.Value, EditMode))
                     break
                 default:
-                    DivPost.appendChild(this.BuildTextContent(element.Type, element.Value, EditMode))
+                    this._DiVPostContent.appendChild(this.BuildTextContent(element.Type, element.Value, EditMode))
                     break
             }
         })
         // Ajout de la date de creation du blog
         let TxtDate = NanoXBuild.DivText("Creation date: " + NanoXBuild.GetDateString(this._PostData.Data.CreationDate),"", "TextSmall TextBoxSub","text-align: right; padding:1rem;")
-        DivPost.appendChild(TxtDate)
+        DiVPost.appendChild(TxtDate)
         // on ajoute un espace vide en fin de page
         let EmptySpace = NanoXBuild.Div("","","height:5rem;")
         EmptySpace.classList.add("NoPrint")
@@ -343,10 +351,11 @@ class HelperPost{
         this._InitiContent = element.innerHTML
         element.style.borderColor= "red"
         this._IsPostModified = true
+        this._PreviousElementSelected = element
         if((element.dataset.type == "TitrePost") && (element.innerText == "New Post")){
             document.execCommand('selectAll',false,null)
         }
-        if((element.dataset.type == "PostTitre1") && (element.innerText == "New Titre")){
+        if((element.dataset.type == "PostTitre1") && (element.innerText == this._DefTitre1)){
             document.execCommand('selectAll',false,null)
         }
         if((element.dataset.type == "PostText") && (element.innerText == "New Text")){
@@ -360,6 +369,15 @@ class HelperPost{
         }
         if((element.dataset.type == "PostMapLink") && (element.innerText == "src link")){
             document.execCommand('selectAll',false,null)
+        }
+
+        // Si l'element n'est pas le titre on affiche le boutton delete element
+        if(document.getElementById(this._IdButtonDeleElement)){
+            if (element.dataset.type == "TitrePost"){
+                document.getElementById(this._IdButtonDeleElement).style.display = "none"
+            } else {
+                document.getElementById(this._IdButtonDeleElement).style.display = "block"
+            }
         }
     }
 
@@ -410,7 +428,7 @@ class HelperPost{
     }
 
     /** Focus out of element */
-    ElementFocusOut(event){
+    ElementFocusOut(event){ // ToDo function not used
         let element = event.target
         element.style.borderColor= "transparent"
         let Txt = element.innerHTML
@@ -424,7 +442,7 @@ class HelperPost{
                 this.UpdateTitre(element.innerText)
             }
             if (element.dataset.type == "PostTitre1"){
-                if (Txt == "") {element.innerText = "New Titre"}
+                if (Txt == "") {element.innerText = this._DefTitre1}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostText"){
@@ -446,6 +464,10 @@ class HelperPost{
         }
         window.getSelection().removeAllRanges()
         this._IsPostModified = false
+        let NextElement = event.relatedTarget
+        if (NextElement == null){
+            this._PreviousElementSelected = null
+        }
     }
 
     /** Event on paste */
@@ -511,21 +533,26 @@ class HelperPost{
         Content.appendChild(this.BuidlButtonEditMenuBar("Picture", IconPost.Picture(), this.OnClickAddPicture.bind(this)))
         Content.appendChild(this.BuidlButtonEditMenuBar("Video", IconPost.Video(), this.OnClickAddVideoLink.bind(this)))
         Content.appendChild(this.BuidlButtonEditMenuBar("Map", IconPost.Map(), this.OnClickAddMapLink.bind(this)))
-        Content.appendChild(this.BuidlButtonEditMenuBar("Delete", IconPost.DeletePost(), this.OnClickDelete.bind(this)))
+        Content.appendChild(this.BuidlButtonEditMenuBar("Delete", IconPost.DeletePost(), this.OnClickDelete.bind(this), this._IdButtonDeleElement))
+        // on cache le boutton delete
+        if(document.getElementById(this._IdButtonDeleElement)){
+            document.getElementById(this._IdButtonDeleElement).style.display = "none"
+        }
     }
 
-    BuidlButtonEditMenuBar(title = null, svg = null, OnClick = null ){
+    BuidlButtonEditMenuBar(title = null, svg = null, OnClick = null, id=null ){
         let element = document.createElement("button")
         element.setAttribute("Class", "ButtonEditMenuBar")
+        element.setAttribute("data-EditMenuButton", "EditMenuButton")
         element.title= title
         element.innerHTML = svg
         element.onclick = OnClick
+        if (id != null){element.id = id}
         return element
     }
 
     OnClickAddTritre1(){
-        // ToDo
-        console.log("Titre1")
+        this.AddContent("PostTitre1", this._DefTitre1)
     }
     OnClickAddText(){
         // ToDo
@@ -550,6 +577,23 @@ class HelperPost{
     OnClickDelete(){
         // ToDo
         console.log("Delete")
+    }
+
+    AddContent(Type, Value){
+        let NewElement = this.BuildTextContent(Type, Value, true)
+        if(this._PreviousElementSelected != null){
+            let PreviousElement = null
+            if(this._PreviousElementSelected.dataset.type == "PostImg"){
+                PreviousElement = this._PreviousElementSelected.parentNode
+            } else {
+                PreviousElement = this._PreviousElementSelected
+            }
+            PreviousElement.parentNode.insertBefore(NewElement, PreviousElement.nextSibling)
+        } else {
+            this._DiVPostContent.appendChild(NewElement)
+        }
+        NewElement.focus()
+        NewElement.click()
     }
 
     MobileCheck = function() {
