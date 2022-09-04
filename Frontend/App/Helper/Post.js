@@ -240,9 +240,9 @@ class HelperPost{
         Img.setAttribute("data-imgid", Id)
         if(EditMode){
             Img.classList.add("ImgPostEditable")
-            // Img.addEventListener("click", this.SelectElement.bind(this))
-            // Img.addEventListener("mouseover", this.Mouseover.bind(this))
-            // Img.addEventListener("mouseout", this.Mouseout.bind(this))
+            Img.addEventListener("click", this.SelectElement.bind(this))
+            Img.addEventListener("mouseover", this.Mouseover.bind(this))
+            Img.addEventListener("mouseout", this.Mouseout.bind(this))
         }
         return Img
     }
@@ -354,6 +354,7 @@ class HelperPost{
     /** Selection du titre du blog */
     SelectElement(event) {
         let element = event.target
+        // ToDo add code for image
         this._InitiContent = element.innerHTML
         element.style.borderColor= "red"
         this._IsPostModified = true
@@ -434,7 +435,7 @@ class HelperPost{
     }
 
     /** Focus out of element */
-    ElementFocusOut(event){ // ToDo function not used
+    ElementFocusOut(event){
         let element = event.target
         element.style.borderColor= "transparent"
         let Txt = element.innerHTML
@@ -571,8 +572,7 @@ class HelperPost{
         this.AddContent("PostCode", this._DefCode)
     }
     OnClickAddPicture(){
-        // ToDo
-        console.log("Picture")
+        this.AddContent("PostImg", null)
     }
     OnClickAddVideoLink(){
         this.AddContent("PostVideoLink", this._DefVideo)
@@ -585,6 +585,7 @@ class HelperPost{
             if (confirm(`Do you want to Delete this Element ${this._PreviousElementSelected.dataset.type} ?`)){
                 let PreviousElement = null
                 if(this._PreviousElementSelected.dataset.type == "PostImg"){
+                    // ToDo
                     // PreviousElement = this._PreviousElementSelected.parentNode
                     // let ImgId = this._PreviousElementSelected.dataset.imgid
                     // let Data = new Object()
@@ -625,6 +626,10 @@ class HelperPost{
     AddContent(Type, Value){
         let NewElement = null
         switch (Type) {
+            case "PostImg":
+                // ToDo
+                //NewElement = this.BuildVideoLinkContent(Value, true)
+                break
             case "PostVideoLink":
                 NewElement = this.BuildVideoLinkContent(Value, true)
                 break
@@ -635,7 +640,6 @@ class HelperPost{
                 NewElement = this.BuildTextContent(Type, Value, true)
                 break
         }
-        NewElement = this.BuildTextContent(Type, Value, true)
         if(this._PreviousElementSelected != null){
             let PreviousElement = null
             if(this._PreviousElementSelected.dataset.type == "PostImg"){
