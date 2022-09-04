@@ -144,16 +144,60 @@
     filter: drop-shadow(0 0 10px #333);
 }
 
+/* Post VideoLink */
+.PostVideoLink{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding:1rem;
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    width: 95%;
+    padding-bottom: calc(0.5625 * 95%);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #F5F5F5;
+}
+.PostVideoLink:focus{
+    outline: 0px solid transparent;
+    border-color: var(--NanoX-appcolor);
+}
+
 .Video{
     width:90%;
     margin:1rem;
 }
 
+/* Post MapLink */
+.PostMapLink{
+    -webkit-user-select: text;
+    user-select: text;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding:1rem;
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    width: 95%;
+    height: 30rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #F5F5F5;
+}
+.PostMapLink:focus{
+    outline: 0px solid transparent;
+    border-color: var(--NanoX-appcolor);
+}
+
 .Iframe{
-    width:90%;
+    width:95%;
     margin:1rem;
     height: 30rem;
 }
+
+
 
 .EditMenuBar{
     position: fixed;

@@ -23,6 +23,10 @@ class HelperPost{
 
         this._DiVPostContent = null
         this._DefTitre1 = "New Titre"
+        this._DefText = "New Text"
+        this._DefCode = "New Code"
+        this._DefVideo = "name.mp4"
+        this._DefMap = "src link"
         
     }
     set CanEdit (value){this._CanEdit = value}
@@ -246,15 +250,16 @@ class HelperPost{
     BuildVideoLinkContent(Value, EditMode = false){
         let Content = null
         if(EditMode){
-            Content = CoreXBuild.DivTexte(Value,"","PostVideoLink")
+            Content = NanoXBuild.DivText(Value,"","Text PostVideoLink")
             Content.setAttribute("contenteditable", "True")
             Content.setAttribute("data-Content", "Content")
             Content.setAttribute("data-type", "PostVideoLink")
-            // Content.addEventListener("click", this.SelectElement.bind(this))
-            // Content.addEventListener("keydown", this.Keydown.bind(this))
-            // Content.addEventListener("mouseover", this.Mouseover.bind(this))
-            // Content.addEventListener("mouseout", this.Mouseout.bind(this))
-            // Content.addEventListener("paste", this.Paste.bind(this))
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+            Content.addEventListener("focusout", this.ElementFocusOut.bind(this))
         } else {
             // pour eviter que la video se lance automatiquement sur safari, il faut un timout de 500ms
             // en attenant on affiche un box de hauteur = 16:9 de la largeur disponible
@@ -283,15 +288,16 @@ class HelperPost{
     BuildMapLinkContent(Value, EditMode = false){
         let Content = null
         if(EditMode){
-            Content = CoreXBuild.DivTexte(Value,"","PostMapLink")
+            Content = NanoXBuild.DivText(Value,"","Text PostMapLink")
             Content.setAttribute("contenteditable", "True")
             Content.setAttribute("data-Content", "Content")
             Content.setAttribute("data-type", "PostMapLink")
-            // Content.addEventListener("click", this.SelectElement.bind(this))
-            // Content.addEventListener("keydown", this.Keydown.bind(this))
-            // Content.addEventListener("mouseover", this.Mouseover.bind(this))
-            // Content.addEventListener("mouseout", this.Mouseout.bind(this))
-            // Content.addEventListener("paste", this.Paste.bind(this))
+            Content.addEventListener("click", this.SelectElement.bind(this))
+            Content.addEventListener("keydown", this.Keydown.bind(this))
+            Content.addEventListener("mouseover", this.Mouseover.bind(this))
+            Content.addEventListener("mouseout", this.Mouseout.bind(this))
+            Content.addEventListener("paste", this.Paste.bind(this))
+            Content.addEventListener("focusout", this.ElementFocusOut.bind(this))
         } else {
             Content = NanoXBuild.DivFlexColumn("")
             let div = document.createElement("div")
@@ -358,16 +364,16 @@ class HelperPost{
         if((element.dataset.type == "PostTitre1") && (element.innerText == this._DefTitre1)){
             document.execCommand('selectAll',false,null)
         }
-        if((element.dataset.type == "PostText") && (element.innerText == "New Text")){
+        if((element.dataset.type == "PostText") && (element.innerText == this._DefText)){
             document.execCommand('selectAll',false,null)
         }
-        if((element.dataset.type == "PostCode") && (element.innerText == "New Code")){
+        if((element.dataset.type == "PostCode") && (element.innerText == this._DefCode)){
             document.execCommand('selectAll',false,null)
         }
-        if((element.dataset.type == "PostVideoLink") && (element.innerText == "name.mp4")){
+        if((element.dataset.type == "PostVideoLink") && (element.innerText == this._DefVideo)){
             document.execCommand('selectAll',false,null)
         }
-        if((element.dataset.type == "PostMapLink") && (element.innerText == "src link")){
+        if((element.dataset.type == "PostMapLink") && (element.innerText == this._DefMap)){
             document.execCommand('selectAll',false,null)
         }
 
@@ -446,27 +452,32 @@ class HelperPost{
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostText"){
-                if (Txt == "") {element.innerText = "New Text"}
+                if (Txt == "") {element.innerText = this._DefText}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostCode"){
-                if (Txt == "") {element.innerText = "New Code"}
+                if (Txt == "") {element.innerText = this._DefCode}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostVideoLink"){
-                if (Txt == "") {element.innerText = "name.mp4"}
+                if (Txt == "") {element.innerText = this._DefVideo}
                 this.UpdateContent()
             }
             if (element.dataset.type == "PostMapLink"){
-                if (Txt == "") {element.innerText = "src link"}
+                if (Txt == "") {element.innerText = this._DefMap}
                 this.UpdateContent()
             }
         }
         window.getSelection().removeAllRanges()
         this._IsPostModified = false
+        // Si l'élément suivant n'est pas un element à modifier,on annule le previous element
         let NextElement = event.relatedTarget
         if (NextElement == null){
             this._PreviousElementSelected = null
+            // on cache le boutton delete
+            if(document.getElementById(this._IdButtonDeleElement)){
+                document.getElementById(this._IdButtonDeleElement).style.display = "none"
+            }
         }
     }
 
@@ -554,32 +565,77 @@ class HelperPost{
         this.AddContent("PostTitre1", this._DefTitre1)
     }
     OnClickAddText(){
-        // ToDo
-        console.log("Text")
+        this.AddContent("PostText", this._DefText)
     }
     OnClickAddCode(){
-        // ToDo
-        console.log("Code")
+        this.AddContent("PostCode", this._DefCode)
     }
     OnClickAddPicture(){
         // ToDo
         console.log("Picture")
     }
     OnClickAddVideoLink(){
-        // ToDo
-        console.log("Video")
+        this.AddContent("PostVideoLink", this._DefVideo)
     }
     OnClickAddMapLink(){
-        // ToDo
-        console.log("Map")
+        this.AddContent("PostMapLink", this._DefMap)
     }
     OnClickDelete(){
-        // ToDo
-        console.log("Delete")
+        if(this._PreviousElementSelected != null){
+            if (confirm(`Do you want to Delete this Element ${this._PreviousElementSelected.dataset.type} ?`)){
+                let PreviousElement = null
+                if(this._PreviousElementSelected.dataset.type == "PostImg"){
+                    // PreviousElement = this._PreviousElementSelected.parentNode
+                    // let ImgId = this._PreviousElementSelected.dataset.imgid
+                    // let Data = new Object()
+                    // Data.ImgId = ImgId
+                    // Data.PostTitre = this._PostData.Data.Titre
+                    // GlobalCallApiPromise("DeletePostPicture", Data, "", "").then((reponse)=>{
+                    //     var index = null
+                    //     this._PostData.Picture.forEach(picture => {
+                    //         if (picture._id == ImgId) {
+                    //             index = this._PostData.Picture.indexOf(picture)}
+                    //     })
+                    //     if (index > -1) {
+                    //         this._PostData.Picture.splice(index, 1);
+                    //     }
+                    //     this._DiVPostContent.removeChild(PreviousElement)
+                    //     this._PreviousElementSelected = null
+                    //     this.UpdateContent()
+                    // },(erreur)=>{
+                    //     alert(erreur)
+                    // })
+                } else {
+                    PreviousElement = this._PreviousElementSelected
+                    this._DiVPostContent.removeChild(PreviousElement)
+                    this._PreviousElementSelected = null
+                    this.UpdateContent()
+                    // on cache le boutton delete
+                    if(document.getElementById(this._IdButtonDeleElement)){
+                        document.getElementById(this._IdButtonDeleElement).style.display = "none"
+                    }
+                }
+            }
+        } else {
+            alert("Select element!")
+        }
+        
     }
 
     AddContent(Type, Value){
-        let NewElement = this.BuildTextContent(Type, Value, true)
+        let NewElement = null
+        switch (Type) {
+            case "PostVideoLink":
+                NewElement = this.BuildVideoLinkContent(Value, true)
+                break
+            case "PostMapLink":
+                NewElement = this.BuildMapLinkContent(Value, true)
+                break
+            default:
+                NewElement = this.BuildTextContent(Type, Value, true)
+                break
+        }
+        NewElement = this.BuildTextContent(Type, Value, true)
         if(this._PreviousElementSelected != null){
             let PreviousElement = null
             if(this._PreviousElementSelected.dataset.type == "PostImg"){
