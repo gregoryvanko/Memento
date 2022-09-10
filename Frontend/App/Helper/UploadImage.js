@@ -53,7 +53,7 @@ class UploadImage{
             NanoXApiPost(this._Api, this._Data,null, this.UploadProg.bind(this)).then((reponse)=>{
                 // Timeout de 100 milisec entre la fin de la progressbar et le close window
                 setTimeout(function() {
-                    me.ClosePopup(me._Data.Data, me._ImageHTMLId)
+                    me.ClosePopup(me._Data.Data, me._ImageHTMLId, reponse)
                 }, 200)
             },(erreur)=>{
                 document.getElementById('WindowTxt').style.display = "none"
@@ -172,8 +172,8 @@ class UploadImage{
         reader.readAsArrayBuffer(file.slice(0, 64 * 1024))
     }
 
-    ClosePopup(Img, Id){
+    ClosePopup(Img, Id, ImgDBId = null){
         NanoXBuild.PopupDelete()
-        this._Callback(Img, Id)
+        this._Callback(Img, Id, ImgDBId)
     }
 }

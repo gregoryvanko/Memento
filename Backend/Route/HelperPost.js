@@ -105,7 +105,20 @@ async function ModifyPost(Data, res, User){
     }
 }
 
+async function ImageFactory(Data, res, User){
+    if (Data.ImageID == null){
+        // on ajoute une image
+        LogInfo(`Post updated : new image added`,User)
+    } else {
+        // on uodate une image
+        LogInfo(`Post updated : Image updated`,User)
+    }
+
+    res.status(200).send("Idofimageindb")
+}
+
 module.exports.GetAllPostOfBlog = GetAllPostOfBlog
 module.exports.GetPostData = GetPostData
 module.exports.AddNewPost = AddNewPost
 module.exports.ModifyPost = ModifyPost
+module.exports.ImageFactory = ImageFactory

@@ -129,7 +129,11 @@ async function ModifyBlog(Data, res, User){
                     res.status(500).send(`ModifyBlog BlogId not found : ${Data.BlogId}`)
                     LogError(`ModifyBlog BlogId not found : ${Data.BlogId}`, User)
                 } else {
-                    res.status(200).send(Data.Data)
+                    if(Data.Topic == "Image"){
+                        res.status(200).send("OK")
+                    } else {
+                        res.status(200).send(Data.Data)
+                    }
                     LogInfo(`Blog updated : ${Data.Topic} is changed`,User)
                 }
             }
