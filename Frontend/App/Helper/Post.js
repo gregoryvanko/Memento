@@ -244,10 +244,11 @@ class HelperPost{
         Img.setAttribute("data-type", "PostImg")
         Img.setAttribute("data-imgid", Id)
         if(EditMode){
-            Img.classList.add("ImgPostEditable")
+            Img.setAttribute("contenteditable", "True")
             Img.addEventListener("click", this.SelectElement.bind(this))
             Img.addEventListener("mouseover", this.Mouseover.bind(this))
             Img.addEventListener("mouseout", this.Mouseout.bind(this))
+            Img.addEventListener("focusout", this.ImageFocusOut.bind(this))
         }
         return Img
     }
@@ -359,28 +360,44 @@ class HelperPost{
     /** Selection du titre du blog */
     SelectElement(event) {
         let element = event.target
-        // ToDo add code for image
-        this._InitiContent = element.innerHTML
         element.style.borderColor= "red"
         this._IsPostModified = true
-        this._PreviousElementSelected = element
-        if((element.dataset.type == "TitrePost") && (element.innerText == "New Post")){
-            document.execCommand('selectAll',false,null)
+
+        // On efface le contour de l'element précident si il existe
+        if ((this._PreviousElementSelected) && (this._PreviousElementSelected != element)){
+            this._PreviousElementSelected.style.borderColor= "transparent"
         }
-        if((element.dataset.type == "PostTitre1") && (element.innerText == this._DefTitre1)){
-            document.execCommand('selectAll',false,null)
-        }
-        if((element.dataset.type == "PostText") && (element.innerText == this._DefText)){
-            document.execCommand('selectAll',false,null)
-        }
-        if((element.dataset.type == "PostCode") && (element.innerText == this._DefCode)){
-            document.execCommand('selectAll',false,null)
-        }
-        if((element.dataset.type == "PostVideoLink") && (element.innerText == this._DefVideo)){
-            document.execCommand('selectAll',false,null)
-        }
-        if((element.dataset.type == "PostMapLink") && (element.innerText == this._DefMap)){
-            document.execCommand('selectAll',false,null)
+
+        if (element.dataset.type == "PostImg"){
+            if (this._PreviousElementSelected == element){
+                const ImgId = element.dataset.imgid
+                let Data = {BlogId: this._BlogId, PostId: this._PostData.Data._id, ImageID: ImgId, DeleteImg: false}
+                let uploadimage = new UploadImage(element, "/Post/Image/", Data, this.CallBackModifyImage.bind(this))
+                uploadimage.Start()
+            } else {
+                this._PreviousElementSelected = element
+            }
+        } else {
+            this._PreviousElementSelected = element
+            this._InitiContent = element.innerHTML
+            if((element.dataset.type == "TitrePost") && (element.innerText == "New Post")){
+                document.execCommand('selectAll',false,null)
+            }
+            if((element.dataset.type == "PostTitre1") && (element.innerText == this._DefTitre1)){
+                document.execCommand('selectAll',false,null)
+            }
+            if((element.dataset.type == "PostText") && (element.innerText == this._DefText)){
+                document.execCommand('selectAll',false,null)
+            }
+            if((element.dataset.type == "PostCode") && (element.innerText == this._DefCode)){
+                document.execCommand('selectAll',false,null)
+            }
+            if((element.dataset.type == "PostVideoLink") && (element.innerText == this._DefVideo)){
+                document.execCommand('selectAll',false,null)
+            }
+            if((element.dataset.type == "PostMapLink") && (element.innerText == this._DefMap)){
+                document.execCommand('selectAll',false,null)
+            }
         }
 
         // Si l'element n'est pas le titre on affiche le boutton delete element
@@ -390,6 +407,23 @@ class HelperPost{
             } else {
                 document.getElementById(this._IdButtonDeleElement).style.display = "block"
             }
+        }
+
+        
+    }
+
+    CallBackModifyImage(Img, ContentImage, Id){
+        this._PostData.Picture.forEach(picture => {
+            if (picture._id == Id) {
+                picture.Image = Img
+            }
+        })
+        ContentImage.src = Img
+        this._IsPostModified = false
+        this._PreviousElementSelected = null
+        // on cache le boutton delete
+        if(document.getElementById(this._IdButtonDeleElement)){
+            document.getElementById(this._IdButtonDeleElement).style.display = "none"
         }
     }
 
@@ -475,6 +509,21 @@ class HelperPost{
             }
         }
         window.getSelection().removeAllRanges()
+        this._IsPostModified = false
+        // Si l'élément suivant n'est pas un element à modifier,on annule le previous element
+        let NextElement = event.relatedTarget
+        if (NextElement == null){
+            this._PreviousElementSelected = null
+            // on cache le boutton delete
+            if(document.getElementById(this._IdButtonDeleElement)){
+                document.getElementById(this._IdButtonDeleElement).style.display = "none"
+            }
+        }
+    }
+
+    ImageFocusOut(event){
+        let element = event.target
+        element.style.borderColor= "transparent"
         this._IsPostModified = false
         // Si l'élément suivant n'est pas un element à modifier,on annule le previous element
         let NextElement = event.relatedTarget
@@ -590,36 +639,31 @@ class HelperPost{
             if (confirm(`Do you want to Delete this Element ${this._PreviousElementSelected.dataset.type} ?`)){
                 let PreviousElement = null
                 if(this._PreviousElementSelected.dataset.type == "PostImg"){
-                    // ToDo
-                    // PreviousElement = this._PreviousElementSelected.parentNode
-                    // let ImgId = this._PreviousElementSelected.dataset.imgid
-                    // let Data = new Object()
-                    // Data.ImgId = ImgId
-                    // Data.PostTitre = this._PostData.Data.Titre
-                    // GlobalCallApiPromise("DeletePostPicture", Data, "", "").then((reponse)=>{
-                    //     var index = null
-                    //     this._PostData.Picture.forEach(picture => {
-                    //         if (picture._id == ImgId) {
-                    //             index = this._PostData.Picture.indexOf(picture)}
-                    //     })
-                    //     if (index > -1) {
-                    //         this._PostData.Picture.splice(index, 1);
-                    //     }
-                    //     this._DiVPostContent.removeChild(PreviousElement)
-                    //     this._PreviousElementSelected = null
-                    //     this.UpdateContent()
-                    // },(erreur)=>{
-                    //     alert(erreur)
-                    // })
+                    PreviousElement = this._PreviousElementSelected.parentNode
+                    const ImgId = this._PreviousElementSelected.dataset.imgid
+                    let Data = {BlogId: this._BlogId, PostId: this._PostData.Data._id, ImageID: ImgId, DeleteImg: true}
+                    NanoXApiPost("/Post/Image/", Data).then((reponse)=>{
+                        var index = null
+                        this._PostData.Picture.forEach(picture => {
+                            if (picture._id == ImgId) {
+                                index = this._PostData.Picture.indexOf(picture)}
+                        })
+                        if (index > -1) {
+                            this._PostData.Picture.splice(index, 1);
+                        }
+                        this._IsPostModified = false
+                    },(erreur)=>{
+                        this._DivApp.innerHTML=erreur
+                    })
                 } else {
                     PreviousElement = this._PreviousElementSelected
-                    this._DiVPostContent.removeChild(PreviousElement)
-                    this._PreviousElementSelected = null
-                    this.UpdateContent()
-                    // on cache le boutton delete
-                    if(document.getElementById(this._IdButtonDeleElement)){
-                        document.getElementById(this._IdButtonDeleElement).style.display = "none"
-                    }
+                }
+                this._DiVPostContent.removeChild(PreviousElement)
+                this._PreviousElementSelected = null
+                this.UpdateContent()
+                // on cache le boutton delete
+                if(document.getElementById(this._IdButtonDeleElement)){
+                    document.getElementById(this._IdButtonDeleElement).style.display = "none"
                 }
             }
         } else {
@@ -661,7 +705,7 @@ class HelperPost{
 
     AddImage(){
         let Content = this.BuildImgContentFlex()
-        let Data = {PostId: this._PostData.Data._id, ImageID: null}
+        let Data = {BlogId: this._BlogId, PostId: this._PostData.Data._id, ImageID: null, DeleteImg: false}
         let uploadimage = new UploadImage(Content, "/Post/Image/", Data, this.CallBackAddImage.bind(this))
         uploadimage.Start()
         return Content
@@ -669,7 +713,17 @@ class HelperPost{
 
     CallBackAddImage(Img, ContentImage, Id){
         if (Img != null){
-            ContentImage.appendChild(this.BuildImg(Id, Img, true))
+            let NewElement = this.BuildImg(Id, Img, true)
+            ContentImage.appendChild(NewElement)
+            NewElement.focus()
+            NewElement.click()
+            // ajout de l'image temporaire dans la liste
+            let picture = {_id: Id, BlogId: this._BlogId, PostId: this._PostData.Data._id,Image:Img}
+            if (this._PostData.Picture == null){
+                this._PostData.Picture = [picture]
+            } else {
+                this._PostData.Picture.push(picture)
+            }
         }
         this.UpdateContent()
     }

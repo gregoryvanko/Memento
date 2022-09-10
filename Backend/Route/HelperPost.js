@@ -108,13 +108,48 @@ async function ModifyPost(Data, res, User){
 async function ImageFactory(Data, res, User){
     if (Data.ImageID == null){
         // on ajoute une image
-        LogInfo(`Post updated : new image added`,User)
+        let ModelPicture = new ModelPostPicture({BlogId:Data.BlogId, PostId:Data.PostId, Image:Data.Data})
+        ModelPicture.save((err, result) => {
+            if (err) {
+                res.status(500).send(err)
+                LogError(`ImageFactory db eroor: ${err}`, User)
+            } else {
+                res.status(200).send(result.id)
+                LogInfo(`Post updated : new image added`,User)
+            }
+        })
     } else {
-        // on uodate une image
-        LogInfo(`Post updated : Image updated`,User)
+        if (Data.DeleteImg){
+            // on delete une image
+            ModelPostPicture.findByIdAndDelete(Data.ImageID, (err1, result)=>{
+                if (err1) {
+                    res.status(500).send(err1)
+                    LogError(`ImageFactory delete image :Blog db eroor: ${err1}`, User)
+                } else {
+                    res.status(200).send("OK")
+                    LogInfo(`Post updated : Image deleted`,User)
+                }
+            })
+            
+        } else {
+            let DataToDb = new Object()
+            DataToDb.Image = Data.Data
+            ModelPostPicture.findByIdAndUpdate(Data.ImageID, DataToDb, (err, reponse) => {
+                if (err) {
+                    res.status(500).send(err)
+                    LogError(`ImageFactory update image db eroor: ${err}`, User)
+                } else {
+                    if (reponse.matchedCount == 0){
+                        res.status(500).send(`ImageFactory update image id not found : ${Data.ImageID}`)
+                        LogError(`ImageFactory update image id not found : ${Data.ImageID}`, User)
+                    } else {
+                        res.status(200).send(Data.ImageID)
+                        LogInfo(`Post updated : Image updated`,User)
+                    }
+                }
+            })            
+        }
     }
-
-    res.status(200).send("Idofimageindb")
 }
 
 module.exports.GetAllPostOfBlog = GetAllPostOfBlog

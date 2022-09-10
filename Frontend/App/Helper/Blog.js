@@ -68,7 +68,7 @@ class HelperBlog {
             CarteBlog.addEventListener("click", this.ClickOnBlog.bind(this, Data._id, Data.Titre, Data.Image, Data.Public))
             this._ListBlogConteneur.appendChild(CarteBlog)
             // Content de la carte du blog
-            let BlogContent = NanoXBuild.DivFlexRowStart("")
+            let BlogContent = NanoXBuild.DivFlexRowStart("", "", "flex-wrap: nowrap")
             CarteBlog.appendChild(BlogContent)
             // Image du blog
             let DivImg = NanoXBuild.Div("", "", "")
@@ -78,7 +78,7 @@ class HelperBlog {
             let ImgBlog = NanoXBuild.Image64(Data.Image,"","CarteBlogImg")
             DivImgFlex.appendChild(ImgBlog)
             // Titre du blog
-            let Titre = NanoXBuild.DivText(Data.Titre,"","Text", "margin-left: 1rem;")
+            let Titre = NanoXBuild.DivText(Data.Titre,"","Text", "margin-left: 0.5rem; overflow-wrap: break-word; max-width: 60%;")
             BlogContent.appendChild(Titre)
 
         } else {
