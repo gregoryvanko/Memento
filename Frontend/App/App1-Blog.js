@@ -20,7 +20,7 @@ class MementoBlog {
         this.HelperBlog.Initiation()
 
         // Titre de l'application
-        this._DivApp.appendChild(NanoXBuild.DivText("All Blogs", "Titre", "Titre", "margin-top:3rem;"))
+        //this._DivApp.appendChild(NanoXBuild.DivText("All Blogs", "Titre", "Titre", "margin-top:3rem;"))
 
         // Contener for blogs
         this.HelperBlog.SetBlogContener(this._DivApp)

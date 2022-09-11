@@ -8,7 +8,7 @@ class HelperBlog {
         this._IsAnyBlogLoaded = false
         this._BlogData = {_id:null, Titre:null, Image:null, Public:true, CanEdit:false, ListOfPost:[] }
 
-        this._ListBlogConteneur = NanoXBuild.DivFlexColumn("BlogConteneur", null, "width: 100%;")
+        this._ListBlogConteneur = NanoXBuild.DivFlexColumn("BlogConteneur", null, "width: 100%; margin-top: 3rem;")
         this._WaitingBlogText = NanoXBuild.DivText("Loading blogs...", "waitingblog", "TextSmall", "margin-bottom: 2rem;")
 
         this._InitiContent =""

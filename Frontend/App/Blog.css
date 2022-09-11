@@ -46,11 +46,10 @@
 /* Image du blog */
 .ImgBlog{
     border: 2px solid transparent;
-    border-radius: 10px;
+    border-radius: 30px;
     max-height: 30rem;
     padding: 1rem;
     max-width: 100%;
-    filter: drop-shadow(0 0 10px #333);
 }
 /* Box d'un post dans la liste des post du blog */
 .BoxElementPost{
@@ -126,13 +125,11 @@
 /* Image du post */
 .ImgPost{
     border: 2px solid transparent;
-    border-radius: 5px;
+    border-radius: 30px;
     max-height: 35rem;
     padding: 0.5rem;
     margin: 0.5rem;
     max-width: 100%;
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-    filter: drop-shadow(0 0 10px #333);
 }
 .ImgPost:focus{
     outline: 0px solid transparent;
@@ -143,7 +140,7 @@
     -webkit-user-select: text;
     user-select: text;
     border: 2px solid transparent;
-    border-radius: 5px;
+    border-radius: 10px;
     padding:1rem;
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     width: 95%;
@@ -168,7 +165,7 @@
     -webkit-user-select: text;
     user-select: text;
     border: 2px solid transparent;
-    border-radius: 5px;
+    border-radius: 10px;
     padding:1rem;
     font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
     width: 95%;
@@ -189,8 +186,6 @@
     height: 30rem;
 }
 
-
-
 .EditMenuBar{
     position: fixed;
     border: 1px solid var(--NanoX-appcolor);
@@ -206,7 +201,7 @@
 }
 
 .EditMenuBarMobile{
-    bottom: 1rem;
+    top: 0.5rem;
 }
 
 .ButtonEditMenuBar{
