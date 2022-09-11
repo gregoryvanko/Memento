@@ -201,7 +201,7 @@
 }
 
 .EditMenuBarMobile{
-    top: 0.5rem;
+    top: calc(0.5rem + env(safe-area-inset-top, 0px));
 }
 
 .ButtonEditMenuBar{
