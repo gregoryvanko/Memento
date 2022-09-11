@@ -196,6 +196,7 @@
     border: 1px solid var(--NanoX-appcolor);
     border-radius: 15px;
     padding: 0.2rem;
+    background-color: white;
 }
 
 .EditMenuBarNormal{

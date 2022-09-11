@@ -597,6 +597,7 @@ class HelperPost{
     AddEditMenuBar(){
         let Content = (this.MobileCheck()) ? NanoXBuild.DivFlexRowSpaceAround("EditMenuBar", "EditMenuBar EditMenuBarMobile") : NanoXBuild.DivFlexColumn("EditMenuBar", "EditMenuBar EditMenuBarNormal")
         this._DivApp.appendChild(Content)
+        Content.setAttribute("tabindex", "0")
         Content.appendChild(this.BuidlButtonEditMenuBar("Titre1", IconPost.Titre1(), this.OnClickAddTritre1.bind(this)))
         Content.appendChild(this.BuidlButtonEditMenuBar("Text", IconPost.Text(), this.OnClickAddText.bind(this)))
         Content.appendChild(this.BuidlButtonEditMenuBar("Code", IconPost.Code(), this.OnClickAddCode.bind(this)))
@@ -665,6 +666,12 @@ class HelperPost{
                 this._DiVPostContent.removeChild(PreviousElement)
                 this._PreviousElementSelected = null
                 this.UpdateContent()
+                // on cache le boutton delete
+                if(document.getElementById(this._IdButtonDeleElement)){
+                    document.getElementById(this._IdButtonDeleElement).style.display = "none"
+                }
+            } else {
+                this._PreviousElementSelected = null
                 // on cache le boutton delete
                 if(document.getElementById(this._IdButtonDeleElement)){
                     document.getElementById(this._IdButtonDeleElement).style.display = "none"
