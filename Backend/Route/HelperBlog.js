@@ -84,13 +84,13 @@ async function DeleteBlog(BlogId, res, User){
             ModelPost.deleteMany({BlogId: BlogId}, (err2, result)=> {
                 if (err2) {
                     res.status(500).send(err2)
-                    LogError(`DeleteBlog:Post db eroor: ${err}`, User)
+                    LogError(`DeleteBlog:Post db eroor: ${err2}`, User)
                 } else {
                     // Delete des picture
                     ModelPostPicture.deleteMany({BlogId: BlogId}, (err3, result)=>{
                         if (err3) {
                             res.status(500).send(err3)
-                            LogError(`DeleteBlog:Picture db eroor: ${err}`, User)
+                            LogError(`DeleteBlog:Picture db eroor: ${err3}`, User)
                         } else {
                             res.status(200).send("ok")
                             LogInfo("Blog deleted",User)

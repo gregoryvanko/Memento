@@ -69,7 +69,6 @@ async function AddNewPost(BlogId, res, User){
     })
 }
 
-
 async function ModifyPost(Data, res, User){
     let readytosave = false
     // Preparation des data pour la DB
@@ -152,8 +151,30 @@ async function ImageFactory(Data, res, User){
     }
 }
 
+async function DeletePost(PostID, res, User = null){
+    // Delete des post
+    ModelPost.findByIdAndDelete(PostID, (err1, result)=> {
+        if (err1) {
+            res.status(500).send(err1)
+            LogError(`DeletePost:Post db eroor: ${err1}`, User)
+        } else {
+            // Delete des picture
+            ModelPostPicture.deleteMany({PostId: PostID}, (err2, result)=>{
+                if (err2) {
+                    res.status(500).send(err2)
+                    LogError(`DeletePost:Picture db eroor: ${err2}`, User)
+                } else {
+                    res.status(200).send("ok")
+                    LogInfo("Post deleted",User)
+                }
+            })
+        }
+    })
+}
+
 module.exports.GetAllPostOfBlog = GetAllPostOfBlog
 module.exports.GetPostData = GetPostData
 module.exports.AddNewPost = AddNewPost
 module.exports.ModifyPost = ModifyPost
 module.exports.ImageFactory = ImageFactory
+module.exports.DeletePost = DeletePost

@@ -125,8 +125,13 @@ class HelperPost{
     }
 
     DeletePost(){
-        // ToDo
-        console.log("Delete post")
+        if (confirm(`Do you want to Delete the post: ${this._PostData.Data.Titre}?`)){
+            NanoXApiDelete("/post/" + this._PostData.Data._id).then((reponse)=>{
+                this.ReloadBlogView()
+            },(erreur)=>{
+                this._DivApp.innerHTML=erreur
+            })
+        }
     }
 
     ReloadBlogView(){
@@ -347,7 +352,6 @@ class HelperPost{
     AddPost(){
         // Get new blog data
         NanoXApiGet("/post/AddNewpost/" + this._BlogId).then((reponse)=>{
-            debugger
             this.SetLightview()
             this.AddBackButton()
             this._PostData = reponse
