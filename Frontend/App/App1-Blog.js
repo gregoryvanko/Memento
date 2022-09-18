@@ -19,9 +19,6 @@ class MementoBlog {
         // Initiation HelperBlog
         this.HelperBlog.Initiation()
 
-        // Titre de l'application
-        //this._DivApp.appendChild(NanoXBuild.DivText("All Blogs", "Titre", "Titre", "margin-top:3rem;"))
-
         // Contener for blogs
         this.HelperBlog.SetBlogContener(this._DivApp)
 
@@ -50,4 +47,4 @@ class MementoBlog {
 // Creation de l'application
 let MyMementoBlog = new MementoBlog()
 // Ajout de l'application
-NanoXAddModule("Blog", null, MyMementoBlog.Initiation.bind(MyMementoBlog), true)
+NanoXAddModule("My Blog", IconCommon.BlogIcon(), MyMementoBlog.Initiation.bind(MyMementoBlog), true)

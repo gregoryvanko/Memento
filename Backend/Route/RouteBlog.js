@@ -1,5 +1,6 @@
 const router = require("@gregvanko/nanox").Express.Router()
 const AuthBasic = require("@gregvanko/nanox").NanoXAuthBasic
+const AuthAdmin = require("@gregvanko/nanox").NanoXAuthAdmin
 
 const GetBlogInfo = require("./HelperBlog").GetBlogInfo
 const IsUserAllowToAddBlog = require("./HelperBlog").IsUserAllowToAddBlog
@@ -7,6 +8,7 @@ const IsUserAllowToEditBlog = require("./HelperBlog").IsUserAllowToEditBlog
 const AddNewBlog = require("./HelperBlog").AddNewBlog
 const DeleteBlog = require("./HelperBlog").DeleteBlog
 const ModifyBlog = require("./HelperBlog").ModifyBlog
+const GetAdminBlogInfo = require("./HelperBlog").GetAdminBlogInfo
 
 /**
  * Get Blog information by
@@ -48,6 +50,13 @@ router.delete("/:BlogId", AuthBasic, (req, res) => {
  */
 router.post("/UpdateBlog", AuthBasic, (req, res) => {
     ModifyBlog(req.body, res, req.user)
+})
+
+/**
+ * Get Admon Blog information
+ */
+ router.get("/Adminbloginfo", AuthAdmin, (req, res) => {
+    GetAdminBlogInfo(res, req.user)
 })
 
 module.exports = router

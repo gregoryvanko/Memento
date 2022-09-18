@@ -148,9 +148,29 @@ async function ModifyBlog(Data, res, User){
     
 }
 
+async function GetAdminBlogInfo(res, User){
+    let Reponse = []
+
+    const query = {}
+    const projection = {Titre:1, Public:1, UserId:1} 
+
+    ModelBlog.find(query, projection, (err, result) => {
+        if (err) {
+            res.status(500).send(err)
+            LogError(`GetAdminBlogInfo db eroor: ${err}`, User)
+        } else {
+            if (result.length != 0){
+                Reponse = result
+            }
+            res.status(200).send(Reponse)
+        }
+    }).sort({CreationDate: 1})
+}
+
 module.exports.GetBlogInfo = GetBlogInfo
 module.exports.IsUserAllowToAddBlog = IsUserAllowToAddBlog
 module.exports.IsUserAllowToEditBlog = IsUserAllowToEditBlog
 module.exports.AddNewBlog = AddNewBlog
 module.exports.DeleteBlog = DeleteBlog
 module.exports.ModifyBlog = ModifyBlog
+module.exports.GetAdminBlogInfo = GetAdminBlogInfo

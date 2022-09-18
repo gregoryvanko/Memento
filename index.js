@@ -28,7 +28,7 @@ async function Start({Port = 9000, Name = "Memento", Debug = false, SplashScreen
             ColorIconMenuBar: "black",
             HeightMenuBar: "3rem",
             AppFolderClient: __dirname + "/Frontend/App",
-            //AppFolderAdmin: __dirname + "/Frontend/Admin",
+            AppFolderAdmin: __dirname + "/Frontend/AppAdmin",
             UseAppModule: true
         }
     }
