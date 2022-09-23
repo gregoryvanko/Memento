@@ -20,7 +20,7 @@ async function GetBlogInfo (BlogNumber, res, User = null){
             }
             res.status(200).send(Reponse)
         }
-    }).limit(1).skip(BlogNumber).sort({CreationDate: 1})
+    }).limit(1).skip(BlogNumber).sort({CreationDate: -1})
 }
 
 async function IsUserAllowToAddBlog(res, User){
@@ -66,7 +66,7 @@ async function AddNewBlog(res, User){
             res.status(500).send(err)
             LogError(`AddNewBlog db eroor: ${err}`, User)
         } else {
-            NewBlog._id = result.id
+            NewBlogData._id = result.id
             NewBlogData.CanEdit = true
             res.json(NewBlogData)
             LogInfo("New Blog created",User)
@@ -121,7 +121,7 @@ async function ModifyBlog(Data, res, User){
     // update du blog
     if (readytosave) {
         ModelBlog.findByIdAndUpdate(Data.BlogId, DataToDb, (err, reponse) => {
-            if (err) {
+                if (err) {
                 res.status(500).send(err)
                 LogError(`ModifyBlog db eroor: ${err}`, User)
             } else {
