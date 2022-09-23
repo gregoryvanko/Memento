@@ -320,7 +320,7 @@ class HelperPost{
             iframe.setAttribute("width", "100%")
             iframe.setAttribute("height", "100%")
             iframe.setAttribute("frameborder", "0")
-            iframe.setAttribute("style", "border:0;")
+            iframe.setAttribute("style", "border:0; border-radius: 30px;")
             
             div.appendChild(iframe)
             Content.appendChild(div)
