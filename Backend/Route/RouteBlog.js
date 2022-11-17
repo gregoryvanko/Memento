@@ -1,6 +1,7 @@
 const router = require("@gregvanko/nanox").Express.Router()
 const AuthBasic = require("@gregvanko/nanox").NanoXAuthBasic
 const AuthAdmin = require("@gregvanko/nanox").NanoXAuthAdmin
+const LogStatApi = require("@gregvanko/nanox").NanoXLogStatApi
 
 const GetBlogInfo = require("./HelperBlog").GetBlogInfo
 const IsUserAllowToAddBlog = require("./HelperBlog").IsUserAllowToAddBlog
@@ -15,6 +16,7 @@ const GetAdminBlogInfo = require("./HelperBlog").GetAdminBlogInfo
  */
 router.get("/bloginfo/:BlogNumber", AuthBasic, (req, res) => {
     GetBlogInfo(req.params.BlogNumber, res, req.user)
+    LogStatApi("blog/bloginfo", "get", req.user)
 })
 
 /**
@@ -22,6 +24,7 @@ router.get("/bloginfo/:BlogNumber", AuthBasic, (req, res) => {
  */
 router.get("/allowaddblog", AuthBasic, (req, res) => {
     IsUserAllowToAddBlog(res, req.user)
+    LogStatApi("blog/allowaddblog", "get", req.user)
 })
 
 /**
@@ -29,6 +32,7 @@ router.get("/allowaddblog", AuthBasic, (req, res) => {
  */
  router.get("/alloweditblog/:BlogId", AuthBasic, (req, res) => {
     IsUserAllowToEditBlog(req.params.BlogId, res, req.user)
+    LogStatApi("blog/alloweditblog", "get", req.user)
 })
 
 /**
@@ -36,6 +40,7 @@ router.get("/allowaddblog", AuthBasic, (req, res) => {
  */
  router.get("/AddNewBlog", AuthBasic, (req, res) => {
     AddNewBlog(res, req.user)
+    LogStatApi("blog/addnewblog", "get", req.user)
 })
 
 /**
@@ -43,6 +48,7 @@ router.get("/allowaddblog", AuthBasic, (req, res) => {
  */
 router.delete("/:BlogId", AuthBasic, (req, res) => {
     DeleteBlog(req.params.BlogId, res, req.user)
+    LogStatApi("blog", "delete", req.user)
 })
 
 /**
@@ -50,6 +56,7 @@ router.delete("/:BlogId", AuthBasic, (req, res) => {
  */
 router.post("/UpdateBlog", AuthBasic, (req, res) => {
     ModifyBlog(req.body, res, req.user)
+    LogStatApi("blog/updateblog", "post", req.user)
 })
 
 /**
@@ -57,6 +64,7 @@ router.post("/UpdateBlog", AuthBasic, (req, res) => {
  */
  router.get("/Adminbloginfo", AuthAdmin, (req, res) => {
     GetAdminBlogInfo(res, req.user)
+    LogStatApi("blog/adminbloginfo", "get", req.user)
 })
 
 module.exports = router

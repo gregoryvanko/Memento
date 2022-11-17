@@ -74,4 +74,4 @@ class AdminAllBlog {
 // Creation de l'application
 let MyAdminAllBlog = new AdminAllBlog()
 // Ajout de l'application
-NanoXAddModule("All Blog", IconCommon.AdminAllBlogIcon(), MyAdminAllBlog.Initiation.bind(MyAdminAllBlog), false)
+NanoXAddModule("All Blog", IconCommon.AdminAllBlogIcon(), MyAdminAllBlog.Initiation.bind(MyAdminAllBlog), false, true)
