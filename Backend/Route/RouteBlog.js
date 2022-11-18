@@ -16,7 +16,9 @@ const GetAdminBlogInfo = require("./HelperBlog").GetAdminBlogInfo
  */
 router.get("/bloginfo/:BlogNumber", AuthBasic, (req, res) => {
     GetBlogInfo(req.params.BlogNumber, res, req.user)
-    LogStatApi("blog/bloginfo", "get", req.user)
+    if(req.params.BlogNumber == 0){
+        LogStatApi("blog/bloginfo", "get", req.user)
+    }
 })
 
 /**
