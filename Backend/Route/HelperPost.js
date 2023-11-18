@@ -1,6 +1,7 @@
 const LogError = require("@gregvanko/nanox").NanoXLogError
 const LogInfo = require("@gregvanko/nanox").NanoXLogInfo
 const ModelPost = require("../MongooseModel/Model_Post")
+const ModelBlog = require("../MongooseModel/Model_Blog")
 const ModelPostPicture = require("../MongooseModel/Model_PostPicture")
 
 async function GetAllPostOfBlog (Parametres, res, User = null){
@@ -172,9 +173,61 @@ async function DeletePost(PostID, res, User = null){
     })
 }
 
+async function GetBlockOfPostInfo(BlockNumberOfPostToLoad, res, User = null){
+    let Reponse = []
+    let ListeOfBlog = []
+
+    const NumberOfItem = 3
+    const cursor = NumberOfItem * BlockNumberOfPostToLoad
+
+    const query = {$or:[{Public: true} , {UserId:  User._id.toString()}]}
+    const projection = {_id:1, Titre:1} 
+
+    // Chercher la liste des blog auquel a acces le user
+    ModelBlog.find(query, projection, (err, result) => {
+        if (err) {
+            res.status(500).send(err)
+            LogError(`GetBlockOfPostInfo Blogsearche db eroor: ${err}`, User)
+        } else {
+            if (result.length != 0){
+                ListeOfBlog = result
+                let ListeOfIdBlog = []
+                ListeOfBlog.forEach(elementBlog => {
+                    ListeOfIdBlog.push(elementBlog._id)
+                });
+
+                const queryPost = {'BlogId': { $in : ListeOfIdBlog}}
+                const projectionPost = {_id:1, Titre:1, BlogId:1} 
+
+                ModelPost.find(queryPost, projectionPost, (err, resultPost) => {
+                    if (err) {
+                        res.status(500).send(err)
+                        LogError(`GetBlockOfPostInfo Postsearch db eroor: ${err}`, User)
+                    } else {
+                        if (resultPost.length != 0){
+                            resultPost.forEach(elementPost => {
+                                let PostData = new Object()
+                                PostData._id = elementPost._id
+                                PostData.Titre = elementPost.Titre
+                                const blog = ListeOfBlog.find((element) => element._id == elementPost.BlogId)
+                                PostData.BlogTitre = blog.Titre
+                                Reponse.push(PostData)
+                            });
+                        }
+                        res.status(200).send(Reponse)
+                    }
+                }).limit(NumberOfItem).skip(cursor).sort({CreationDate: -1})
+            } else {
+                res.status(200).send(Reponse)
+            } 
+        }
+    })
+}
+
 module.exports.GetAllPostOfBlog = GetAllPostOfBlog
 module.exports.GetPostData = GetPostData
 module.exports.AddNewPost = AddNewPost
 module.exports.ModifyPost = ModifyPost
 module.exports.ImageFactory = ImageFactory
 module.exports.DeletePost = DeletePost
+module.exports.GetBlockOfPostInfo = GetBlockOfPostInfo

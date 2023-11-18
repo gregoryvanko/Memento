@@ -5,7 +5,7 @@ class HelperFilPost{
         this._DivApp = NanoXGetDivApp()
         this._BlockNumberOfPostToLoad = 0
         this._ListFilConteneur = NanoXBuild.DivFlexColumn("FilConteneur", null, "width: 100%; margin-top: 3rem;")
-        this._WaitingBlogText = NanoXBuild.DivText("Loading Posts...", "waitingblog", "TextSmall", "margin-bottom: 2rem;")
+        this._WaitingFilText = NanoXBuild.DivText("Loading Posts...", "waitingfil", "TextSmall", "margin-bottom: 2rem;")
 
     }
 
@@ -18,6 +18,23 @@ class HelperFilPost{
         // Contener for fil of post
         ParentDiv.appendChild(this._ListFilConteneur)
         // Waiting Blog text
-        ParentDiv.appendChild(this._WaitingBlogText)
+        ParentDiv.appendChild(this._WaitingFilText)
+    }
+
+    GetFilOfPost(){
+        // Get File of Psot
+        NanoXApiGet("/post/lastposts/" + this._BlockNumberOfPostToLoad).then((reponse)=>{
+            console.log(reponse)
+            if(reponse.length == 0){
+                if (document.getElementById("waitingfil")){
+                    this._WaitingFilText.parentNode.removeChild(this._WaitingFilText)
+                }
+                this._ListFilConteneur.appendChild(NanoXBuild.DivText("All posts are loaded", "nopost", "TextSmall", "margin-bottom: 2rem;"))
+            } else {
+                // ToDo
+            }
+        },(erreur)=>{
+            this._DivApp.innerHTML=erreur
+        })
     }
 }

@@ -8,6 +8,7 @@ const AddNewPost = require("./HelperPost").AddNewPost
 const ModifyPost = require("./HelperPost").ModifyPost
 const ImageFactory = require("./HelperPost").ImageFactory
 const DeletePost = require("./HelperPost").DeletePost
+const GetBlockOfPostInfo = require("./HelperPost").GetBlockOfPostInfo
 
 router.get("/allpostofBlog/:BlogId", AuthBasic, (req, res) => {
     GetAllPostOfBlog(req.params.BlogId, res, req.user)
@@ -38,6 +39,13 @@ router.post("/UpdatePost", AuthBasic, (req, res) => {
 router.post("/Image", AuthBasic, (req, res) => {
     ImageFactory(req.body, res, req.user)
     LogStatApi("post/image", "post", req.user)
+})
+
+router.get("/lastposts/:BlockNumberOfPostToLoad", AuthBasic, (req, res) => {
+    GetBlockOfPostInfo(req.params.BlockNumberOfPostToLoad, res, req.user)
+    if(req.params.BlockNumberOfPostToLoad == 0){
+        LogStatApi("post/lastposts", "get", req.user)
+    }
 })
 
 module.exports = router

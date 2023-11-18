@@ -19,7 +19,7 @@ class MementoBlog {
         this.BuildMenuButton()
 
         // Add button post view
-        NanoXAddMenuButtonRight("IdBlogButton", "Blog", IconCommon.BlogIcon(), this.LoadStartBlogView.bind(this) )
+        NanoXAddMenuButtonLeft("IdBlogButton", "Blog", IconCommon.BlogIcon(), this.LoadStartBlogView.bind(this) )
 
         // Initiation HelperFilPost
         this.HelperFilPost.Initiation()
@@ -28,7 +28,7 @@ class MementoBlog {
         this.HelperFilPost.SetContener(this._DivApp)
 
         // Get all post in fil of posts
-        // ToDo
+        this.HelperFilPost.GetFilOfPost()
 
         // Log serveur load module Blog
         NanoXApiPostLog("Load module Fil of Posts")
@@ -42,7 +42,7 @@ class MementoBlog {
         this.BuildMenuButton()
 
         // Add button post view
-        NanoXAddMenuButtonRight("IdBlogButton", "Blog", IconCommon.BlogIcon(), this.LoadFilOfPostView.bind(this) )
+        NanoXAddMenuButtonLeft("IdBlogButton", "Blog", IconCommon.ListeOfPost(), this.LoadFilOfPostView.bind(this) )
 
         // Initiation HelperBlog
         this.HelperBlog.Initiation()
@@ -68,7 +68,7 @@ class MementoBlog {
         // clear menu button setttings
         NanoXClearMenuButtonSettings()
         // Show name in menu bar
-        NanoXShowNameInMenuBar(true)
+        NanoXShowNameInMenuBar(false)
     }
 }
 
