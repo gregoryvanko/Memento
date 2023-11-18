@@ -1,15 +1,40 @@
 class MementoBlog {
     constructor(){
         this._DivApp = NanoXGetDivApp()
-        this.HelperBlog = new HelperBlog(this.LoadStartView.bind(this))
+        this.HelperBlog = new HelperBlog(this.LoadStartBlogView.bind(this))
+        this.HelperFilPost = new HelperFilPost(this.LoadFilOfPostView.bind(this))
     }
 
     Initiation(){
         // Load Start view
-        this.LoadStartView()
+        //this.LoadStartBlogView()
+        this.LoadFilOfPostView()
     }
 
-    LoadStartView(){
+    LoadFilOfPostView(){
+        // Clear view
+        this._DivApp.innerHTML=""
+
+        // Build Menu Button
+        this.BuildMenuButton()
+
+        // Add button post view
+        // ToDo
+
+        // Initiation HelperFilPost
+        this.HelperFilPost.Initiation()
+
+        // Contener for fil of post
+        this.HelperFilPost.SetContener(this._DivApp)
+
+        // Get all post in fil of posts
+        // ToDo
+
+        // Log serveur load module Blog
+        NanoXApiPostLog("Load module Fil of Posts")
+    }
+
+    LoadStartBlogView(){
         // Clear view
         this._DivApp.innerHTML=""
 

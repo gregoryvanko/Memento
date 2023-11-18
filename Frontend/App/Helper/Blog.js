@@ -1,6 +1,6 @@
 class HelperBlog {
-    constructor(LoadStartView){
-        this._LoadStartView = LoadStartView
+    constructor(LoadStartBlogView){
+        this._LoadStartBlogView = LoadStartBlogView
 
         this._DivApp = NanoXGetDivApp()
         this._BlogNumberToLoad = 0
@@ -122,7 +122,7 @@ class HelperBlog {
 
     AddBackButton(){
         // Add button back to liste of blog
-        NanoXAddMenuButtonLeft("IdBackButton", "Back", IconCommon.Back(), this._LoadStartView )
+        NanoXAddMenuButtonLeft("IdBackButton", "Back", IconCommon.Back(), this._LoadStartBlogView )
     }
 
     StopEdit(){
@@ -229,7 +229,7 @@ class HelperBlog {
         if (confirm(`Are you sure you want to Delete the Blog: ${this._BlogData.Titre}?`)){
             // delete blog data
             NanoXApiDelete("/blog/" + this._BlogData._id).then((reponse)=>{
-                this._LoadStartView()
+                this._LoadStartBlogView()
             },(erreur)=>{
                 this._DivApp.innerHTML=erreur
             })
