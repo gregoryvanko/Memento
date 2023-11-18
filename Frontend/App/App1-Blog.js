@@ -19,7 +19,7 @@ class MementoBlog {
         this.BuildMenuButton()
 
         // Add button post view
-        // ToDo
+        NanoXAddMenuButtonRight("IdBlogButton", "Blog", IconCommon.BlogIcon(), this.LoadStartBlogView.bind(this) )
 
         // Initiation HelperFilPost
         this.HelperFilPost.Initiation()
@@ -40,6 +40,9 @@ class MementoBlog {
 
         // Build Menu Button
         this.BuildMenuButton()
+
+        // Add button post view
+        NanoXAddMenuButtonRight("IdBlogButton", "Blog", IconCommon.BlogIcon(), this.LoadFilOfPostView.bind(this) )
 
         // Initiation HelperBlog
         this.HelperBlog.Initiation()
