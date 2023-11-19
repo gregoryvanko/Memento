@@ -1,3 +1,42 @@
+.TitreFil{
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    color: var(--NanoX-appcolor);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    text-align: center;
+}
+
+.ContenerPostFil{
+    width: 98%;
+    max-width: 900px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    cursor: pointer;
+}
+
+.ContenerPostFilTitreBlog{
+    font-size: 0.8rem;
+    color: var(--NanoX-appcolor);
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    font-style: italic;
+    text-align: left;
+    font-weight: bold;
+    word-wrap: break-word;
+    width: 100%;
+    
+}
+
+.ContenerPostFilTitrePost{
+    font-size: 1.5rem;
+    color: #514b4b;
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    font-style: normal;
+    text-align: left;
+    word-wrap: break-word;
+    width: 100%;
+    margin-bottom: 0.4rem;
+}
+
 .CarteBlog{
     width: 90%;
     max-width: 35rem;
