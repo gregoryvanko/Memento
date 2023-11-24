@@ -1,13 +1,13 @@
 class HelperPost{
-    constructor(BlogId = null, BlogTitre=null, BlogImage=null, BlogPublic=null, LoadBlogView = null, CanEdit = false){
+    constructor(BlogId = null, BlogTitre=null, BlogImage=null, BlogPublic=null, LoadBlogView = null, CanEdit = false, LoadFilOfPostView=null){
         this._BlogId = BlogId
         this._BlogTitre = BlogTitre
         this._BlogImage = BlogImage
         this._BlogPublic = BlogPublic
         this._LoadBlogView = LoadBlogView
         this._CanEdit = CanEdit
+        this._LoadFilOfPostView = LoadFilOfPostView
 
-        this._PostId = null
         this._PostData = {Data: null, Picture:[]}
 
         this._DivApp = NanoXGetDivApp()
@@ -80,8 +80,7 @@ class HelperPost{
     }
 
     ClickOnPostToOpen(PostId, PostTitre){
-        this._PostId = PostId
-        this.GetPostData()
+        this.GetPostData(PostId)
         // Log serveur load Blog
         NanoXApiPostLog("View Post : " + PostTitre)
     }
@@ -135,10 +134,14 @@ class HelperPost{
     }
 
     ReloadBlogView(){
-        this._LoadBlogView(this._BlogId, this._BlogTitre, this._BlogImage, this._BlogPublic)
+        if (this._LoadBlogView != null){
+            this._LoadBlogView(this._BlogId, this._BlogTitre, this._BlogImage, this._BlogPublic)
+        } else {
+            this._LoadFilOfPostView()
+        }
     }
 
-    GetPostData(){
+    GetPostData(PostId){
         // Clear view
         this._DivApp.innerHTML=""
         // Set Button
@@ -153,7 +156,7 @@ class HelperPost{
         // on construit le progress bar
         DivWaiting.appendChild(NanoXBuild.ProgressRing({Id:"ProgressRingLoadPost",FillColor:"WhiteSmoke", ProgressColor: "var(--NanoX-appcolor)", TextColor:"black", Radius:40}))
         // On appel l'API
-        NanoXApiGet("/post/" + this._PostId, {}, this.OnPostDownloadding.bind(this)).then((reponse)=>{
+        NanoXApiGet("/post/" + PostId, {}, this.OnPostDownloadding.bind(this)).then((reponse)=>{
             this._PostData = reponse
             let me = this
             setTimeout(function() {

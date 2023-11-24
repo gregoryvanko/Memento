@@ -7,11 +7,17 @@ class HelperFilPost{
         this._ListFilConteneur = NanoXBuild.DivFlexColumn("FilConteneur", null, "width: 100%; margin-top: 3rem;")
         this._WaitingFilText = NanoXBuild.DivText("Loading Posts...", "waitingfil", "TextSmall", "margin-bottom: 2rem;")
 
+        // creation de la classe HelperPost
+        this._HelperPost = new HelperPost(null, null, null, null, null, false, this._LoadFilOfPostView.bind(this))
+
+        this._PostData = null
+
     }
 
     Initiation(){
         this._BlockNumberOfPostToLoad = 0
         this._ListFilConteneur.innerHTML=""
+        this._PostData = null
     }
 
     SetContener(ParentDiv){
@@ -58,7 +64,7 @@ class HelperFilPost{
         // Conteneur
         let postcontainer = NanoXBuild.DivFlexColumn("", "ContenerPostFil", "")
         // Add click event
-        postcontainer.addEventListener("click", this.ClickOnPost.bind(this, PostData._id))
+        postcontainer.addEventListener("click", this.ClickOnPost.bind(this, PostData._id, PostData.Titre))
         // Titre du post
         let TitrePost = NanoXBuild.DivText(PostData.Titre, "", "ContenerPostFilTitrePost", "")
         postcontainer.appendChild(TitrePost)
@@ -68,8 +74,10 @@ class HelperFilPost{
         return postcontainer
     }
 
-    ClickOnPost(PostID){
-        alert(PostID)
-        // ToDo
+    ClickOnPost(PostID, PostTitre){
+        // Get post data
+        this._HelperPost.GetPostData(PostID)
+        // Log serveur load Blog
+        NanoXApiPostLog("View Post : " + PostTitre)
     }
 }
