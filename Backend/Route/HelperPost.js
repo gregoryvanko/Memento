@@ -177,7 +177,7 @@ async function GetBlockOfPostInfo(BlockNumberOfPostToLoad, res, User = null){
     let Reponse = []
     let ListeOfBlog = []
 
-    const NumberOfItem = 3
+    const NumberOfItem = 10
     const cursor = NumberOfItem * BlockNumberOfPostToLoad
 
     const query = {$or:[{Public: true} , {UserId:  User._id.toString()}]}
