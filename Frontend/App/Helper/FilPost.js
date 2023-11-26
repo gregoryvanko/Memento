@@ -91,12 +91,13 @@ class HelperFilPost{
         let postcontainer = NanoXBuild.DivFlexColumn("", "ContenerPostFil", "")
         // Add click event
         postcontainer.addEventListener("click", this.ClickOnPost.bind(this, PostData._id, PostData.Titre))
-        // Titre du post
-        let TitrePost = NanoXBuild.DivText(PostData.Titre, "", "ContenerPostFilTitrePost", "")
-        postcontainer.appendChild(TitrePost)
         // Titre du blog
         let TitreBlog = NanoXBuild.DivText(PostData.BlogTitre, "", "ContenerPostFilTitreBlog", "")
         postcontainer.appendChild(TitreBlog)
+        // Titre du post
+        let TitrePost = NanoXBuild.DivText(PostData.Titre, "", "ContenerPostFilTitrePost", "")
+        postcontainer.appendChild(TitrePost)
+        
         return postcontainer
     }
 
