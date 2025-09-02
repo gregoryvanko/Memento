@@ -26,5 +26,10 @@ It is possible to start the application with default values (Port=9000, Name=Mem
 require('@gregvanko/memento').Start()
 ```
 
-## Env variables
-PORT and MONGOURL are available as env variables
+## Env variables for docker
+- PORT
+- MONGOURL
+- APP_NAME
+- APP_DEBUG
+- APP_SCREEN
+- APP_ICON
