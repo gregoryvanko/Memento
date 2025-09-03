@@ -16,7 +16,7 @@ services:
     image: nginx:latest
     container_name: nginx
     volumes:
-      - ./Nginx/Config/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./Nginx/Config/default.conf:/etc/nginx/conf.d/default.conf
       - ./Nginx/Sites-enabled:/etc/nginx/sites-enabled
       - ./Nginx/www:/var/www
       - ./Nginx/Log:/var/log/nginx
