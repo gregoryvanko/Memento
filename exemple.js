@@ -3,7 +3,7 @@ const Option = {
     Name: process.env.APP_NAME || "Memento",
     Debug: process.env.APP_DEBUG || false,
     SplashScreenFilePath: process.env.APP_SCREEN || __dirname + "/Frontend/SplashScreen/SplashScreen.html",
-    IconFilePath : process.env.APP_ICON || __dirname + "/IconBrown.png",
+    IconFilePath : process.env.APP_ICON || __dirname + "Backend/Icon/IconBrown.png",
     MongoDbUrl: "mongodb://mongo:27017"
 }
 
