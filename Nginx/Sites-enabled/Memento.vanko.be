@@ -1,0 +1,46 @@
+server {
+        listen 80;
+        listen [::]:80;
+
+        # SSL configuration
+        #
+        #listen 443 ssl;
+        #listen [::]:443 ssl;
+        #ssl_certificate /etc/letsencrypt/live/vanko.be/fullchain.pem;
+        #ssl_certificate_key /etc/letsencrypt/live/vanko.be/privkey.pem;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name memento.gregvanko.com;
+        client_max_body_size 100M;
+
+        #resolver 192.168.1.1;
+
+        location /video/ {
+                auth_request /auth;
+                alias /var/www/Video/;
+        }
+
+        location = /auth {
+                internal;
+                proxy_pass              http://memento:9999$request_uri;
+                proxy_pass_request_body off;
+                proxy_set_header        Content-Length "";
+        }
+
+        location / {
+                proxy_pass http://memento:9999;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        location ~ /\.ht {
+                deny all;
+        }
+}
