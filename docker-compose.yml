@@ -11,7 +11,7 @@ services:
    #   - NODE_ENV=development
     networks:
       - frontend
-  
+
   nginx:
     image: lscr.io/linuxserver/nginx:latest
     container_name: nginx
@@ -20,14 +20,13 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ./Nginx/Config:/config
-      - ./Nginx/Sites-enabled:/etc/nginx/sites-enabled
-      - ./Nginx/www:/var/www
-      - ./Nginx/Log:/var/log/nginx
+      - ./Nginx/Sites-enabled:/config/nginx/site-confs
+      - ./Nginx/www:/config/www
+      - ./Nginx/Log:/config/log/nginx
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx-https.entrypoints=websecure"
-      - "traefik.http.routers.nginx-https.rule=Host(`memento.gregvanko.com`) || Host(`memorx.vanko.be`) "
+      - "traefik.http.routers.nginx-https.rule=Host(`memento.gregvanko.com`)"
       - "traefik.http.routers.nginx-https.tls=true"
       - "traefik.http.routers.nginx-https.tls.certresolver=cloudflare"
       - "traefik.http.services.nginx-https.loadbalancer.server.port=80"
