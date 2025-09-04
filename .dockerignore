@@ -2,6 +2,7 @@
 jsconfig.json
 .dockerignore
 .gitignore
+.gitkeep
 .npmignore
 docker-compose.yml
 Dockerfile
