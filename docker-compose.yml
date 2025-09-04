@@ -7,6 +7,8 @@ services:
       - APP_ICON=/usr/src/app/Icon/IconBrown.png
       - APP_NAME=Memento
       - APP_DEBUG=false
+    volumes:
+      - ./Nginx/www/Icon:/usr/src/app/Icon
     ports:
       - 9999:9999
    # volumes:
@@ -27,7 +29,6 @@ services:
       - ./Nginx/Sites-enabled:/config/nginx/site-confs
       - ./Nginx/www:/config/www
       - ./Nginx/Log:/config/log/nginx
-      - ./Nginx/www/Icon:/usr/src/app/Icon
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx-https.entrypoints=websecure"
